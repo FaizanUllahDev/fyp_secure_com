@@ -273,7 +273,7 @@ class _ChatListPageState extends State<ChatListPage> {
                                               shape: BoxShape.circle,
                                             ),
                                             child: Icon(
-                                              Icons.attach_file_sharp,
+                                              Icons.photo,
                                               color: Colors.blue,
                                             ),
                                           )),
@@ -355,10 +355,12 @@ class _ChatListPageState extends State<ChatListPage> {
                                         color: Colors.blue,
                                         shape: BoxShape.circle,
                                       ),
-                                      child: Icon(
-                                        Icons.send_rounded,
-                                        color: Colors.white,
-                                        size: 40,
+                                      child: Center(
+                                        child: Icon(
+                                          Icons.send_rounded,
+                                          color: Colors.white,
+                                          size: 30,
+                                        ),
                                       ),
                                     ),
                                   );
