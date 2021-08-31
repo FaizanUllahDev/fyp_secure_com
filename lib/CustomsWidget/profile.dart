@@ -94,8 +94,7 @@ class _ProfileState extends State<Profile> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "${Get.find<ChatController>().currName.value}"
-                                      .toUpperCase(),
+                                  "${Get.find<ChatController>().currName.value}",
                                   style: TextStyle(fontSize: 30),
                                 ),
                                 IconButton(
@@ -138,45 +137,49 @@ class _ProfileState extends State<Profile> {
                   //     ?
                   TextButton(
                     onPressed: () async {
-                      SharedPreferences pref =
-                          await SharedPreferences.getInstance();
-                      var role = pref.getString("role");
-                      var res = await updateProfile(
-                        phone: Get.find<ChatController>().currNumber.value,
-                        name: controller.text,
-                        role: role,
-                        preimg: Get.find<ChatController>().curImg.value,
-                        img: _image == null ? "" : _image,
-                      );
-                      if (res.statusCode == 200) {
-                        Get.snackbar("Alert", "Saved ...");
-                        _image != null
-                            ? print(res.reasonPhrase)
-                            : print(res.body);
+                      try {
                         SharedPreferences pref =
                             await SharedPreferences.getInstance();
-                        pref.setString("name", controller.text);
-                        _image == null
-                            ? null
-                            : pref.setString("img", basename(_image.path));
-                        Get.find<ChatController>()
-                            .updateCurrName(controller.text);
-                        print(_image.toString());
-                        _image == null
-                            ? null
-                            : Get.find<ChatController>()
-                                .updateImg(basename(_image.path));
-
-                        if (_image != null) {
+                        var role = pref.getString("role");
+                        var res = await updateProfile(
+                          phone: Get.find<ChatController>().currNumber.value,
+                          name: controller.text,
+                          role: role,
+                          preimg: Get.find<ChatController>().curImg.value,
+                          img: _image.path == "" ? "" : _image,
+                        );
+                        if (res.statusCode == 200) {
+                          Get.snackbar("Alert", "Saved ...");
+                          _image != null
+                              ? print(res.reasonPhrase)
+                              : print(res.body);
+                          SharedPreferences pref =
+                              await SharedPreferences.getInstance();
+                          pref.setString("name", controller.text);
+                          _image.path == ""
+                              ? null
+                              : pref.setString("img", basename(_image.path));
                           Get.find<ChatController>()
-                              .updateImg(basename(_image.path));
+                              .updateCurrName(controller.text);
+                          print(_image.toString());
+                          _image.path == ""
+                              ? null
+                              : Get.find<ChatController>()
+                                  .updateImg(basename(_image.path));
+
+                          if (_image.path != "") {
+                            Get.find<ChatController>()
+                                .updateImg(basename(_image.path));
+                          }
+                        } else {
+                          print("Error" + res.body.toString());
                         }
-                      } else {
-                        print("Error" + res.body.toString());
+                        setState(() {
+                          isEdit = false;
+                        });
+                      } catch (e) {
+                        print(e);
                       }
-                      setState(() {
-                        isEdit = false;
-                      });
                     },
                     child: Container(
                       margin: EdgeInsets.only(

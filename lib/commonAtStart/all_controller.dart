@@ -45,7 +45,7 @@ updateProfile({name, preimg, phone, img, role}) async {
         "name": name,
         "preimg": preimg,
         "phone": phone,
-        "img": img,
+        "img": preimg,
         "role": role,
       },
     );
