@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:fyp_secure_com/colors/color.dart';
 import 'package:fyp_secure_com/commonAtStart/APIHelper.dart';
 import 'package:fyp_secure_com/commonAtStart/chat_controller.dart';
+import 'package:fyp_secure_com/hiveBox/room_list.dart';
 import 'package:get/get.dart';
 
 class PersonalSettings extends StatelessWidget {
-  final roomData;
+  final RoomList roomData;
 
   const PersonalSettings({Key key, this.roomData}) : super(key: key);
   @override
@@ -14,12 +15,12 @@ class PersonalSettings extends StatelessWidget {
       floatingActionButton: FloatingActionButton.extended(
           backgroundColor: blue,
           icon: Icon(
-            Icons.edit,
+            Icons.delete,
             color: white,
           ),
-          onPressed: null,
+          onPressed: () {},
           label: Text(
-            "Edit Conatct",
+            "Delete Conatct",
             style: TextStyle(
               color: white,
             ),
@@ -46,8 +47,9 @@ class PersonalSettings extends StatelessWidget {
                         child: Center(
                           child: CircleAvatar(
                             maxRadius: 100,
-                            backgroundImage: NetworkImage(
-                                '$FILES_IMG${Get.find<ChatController>().curImg.value}'),
+                            backgroundImage: roomData.pic == ""
+                                ? AssetImage("assets/images/demo.png")
+                                : NetworkImage('$FILES_IMG${roomData.pic}'),
                           ),
                         ),
                       ),
@@ -63,16 +65,14 @@ class PersonalSettings extends StatelessWidget {
                     color: blue,
                   ),
                   title: Text(
-                    "${Get.find<ChatController>().currName.value}"
-                        .toUpperCase(),
+                    roomData.name.toUpperCase(),
                     style: TextStyle(fontSize: 25, color: blue),
                   ),
                 ),
                 ListTile(
                   leading: Icon(Icons.phone, color: blue),
                   title: Text(
-                    "${Get.find<ChatController>().currNumber.value}"
-                        .toUpperCase(),
+                    roomData.phone.toUpperCase(),
                     style: TextStyle(fontSize: 18, color: blue),
                   ),
                 ),
