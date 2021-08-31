@@ -70,93 +70,69 @@ class _ProfileState extends State<Profile> {
           child: Center(
             child: Obx(
               () => Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Stack(
-                    alignment: Alignment.center,
+                  Column(
                     children: [
                       CircleAvatar(
-                        maxRadius: 100,
-                        backgroundColor: white,
-                        child: Stack(
-                          alignment: Alignment.topCenter,
-                          children: [
-                            _image.path == ""
-                                ? image == "" || image.isEmpty
-                                    ? CircleAvatar(
-                                        maxRadius: 100,
-                                        backgroundImage: AssetImage(
-                                            "assets/images/demo.png"))
-                                    : CircleAvatar(
-                                        maxRadius: 100,
-                                        backgroundImage: NetworkImage(
-                                            '$FILES_IMG${Get.find<ChatController>().curImg.value}'),
-                                      )
-                                : Center(
-                                    child: CircleAvatar(
-                                      maxRadius: 100,
-                                      backgroundImage:
-                                          FileImage(_image, scale: 0.6),
-                                    ),
-                                  ),
-                            Align(
-                              alignment: Alignment.bottomRight,
-                              child: IconButton(
-                                onPressed: () {
-                                  chooseDialog(context);
-                                },
-                                icon: Icon(
-                                  Icons.camera,
-                                  size: 40,
-                                  color: blue,
+                        maxRadius: 85,
+                        backgroundColor: blue,
+                        backgroundImage: _image.path == ""
+                            ? image == "" || image.isEmpty
+                                ? AssetImage("assets/images/demo.png")
+                                : NetworkImage(
+                                    '$FILES_IMG${Get.find<ChatController>().curImg.value}',
+                                  )
+                            : FileImage(_image, scale: 0.6),
+                        child: getPicker(),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      !isEdit
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "${Get.find<ChatController>().currName.value}"
+                                      .toUpperCase(),
+                                  style: TextStyle(fontSize: 30),
                                 ),
+                                IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      isEdit = true;
+                                    });
+                                  },
+                                  icon: Icon(Icons.edit),
+                                ),
+                              ],
+                            )
+                          : Container(
+                              margin: EdgeInsets.symmetric(horizontal: 60),
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                  suffixIcon: Icon(Icons.edit),
+                                  border: OutlineInputBorder(
+                                    // borderSide: BorderSide.none,
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                ),
+                                controller: controller,
+                                style: TextStyle(),
                               ),
                             ),
-                          ],
-                        ),
+                      Text(
+                        "${Get.find<ChatController>().currNumber.value}"
+                            .toUpperCase(),
+                        style: TextStyle(fontSize: 15),
                       ),
                     ],
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 100,
                   ),
-                  !isEdit
-                      ? Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "${Get.find<ChatController>().currName.value}"
-                                  .toUpperCase(),
-                              style: TextStyle(fontSize: 30),
-                            ),
-                            IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  isEdit = true;
-                                });
-                              },
-                              icon: Icon(Icons.edit),
-                            ),
-                          ],
-                        )
-                      : Container(
-                          margin: EdgeInsets.symmetric(horizontal: 60),
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                              suffixIcon: Icon(Icons.edit),
-                              border: OutlineInputBorder(
-                                // borderSide: BorderSide.none,
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                            ),
-                            controller: controller,
-                            style: TextStyle(),
-                          ),
-                        ),
-                  Text(
-                    "${Get.find<ChatController>().currNumber.value}"
-                        .toUpperCase(),
-                    style: TextStyle(fontSize: 15),
-                  ),
+
                   // isEdit
                   //     ?
                   TextButton(
@@ -206,8 +182,8 @@ class _ProfileState extends State<Profile> {
                         top: 30,
                       ),
                       padding: EdgeInsets.symmetric(
-                        horizontal: 30,
-                        vertical: 10,
+                        horizontal: 50,
+                        vertical: 7,
                       ),
                       decoration: BoxDecoration(
                         color: blue,
@@ -215,7 +191,7 @@ class _ProfileState extends State<Profile> {
                       ),
                       child: Text(
                         "Update",
-                        style: TextStyle(fontSize: 30, color: white),
+                        style: TextStyle(fontSize: 24, color: white),
                       ),
                     ),
                   )
@@ -224,6 +200,22 @@ class _ProfileState extends State<Profile> {
               ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  getPicker() {
+    return Align(
+      alignment: Alignment.bottomRight,
+      child: IconButton(
+        onPressed: () {
+          chooseDialog(context);
+        },
+        icon: Icon(
+          Icons.camera,
+          size: 40,
+          color: blue,
         ),
       ),
     );

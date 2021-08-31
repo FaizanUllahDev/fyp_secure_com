@@ -129,7 +129,7 @@ class _FriendRequestState extends State<FriendRequest> {
                                       trailing: model.status == 'Request'
                                           ? Container(
                                               padding: EdgeInsets.symmetric(
-                                                  horizontal: 7, vertical: 7),
+                                                  horizontal: 15, vertical: 8),
                                               decoration: BoxDecoration(
                                                   color: blue,
                                                   borderRadius:
