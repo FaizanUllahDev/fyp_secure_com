@@ -58,7 +58,7 @@ class _ConversationPageState extends State<ConversationPage> {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size(size.width, 60),
+        preferredSize: Size(size.width, 50),
         child: AppBar(
           iconTheme: IconThemeData(color: white),
           actions: [
@@ -150,10 +150,10 @@ class _ConversationPageState extends State<ConversationPage> {
                 "${widget.roomList.name}".toUpperCase(),
                 style: TextStyle(fontSize: 17),
               ),
-              Text(
-                "${widget.roomList.phone}",
-                style: TextStyle(fontSize: 15),
-              ),
+              // Text(
+              //   "${widget.roomList.phone}",
+              //   style: TextStyle(fontSize: 15),
+              // ),
             ],
           ),
         ),

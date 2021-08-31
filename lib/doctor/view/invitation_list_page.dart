@@ -33,7 +33,7 @@ class _InvitationListPageState extends State<InvitationListPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Pending Invitated Patients ",
+          "Pending Invitations ",
           style: TextStyle(color: white),
         ),
         elevation: 0,

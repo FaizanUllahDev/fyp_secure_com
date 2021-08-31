@@ -142,7 +142,7 @@ class _SearchChatState extends State<SearchDoctor> {
                                     child: Text(
                                         d.name.isEmpty ? d.phone[0] : d.name[0],
                                         style: CustomStyles.foreclr
-                                            .copyWith(color: blue)
+                                            .copyWith(color: white)
                                             .copyWith(fontSize: 25)),
                                   ),
                                 ],

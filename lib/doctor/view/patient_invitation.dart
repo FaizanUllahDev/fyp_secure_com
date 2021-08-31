@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
@@ -96,7 +98,9 @@ class _InvitePatientState extends State<InvitePatient> {
                               color: blue, fontWeight: FontWeight.bold),
                           suffixIcon: IconButton(
                               onPressed: () async {
-                                if (await Permission.contacts
+                                if (Platform.isAndroid &&
+                                    Platform
+                                        .isIOS) if (await Permission.contacts
                                     .request()
                                     .isGranted) {
                                   ///
