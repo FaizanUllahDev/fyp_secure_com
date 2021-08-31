@@ -109,7 +109,8 @@ class _ProfileState extends State<Profile> {
                               ],
                             )
                           : Container(
-                              margin: EdgeInsets.symmetric(horizontal: 60),
+                              width: MediaQuery.of(context).size.width,
+                              margin: EdgeInsets.symmetric(horizontal: 10),
                               child: TextFormField(
                                 decoration: InputDecoration(
                                   suffixIcon: Icon(Icons.edit),
