@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fyp_secure_com/colors/color.dart';
 import 'package:fyp_secure_com/commonAtStart/APIHelper.dart';
 import 'package:fyp_secure_com/commonAtStart/chat_controller.dart';
+import 'package:fyp_secure_com/friend_list_handler/controller/friend_controller.dart';
 import 'package:fyp_secure_com/hiveBox/room_list.dart';
 import 'package:get/get.dart';
 
@@ -15,12 +16,16 @@ class PersonalSettings extends StatelessWidget {
       floatingActionButton: FloatingActionButton.extended(
           backgroundColor: blue,
           icon: Icon(
-            Icons.delete,
+            Icons.person_remove_outlined,
             color: white,
           ),
-          onPressed: () {},
+          onPressed: () async {
+            await FriendController().removeContact(
+              roomData.phone,
+            );
+          },
           label: Text(
-            "Delete Conatct",
+            "Remove Conatct",
             style: TextStyle(
               color: white,
             ),
@@ -32,52 +37,50 @@ class PersonalSettings extends StatelessWidget {
       body: SingleChildScrollView(
         child: Container(
           margin: EdgeInsets.symmetric(vertical: 20),
-          child: Obx(
-            () => Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      CircleAvatar(
-                        maxRadius: 100,
-                        backgroundColor: white,
-                        child: Center(
-                          child: CircleAvatar(
-                            maxRadius: 100,
-                            backgroundImage: roomData.pic == ""
-                                ? AssetImage("assets/images/demo.png")
-                                : NetworkImage('$FILES_IMG${roomData.pic}'),
-                          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    CircleAvatar(
+                      maxRadius: 100,
+                      backgroundColor: white,
+                      child: Center(
+                        child: CircleAvatar(
+                          maxRadius: 100,
+                          backgroundImage: roomData.pic == ""
+                              ? AssetImage("assets/images/demo.png")
+                              : NetworkImage('$FILES_IMG${roomData.pic}'),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                SizedBox(
-                  height: 50,
+              ),
+              SizedBox(
+                height: 50,
+              ),
+              ListTile(
+                leading: Icon(
+                  Icons.person,
+                  color: blue,
                 ),
-                ListTile(
-                  leading: Icon(
-                    Icons.person,
-                    color: blue,
-                  ),
-                  title: Text(
-                    roomData.name.toUpperCase(),
-                    style: TextStyle(fontSize: 25, color: blue),
-                  ),
+                title: Text(
+                  roomData.name.toUpperCase(),
+                  style: TextStyle(fontSize: 25, color: blue),
                 ),
-                ListTile(
-                  leading: Icon(Icons.phone, color: blue),
-                  title: Text(
-                    roomData.phone.toUpperCase(),
-                    style: TextStyle(fontSize: 18, color: blue),
-                  ),
+              ),
+              ListTile(
+                leading: Icon(Icons.phone, color: blue),
+                title: Text(
+                  roomData.phone.toUpperCase(),
+                  style: TextStyle(fontSize: 18, color: blue),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

@@ -47,6 +47,27 @@ class FriendController extends GetxController {
     getreferList.clear();
   }
 
+  removeContact(phone) async {
+    String url = APIHOST + rejectRequest;
+    var json = await http.post(
+      Uri.parse(url),
+      body: {
+        "tonum": "$phone",
+        "from": "${Get.find<ChatController>().currNumber.value}",
+        "status": ""
+      },
+    );
+    json = await http.post(
+      Uri.parse(url),
+      body: {
+        "from": "$phone",
+        "tonum": "${Get.find<ChatController>().currNumber.value}",
+        "status": ""
+      },
+    );
+    print(json.body);
+  }
+
   ///get all registered patients and doctors
   getReferListFun() async {
     var json;
