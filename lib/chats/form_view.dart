@@ -112,7 +112,7 @@ class _FormViewState extends State<FormView> {
   }
 
   getView(snapshot, index) {
-    return widget.data != null
+    return widget.data != null && snapshot is String == false
         ? Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(

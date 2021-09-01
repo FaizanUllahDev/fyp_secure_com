@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:fyp_secure_com/commonAtStart/APIHelper.dart';
 import 'package:fyp_secure_com/commonAtStart/chat_controller.dart';
+import 'package:fyp_secure_com/commonAtStart/loginController.dart';
 import 'package:fyp_secure_com/main.dart';
 import 'package:fyp_secure_com/patient/model/friends_model.dart';
 import 'package:get/get.dart';
@@ -139,7 +140,8 @@ class FriendController extends GetxController {
   getAllDoctorsList() async {
     try {
       String url = APIHOST + getAllDoctors;
-      var json = await http.post(Uri.parse(url));
+      var json = await http
+          .post(Uri.parse(url), body: {"num": LoginController.number});
       if (json.statusCode == 200) {
         // print(json.body);
         List dd = jsonDecode(json.body);

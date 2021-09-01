@@ -55,7 +55,7 @@ class _SendingrequestState extends State<Sendingrequest> {
           Expanded(
             child: Obx(() {
               List<FriendsModel> send_list =
-                  Get.find<FriendController>().doctorLists;
+                  Get.find<FriendController>().doctorLists.value;
               return send_list.length > 0
                   ? Container(
                       color: white,
@@ -75,7 +75,7 @@ class _SendingrequestState extends State<Sendingrequest> {
                                           FriendsModel("", "", '', "", false));
 
                           if (foundAtRequest.phone != "" &&
-                              model.status != "Accept")
+                              model.status == "Accept")
                             return Container();
                           else if (found.phone != "" &&
                               model.status != "Accept") {
@@ -106,61 +106,60 @@ class _SendingrequestState extends State<Sendingrequest> {
                                           .copyWith(color: blue),
                                     ),
                                     //   trailing: Text("Joined"),
-                                    trailing: FloatingActionButton.extended(
-                                      onPressed: () async {
-                                        model.status == "Accept"
-                                            ? model
-                                                    .status =
-                                                await FriendController()
-                                                    .updateFriendReq(
-                                                        model.phone,
-                                                        Get.find<ChatController>()
-                                                            .currNumber
-                                                            .value,
-                                                        'UnFriend',
-                                                        index)
-                                            : model.status == "Request"
-                                                ? model.status = await FriendController()
-                                                    .updateFriendReq(
-                                                        Get.find<ChatController>()
-                                                            .currNumber
-                                                            .value,
-                                                        model.phone,
-                                                        'UnFriend',
-                                                        index)
-                                                : model
-                                                        .status =
-                                                    await FriendController()
-                                                        .updateFriendReq(
-                                                            Get.find<ChatController>()
-                                                                .currNumber
-                                                                .value,
-                                                            model.phone,
-                                                            'Request',
-                                                            index);
-                                        setState(() {});
-                                        //setState(() {
-                                        // model.status == "Accept"
-                                        //     ? model.status = "UnJoin"
-                                        //     : model.status == "Request"
-                                        //         ? model.status = "Cancel"
-                                        //         : model.status = "Join";
-                                        // });
-                                        print("......." + model.status);
-                                      },
-                                      label: model.status == "Accept"
-                                          ? Text("Joined")
-                                          : model.status == "Request"
-                                              ? Text("Cancel")
-                                              : Text("Join"),
-                                      icon: model.status == "Accept"
-                                          ? Icon(Icons
-                                              .person_remove_alt_1_outlined)
-                                          : model.status == "Request"
-                                              ? Icon(Icons
-                                                  .person_remove_alt_1_outlined)
-                                              : Icon(Icons.person_add_alt),
-                                    ),
+                                    trailing: TextButton(
+                                        onPressed: () async {
+                                          model.status == "Accept"
+                                              ? model.status = await FriendController()
+                                                  .updateFriendReq(
+                                                      model.phone,
+                                                      Get.find<ChatController>()
+                                                          .currNumber
+                                                          .value,
+                                                      'UnFriend',
+                                                      index)
+                                              : model.status == "Request"
+                                                  ? model
+                                                          .status =
+                                                      await FriendController()
+                                                          .updateFriendReq(
+                                                              Get.find<ChatController>()
+                                                                  .currNumber
+                                                                  .value,
+                                                              model.phone,
+                                                              'UnFriend',
+                                                              index)
+                                                  : model
+                                                          .status =
+                                                      await FriendController()
+                                                          .updateFriendReq(
+                                                              Get.find<ChatController>()
+                                                                  .currNumber
+                                                                  .value,
+                                                              model.phone,
+                                                              'Request',
+                                                              index);
+                                          setState(() {});
+                                        },
+                                        child: Container(
+                                          width: 60,
+                                          child: Row(
+                                            children: [
+                                              model.status == "Accept"
+                                                  ? Text("Remove")
+                                                  : model.status == "Request"
+                                                      ? Text("Cancel")
+                                                      : Text("Add"),
+                                              model.status == "Accept"
+                                                  ? Icon(Icons
+                                                      .person_remove_alt_1_outlined)
+                                                  : model.status == "Request"
+                                                      ? Icon(Icons
+                                                          .person_remove_alt_1_outlined)
+                                                      : Icon(
+                                                          Icons.person_add_alt),
+                                            ],
+                                          ),
+                                        )),
                                   ),
                                 ),
                                 Container(
@@ -192,61 +191,60 @@ class _SendingrequestState extends State<Sendingrequest> {
                                       style: CustomStyles.bgclr
                                           .copyWith(color: blue),
                                     ),
-                                    trailing: FloatingActionButton.extended(
-                                      onPressed: () async {
-                                        model.status == "Accept"
-                                            ? model
-                                                    .status =
-                                                await FriendController()
-                                                    .updateFriendReq(
-                                                        model.phone,
-                                                        Get.find<ChatController>()
-                                                            .currNumber
-                                                            .value,
-                                                        'UnFriend',
-                                                        index)
-                                            : model.status == "Request"
-                                                ? model.status = await FriendController()
-                                                    .updateFriendReq(
-                                                        Get.find<ChatController>()
-                                                            .currNumber
-                                                            .value,
-                                                        model.phone,
-                                                        'UnFriend',
-                                                        index)
-                                                : model
-                                                        .status =
-                                                    await FriendController()
-                                                        .updateFriendReq(
-                                                            Get.find<ChatController>()
-                                                                .currNumber
-                                                                .value,
-                                                            model.phone,
-                                                            'Request',
-                                                            index);
-                                        setState(() {});
-                                        //setState(() {
-                                        // model.status == "Accept"
-                                        //     ? model.status = "UnJoin"
-                                        //     : model.status == "Request"
-                                        //         ? model.status = "Cancel"
-                                        //         : model.status = "Join";
-                                        // });
-                                        print("......." + model.status);
-                                      },
-                                      label: model.status == "Accept"
-                                          ? Text("UnJoin")
-                                          : model.status == "Request"
-                                              ? Text("Cancel")
-                                              : Text("Join"),
-                                      icon: model.status == "Accept"
-                                          ? Icon(Icons
-                                              .person_remove_alt_1_outlined)
-                                          : model.status == "Request"
-                                              ? Icon(Icons
-                                                  .person_remove_alt_1_outlined)
-                                              : Icon(Icons.person_add_alt),
-                                    ),
+                                    trailing: TextButton(
+                                        onPressed: () async {
+                                          model.status == "Accept"
+                                              ? model.status = await FriendController()
+                                                  .updateFriendReq(
+                                                      model.phone,
+                                                      Get.find<ChatController>()
+                                                          .currNumber
+                                                          .value,
+                                                      'UnFriend',
+                                                      index)
+                                              : model.status == "Request"
+                                                  ? model
+                                                          .status =
+                                                      await FriendController()
+                                                          .updateFriendReq(
+                                                              Get.find<ChatController>()
+                                                                  .currNumber
+                                                                  .value,
+                                                              model.phone,
+                                                              'UnFriend',
+                                                              index)
+                                                  : model
+                                                          .status =
+                                                      await FriendController()
+                                                          .updateFriendReq(
+                                                              Get.find<ChatController>()
+                                                                  .currNumber
+                                                                  .value,
+                                                              model.phone,
+                                                              'Request',
+                                                              index);
+                                          setState(() {});
+                                        },
+                                        child: Container(
+                                          width: 60,
+                                          child: Row(
+                                            children: [
+                                              model.status == "Accept"
+                                                  ? Text("Remove")
+                                                  : model.status == "Request"
+                                                      ? Text("Cancel")
+                                                      : Text("Add"),
+                                              model.status == "Accept"
+                                                  ? Icon(Icons
+                                                      .person_remove_alt_1_outlined)
+                                                  : model.status == "Request"
+                                                      ? Icon(Icons
+                                                          .person_remove_alt_1_outlined)
+                                                      : Icon(
+                                                          Icons.person_add_alt),
+                                            ],
+                                          ),
+                                        )),
                                   ),
                                 ),
                                 Container(

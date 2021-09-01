@@ -123,10 +123,10 @@ class _SearchChatState extends State<SearchDoctor> {
                                 setState(() {});
                               },
                               label: d.status == "Accept"
-                                  ? Text("UnJoin")
+                                  ? Text("Remove")
                                   : d.status == "Request"
                                       ? Text("Cancel")
-                                      : Text("Join"),
+                                      : Text("Add"),
                               icon: d.status == "Accept"
                                   ? Icon(Icons.person_remove_alt_1_outlined)
                                   : d.status == "Request"
@@ -135,17 +135,13 @@ class _SearchChatState extends State<SearchDoctor> {
                             ),
                             leading: Container(
                               width: 50,
-                              child: Stack(
-                                children: [
-                                  CircleAvatar(
-                                    radius: 30,
-                                    child: Text(
-                                        d.name.isEmpty ? d.phone[0] : d.name[0],
-                                        style: CustomStyles.foreclr
-                                            .copyWith(color: white)
-                                            .copyWith(fontSize: 25)),
-                                  ),
-                                ],
+                              child: CircleAvatar(
+                                radius: 30,
+                                child: Text(
+                                    d.name.isEmpty ? d.phone[0] : d.name[0],
+                                    style: CustomStyles.foreclr
+                                        .copyWith(color: white)
+                                        .copyWith(fontSize: 25)),
                               ),
                             ),
                             title: Text(
@@ -188,23 +184,69 @@ class _SearchChatState extends State<SearchDoctor> {
                                 //       name: d.name, phone: d.phone, pic: d.pic),
                                 // ));
                               },
+                              trailing: TextButton(
+                                  onPressed: () async {
+                                    d.status == "Accept"
+                                        ? d.status = await FriendController()
+                                            .updateFriendReq(
+                                                d.phone,
+                                                Get.find<ChatController>()
+                                                    .currNumber
+                                                    .value,
+                                                'UnFriend',
+                                                index)
+                                        : d.status == "Request"
+                                            ? d.status = await FriendController()
+                                                .updateFriendReq(
+                                                    Get.find<ChatController>()
+                                                        .currNumber
+                                                        .value,
+                                                    d.phone,
+                                                    'UnFriend',
+                                                    index)
+                                            : d.status = await FriendController()
+                                                .updateFriendReq(
+                                                    Get.find<ChatController>()
+                                                        .currNumber
+                                                        .value,
+                                                    d.phone,
+                                                    'Request',
+                                                    index);
+                                    setState(() {});
+                                  },
+                                  child: Container(
+                                    width: 60,
+                                    child: Row(
+                                      children: [
+                                        d.status == "Accept"
+                                            ? Text("Remove")
+                                            : d.status == "Request"
+                                                ? Text("Cancel")
+                                                : Text("Add"),
+                                        d.status == "Accept"
+                                            ? Icon(Icons
+                                                .person_remove_alt_1_outlined)
+                                            : d.status == "Request"
+                                                ? Icon(Icons
+                                                    .person_remove_alt_1_outlined)
+                                                : Icon(Icons.person_add_alt),
+                                      ],
+                                    ),
+                                  )),
                               // selected: selected,
                               leading: Container(
                                 width: 50,
                                 child: Stack(
                                   children: [
-                                    Hero(
-                                      tag: d.name,
-                                      child: CircleAvatar(
-                                        radius: 30,
-                                        child: Text(
-                                            d.name.isEmpty
-                                                ? d.phone[0]
-                                                : d.name[0],
-                                            style: CustomStyles.foreclr
-                                                .copyWith(color: blue)
-                                                .copyWith(fontSize: 25)),
-                                      ),
+                                    CircleAvatar(
+                                      radius: 30,
+                                      child: Text(
+                                          d.name.isEmpty
+                                              ? d.phone[0]
+                                              : d.name[0],
+                                          style: CustomStyles.foreclr
+                                              .copyWith(color: white)
+                                              .copyWith(fontSize: 25)),
                                     ),
                                     Obx(() {
                                       bool isOnline = false;
