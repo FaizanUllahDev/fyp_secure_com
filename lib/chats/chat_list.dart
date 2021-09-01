@@ -111,8 +111,10 @@ class _ChatListPageState extends State<ChatListPage> {
   double h = 50;
 
   scrollToBottom() {
-    _scrollController.animateTo(_scrollController.position.maxScrollExtent,
-        duration: Duration(milliseconds: 300), curve: Curves.easeOut);
+    try {
+      _scrollController.animateTo(_scrollController.position.maxScrollExtent,
+          duration: Duration(milliseconds: 300), curve: Curves.easeOut);
+    } catch (e) {}
   }
 
   @override
@@ -407,11 +409,12 @@ class _ChatListPageState extends State<ChatListPage> {
       itemBuilder: (ctx, index) {
         if (index == lst.length) {
           print("Enter Scroll");
+
           scrollToBottom();
           return Container(
             height: 70,
           );
-        } else {
+        } else if (index < lst.length) {
           final data = lst[index];
           var isfrom = false;
           if (data.fromPhone == widget.chatRoom.fromPhone) isfrom = true;
@@ -432,7 +435,8 @@ class _ChatListPageState extends State<ChatListPage> {
               false,
             ),
           );
-        }
+        } else
+          return Container();
       },
     );
   }

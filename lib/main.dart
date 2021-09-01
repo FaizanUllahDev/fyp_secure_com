@@ -1,4 +1,5 @@
 // @dart=2.9
+import 'dart:async';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,6 @@ import 'package:fyp_secure_com/commonAtStart/chat_controller.dart';
 import 'package:fyp_secure_com/commonAtStart/index.dart';
 import 'package:fyp_secure_com/commonAtStart/socket_controller.dart';
 import 'package:fyp_secure_com/doctor/view/doctor_home.dart';
-import 'package:fyp_secure_com/friend_list_handler/controller/friend_controller.dart';
 import 'package:fyp_secure_com/hiveBox/chat_room.dart';
 import 'package:fyp_secure_com/hiveBox/message.dart';
 import 'package:fyp_secure_com/hiveBox/room_list.dart';
@@ -21,7 +21,6 @@ import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'chats/chatDbmanger.dart/chat_manger.dart';
 
 var screen;
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -93,7 +92,6 @@ class CheckLifeOFApp extends StatefulWidget {
 
 class _CheckLifeOFAppState extends State<CheckLifeOFApp>
     with WidgetsBindingObserver {
-  AppLifecycleState _lastLifecycleState;
 
   @override
   void initState() {
@@ -114,25 +112,22 @@ class _CheckLifeOFAppState extends State<CheckLifeOFApp>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     //print("Dispose");
     setState(() {
-      _lastLifecycleState = state;
     });
     print("object");
     if (state == AppLifecycleState.inactive) {
       Get.find<SocketController>()
           .socketlogout(Get.find<ChatController>().currNumber.value);
-      print("inac");
+
     }
     if (state == AppLifecycleState.resumed) {
-      print("res");
-
       Get.find<SocketController>()
           .onCOnnected(Get.find<ChatController>().currNumber.value);
     }
     if (state == AppLifecycleState.detached) {
-      print("det");
+
     }
     if (state == AppLifecycleState.paused) {
-      print("pause");
+
     }
   }
 
@@ -145,8 +140,7 @@ class _CheckLifeOFAppState extends State<CheckLifeOFApp>
       title: 'Flutter ',
       themeMode: ThemeMode.light,
       theme: ThemeData(
-        primaryColor: blue,
-        accentColor: white,
+        primaryColor: blue, colorScheme: ColorScheme.fromSwatch().copyWith(secondary: white),
       ),
       home: screen,
     );
