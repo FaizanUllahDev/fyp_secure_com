@@ -76,6 +76,8 @@ class _ChatListPageState extends State<ChatListPage> {
     var res = http.post(Uri.parse(APIHOST + "checkPatientCCdAllow.php"));
   }
 
+  var medData;
+
   init() async {
     value = FlutterSoundRecorder();
     SharedPreferences pref = await SharedPreferences.getInstance();
@@ -92,6 +94,8 @@ class _ChatListPageState extends State<ChatListPage> {
             pref.getString("isCcdAllow") == '0'
         ? false
         : true;
+    medData = await ChatManager()
+        .getFormView(widget.chatRoom.toPhone, LoginController.number);
 
     setState(() {});
   }
@@ -117,7 +121,6 @@ class _ChatListPageState extends State<ChatListPage> {
     return Container(
       margin: EdgeInsets.only(top: 0),
       color: Colors.white,
-      height: size.height,
       child: Column(
         children: [
           role == 'Doctor'
@@ -148,7 +151,12 @@ class _ChatListPageState extends State<ChatListPage> {
                                 child: FormView(
                               pnumber: widget.chatRoom.toPhone,
                               docNumber: LoginController.number,
+                              data: medData,
                             )),
+                            Container(
+                              height: 1,
+                              color: Colors.grey,
+                            ),
                             // Expanded(
                             //     child: XmlFile(
                             //   number: widget.chatRoom.toPhone,
@@ -217,7 +225,9 @@ class _ChatListPageState extends State<ChatListPage> {
                               child: Container(
                             height: 50,
                             child: TextField(
+                              onTap: () => scrollToBottom(),
                               controller: message,
+                              keyboardAppearance: Brightness.dark,
                               onSubmitted: (v) {},
                               onChanged: (v) {
                                 v.isEmpty
@@ -391,13 +401,12 @@ class _ChatListPageState extends State<ChatListPage> {
 
   Widget showChatDetails(List lst) {
     return ListView.builder(
-      shrinkWrap: true,
       controller: _scrollController,
       itemCount: lst.length + 1,
       itemBuilder: (ctx, index) {
         if (index == lst.length)
           return Container(
-            height: 70,
+            height: 50,
           );
         else {
           final data = lst[index];
@@ -607,8 +616,8 @@ class _ChatListPageState extends State<ChatListPage> {
     );
     Color chatBgColor = fromMe ? Colors.blue[200] : Colors.black12;
     EdgeInsets edgeInsets = fromMe
-        ? EdgeInsets.fromLTRB(5, 5, 15, 2)
-        : EdgeInsets.fromLTRB(15, 5, 5, 2);
+        ? EdgeInsets.fromLTRB(5, 5, 15, 5)
+        : EdgeInsets.fromLTRB(15, 5, 5, 5);
     EdgeInsets margins = fromMe
         ? EdgeInsets.fromLTRB(80, 5, 10, 5)
         : EdgeInsets.fromLTRB(10, 5, 80, 5);
@@ -634,7 +643,7 @@ class _ChatListPageState extends State<ChatListPage> {
                 alignment: chatArrowAlignment,
               ),
               child: Container(
-                margin: EdgeInsets.only(right: 4, left: 2),
+                margin: EdgeInsets.only(right: 7, left: 7, bottom: 2, top: 3),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -836,14 +845,15 @@ class _ChatListPageState extends State<ChatListPage> {
                     isFailed
                         ? Text(
                             ' $time'.split(":")[0] + '$time'.split(":")[1],
-                            style: TextStyle(color: Colors.red),
+                            style: TextStyle(color: Colors.red, fontSize: 12),
                           )
                         : Text(
                             '$time'.split(":")[0] +
                                 ":" +
                                 '$time'.split(":")[1] +
                                 "  ",
-                            style: TextStyle(color: Colors.black38),
+                            style:
+                                TextStyle(color: Colors.black38, fontSize: 12),
                           ),
                   ],
                 ),

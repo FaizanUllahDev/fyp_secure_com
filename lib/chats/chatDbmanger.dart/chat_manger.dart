@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:encrypt/encrypt.dart';
@@ -21,6 +22,21 @@ class ChatManager extends GetxController {
 
   List<ChatRoom> individualChatList = [];
   bool isNewChatMessage = false;
+
+  getFormView(pnum, docNumber) async {
+    Uri url = Uri.parse(APIHOST + "getFormView.php");
+    var res = await http.post(url, body: {
+      "pnum": pnum,
+      "docnum": docNumber,
+    });
+    if (res.statusCode == 200) {
+      print(res.body);
+      return jsonDecode(res.body);
+    } else {
+      print(res.body);
+      return "";
+    }
+  }
 
   removeNewMessageIndicator() {
     isNewChatMessage = false;
