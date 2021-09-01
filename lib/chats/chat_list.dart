@@ -17,6 +17,7 @@ import 'package:fyp_secure_com/commonAtStart/styles.dart';
 import 'package:fyp_secure_com/doctor/controller/doctor_home_controller.dart';
 import 'package:fyp_secure_com/hiveBox/chat_room.dart';
 import 'package:fyp_secure_com/hiveBox/forward_class.dart';
+import 'package:fyp_secure_com/hiveBox/room_list.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -45,7 +46,7 @@ class _ChatListPageState extends State<ChatListPage> {
   String dbName;
   //FlutterRecord _flutterRecord;
 
-  AutoScrollController controller;
+  //AutoScrollController controller;
 
   final ScrollController _scrollController = ScrollController();
   //Box<ChatRoom> box;
@@ -81,6 +82,12 @@ class _ChatListPageState extends State<ChatListPage> {
     role = pref.get('role');
     dbName =
         '${Get.find<ChatController>().currNumber.value}_${widget.chatRoom.toPhone}';
+
+    await Hive.openBox<ChatRoom>(dbName);
+
+    Box<ChatRoom> box = Hive.box<ChatRoom>(dbName);
+    Get.find<ChatManager>().assignChatList(box.values.toList());
+
     isCcdAllowForPatient = pref.getString("isCcdAllow") == null ||
             pref.getString("isCcdAllow") == '0'
         ? false
@@ -96,33 +103,21 @@ class _ChatListPageState extends State<ChatListPage> {
     init();
   }
 
-  _scrollTo(ind) async {
-    try {
-      await controller.scrollToIndex(ind,
-          duration: Duration(microseconds: 200),
-          preferPosition: AutoScrollPosition.begin);
-      await controller.highlight(ind);
-    } catch (e) {}
-  }
-
   double h = 50;
+
+  scrollToBottom() {
+    _scrollController.animateTo(_scrollController.position.maxScrollExtent,
+        duration: Duration(milliseconds: 300), curve: Curves.easeOut);
+  }
 
   @override
   Widget build(BuildContext context) {
-    controller = AutoScrollController(
-        keepScrollOffset: true,
-        viewportBoundaryGetter: () =>
-            Rect.fromLTRB(0, 0, 0, MediaQuery.of(context).padding.bottom),
-        axis: Axis.vertical);
     final size = MediaQuery.of(context).size;
-    dbName =
-        '${Get.find<ChatController>().currNumber.value}_${widget.chatRoom.toPhone}';
-//getPatientCCDIFAllowing
-    //print("DBNAme => $dbName");
 
     return Container(
       margin: EdgeInsets.only(top: 0),
       color: Colors.white,
+      height: size.height,
       child: Column(
         children: [
           role == 'Doctor'
@@ -176,41 +171,26 @@ class _ChatListPageState extends State<ChatListPage> {
                   : Container(),
           Flexible(
             flex: 1,
-            child: FutureBuilder(
-              future: Hive.openBox<ChatRoom>(dbName),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
-                } else
-                  return GetBuilder<ChatManager>(
-                    init: ChatManager(),
-                    initState: (_) {},
-                    builder: (_) {
-                      return ValueListenableBuilder(
-                        valueListenable:
-                            Hive.box<ChatRoom>(dbName).listenable(),
-                        builder: (BuildContext context, Box<ChatRoom> box,
-                            Widget child) {
-                          if (box.values.isBlank) {
-                            return Center(
-                              child: Container(
-                                  padding: EdgeInsets.symmetric(vertical: 30),
-                                  child: Text(
-                                    "End-To-End Encrpted Chat",
-                                    style: CustomStyles.foreclr.copyWith(
-                                        color: Colors.blue, fontSize: 15),
-                                  )),
-                            );
-                          }
-                          // print("...---" +
-                          //     _.forwardIndexesSelected.length.toString());
-                          return _.forwardIndexesSelected.length == 0
-                              ? showChatDetails(box)
-                              : showSelectedViewOFChat(box);
-                        },
-                      );
-                    },
+            child: GetBuilder<ChatManager>(
+              init: ChatManager(),
+              initState: (_) {},
+              builder: (_) {
+                // if (_.isNewChatMessage) {
+
+                //   _.removeNewMessageIndicator();
+                // }
+                if (_.individualChatList.length == 0)
+                  return Center(
+                    child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 30),
+                        child: Text(
+                          "End-To-End Encrpted Chat",
+                          style: CustomStyles.foreclr
+                              .copyWith(color: Colors.blue, fontSize: 15),
+                        )),
                   );
+                else
+                  return showChatDetails(_.individualChatList);
               },
             ),
           ),
@@ -233,17 +213,12 @@ class _ChatListPageState extends State<ChatListPage> {
                           SizedBox(
                             width: 5,
                           ),
-                          Expanded(
+                          Flexible(
                               child: Container(
                             height: 50,
                             child: TextField(
                               controller: message,
-                              onSubmitted: (v) {
-                                _scrollController.animateTo(
-                                    _scrollController.position.maxScrollExtent,
-                                    duration: Duration(milliseconds: 300),
-                                    curve: Curves.fastOutSlowIn);
-                              },
+                              onSubmitted: (v) {},
                               onChanged: (v) {
                                 v.isEmpty
                                     ? Get.find<ChatController>()
@@ -339,14 +314,33 @@ class _ChatListPageState extends State<ChatListPage> {
                                     ))
                                 : InkWell(
                                     onTap: () async {
-                                      ChatController().chatSender(
-                                          widget.name,
-                                          widget.chatRoom.toPhone,
-                                          message.text,
-                                          'text',
-                                          0,
-                                          dbName);
-                                      message.clear();
+                                      try {
+                                        var conver = ChatRoom(
+                                          fromPhone: Get.find<ChatController>()
+                                              .currNumber
+                                              .value,
+                                          toPhone: widget.chatRoom.toPhone,
+                                          time: DateTime.now().toString(),
+                                          msg: message.text,
+                                          type: "text",
+                                          status: 'send',
+                                          serverStatus: 'u',
+                                          isGroup: false,
+                                          userRole: "",
+                                        );
+                                        Get.find<ChatManager>()
+                                            .addNewChatInList(conver);
+                                        scrollToBottom();
+                                        ChatController().chatSender(
+                                            widget.name,
+                                            widget.chatRoom.toPhone,
+                                            message.text,
+                                            'text',
+                                            0,
+                                            dbName);
+                                        message.clear();
+                                      } catch (e) {}
+
                                       con.updateTyped(false);
                                     },
                                     child: Container(
@@ -378,28 +372,41 @@ class _ChatListPageState extends State<ChatListPage> {
     );
   }
 
-  Widget showChatDetails(box) {
-    _scrollTo(box.values.length);
-    controller.highlight(box.values.length);
+  //  if (box.values.isBlank) {
+  //                         return Center(
+  //                           child: Container(
+  //                               padding: EdgeInsets.symmetric(vertical: 30),
+  //                               child: Text(
+  //                                 "End-To-End Encrpted Chat",
+  //                                 style: CustomStyles.foreclr.copyWith(
+  //                                     color: Colors.blue, fontSize: 15),
+  //                               )),
+  //                         );
+  //                       }
+  //                       // print("...---" +
+  //                       //     _.forwardIndexesSelected.length.toString());
+  //                       return _.forwardIndexesSelected.length == 0
+  //                           ? showChatDetails(box)
+  //                           : showSelectedViewOFChat(box);
+
+  Widget showChatDetails(List lst) {
     return ListView.builder(
-      // controller: controller,
-      controller: controller,
-      itemCount: box.values.length,
+      shrinkWrap: true,
+      controller: _scrollController,
+      itemCount: lst.length + 1,
       itemBuilder: (ctx, index) {
-        // controller.scrollToIndex(index,
-        //     preferPosition: AutoScrollPosition.begin);
-        final data = box.values.toList()[index];
-        var isfrom = false;
-        if (data.fromPhone == widget.chatRoom.fromPhone) isfrom = true;
-        return AutoScrollTag(
-          key: ValueKey(index),
-          controller: controller,
-          index: index,
-          highlightColor: Colors.black.withOpacity(0.1),
-          child: InkWell(
+        if (index == lst.length)
+          return Container(
+            height: 70,
+          );
+        else {
+          final data = lst[index];
+          var isfrom = false;
+          if (data.fromPhone == widget.chatRoom.fromPhone) isfrom = true;
+          return InkWell(
             onLongPress: () {
-              print("object");
-              Get.find<ChatManager>().updateForwardIndexesSelected(index, data);
+              print("Delete Multi");
+              // Get.find<ChatManager>().updateForwardIndexesSelected(index, data);
               //setState(() {});
             },
             child: _chatBubble(
@@ -412,26 +419,21 @@ class _ChatListPageState extends State<ChatListPage> {
               data.serverStatus,
               false,
             ),
-          ),
-        );
+          );
+        }
       },
     );
   }
 
   showSelectedViewOFChat(box) {
-    _scrollTo(box.values.length);
-    controller.highlight(box.values.length);
     return GetBuilder<ChatManager>(
       init: ChatManager(),
       initState: (_) {},
       builder: (_) {
         return ListView.builder(
-          // controller: controller,
-          controller: controller,
+          controller: _scrollController,
           itemCount: box.values.length,
           itemBuilder: (ctx, index) {
-            // controller.scrollToIndex(index,
-            //     preferPosition: AutoScrollPosition.begin);
             final data = box.values.toList()[index];
             var isfrom = false;
             if (data.fromPhone == widget.chatRoom.fromPhone) isfrom = true;
@@ -444,29 +446,23 @@ class _ChatListPageState extends State<ChatListPage> {
             if (isFound.index != -1) {
               checkSelected = true;
             }
-            return AutoScrollTag(
-              key: ValueKey(index),
-              controller: controller,
-              index: index,
-              highlightColor: Colors.black.withOpacity(0.1),
-              child: InkWell(
-                onTap: () {
-                  if (checkSelected) {
-                    Get.find<ChatManager>().updateForwardClear(isFound);
-                  } else
-                    Get.find<ChatManager>()
-                        .updateForwardIndexesSelected(index, data);
-                },
-                child: _chatBubble(
-                  data.msg,
-                  isfrom,
-                  data.time.split(' ')[1].split('.')[0],
-                  data.type,
-                  data.status,
-                  index,
-                  data.serverStatus,
-                  checkSelected,
-                ),
+            return InkWell(
+              onTap: () {
+                if (checkSelected) {
+                  Get.find<ChatManager>().updateForwardClear(isFound);
+                } else
+                  Get.find<ChatManager>()
+                      .updateForwardIndexesSelected(index, data);
+              },
+              child: _chatBubble(
+                data.msg,
+                isfrom,
+                data.time.split(' ')[1].split('.')[0],
+                data.type,
+                data.status,
+                index,
+                data.serverStatus,
+                checkSelected,
               ),
             );
           },

@@ -19,6 +19,25 @@ class ChatManager extends GetxController {
   var isPlaying = false.obs;
   int selectedInd = 0;
 
+  List<ChatRoom> individualChatList = [];
+  bool isNewChatMessage = false;
+
+  removeNewMessageIndicator() {
+    isNewChatMessage = false;
+    update();
+  }
+
+  addNewChatInList(ChatRoom chatRoom) {
+    individualChatList.add(chatRoom);
+    isNewChatMessage = true;
+    update();
+  }
+
+  assignChatList(lst) {
+    individualChatList = lst;
+    update;
+  }
+
   int currentIndex = 0;
 
   List<ForwardClass> forwardIndexesSelected = [];

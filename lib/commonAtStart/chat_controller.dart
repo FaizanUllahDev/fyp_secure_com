@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:fyp_secure_com/chats/chatDbmanger.dart/chat_manger.dart';
 import 'package:fyp_secure_com/chats/group/groupSent_recieve.dart';
 import 'package:fyp_secure_com/commonAtStart/socket_controller.dart';
 import 'package:fyp_secure_com/friend_list_handler/controller/friend_controller.dart';
@@ -111,7 +112,7 @@ class ChatController extends GetxController {
       }
     } else {
       //if is text
-
+      print("TExt");
       encrypted = encrypter.encrypt(file, iv: iv);
       // final decrypted = encrypter.decrypt(encrypted, iv: iv);
       saveConversation(from, to, file, name, type, time);
