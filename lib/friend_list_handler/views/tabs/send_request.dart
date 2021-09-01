@@ -75,7 +75,8 @@ class _SendingrequestState extends State<Sendingrequest> {
                                           FriendsModel("", "", '', "", false));
 
                           if (foundAtRequest.phone != "" &&
-                              model.status == "Accept")
+                              (model.status == "Accept" ||
+                                  model.status == null))
                             return Container();
                           else if (found.phone != "" &&
                               model.status != "Accept") {

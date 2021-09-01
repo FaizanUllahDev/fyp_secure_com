@@ -202,11 +202,12 @@ class _SearchChatState extends State<SearchDoctor> {
                         ],
                       ),
                     );
-                  } else if (d.phone.contains(cont.text) ||
-                      d.name
-                          .toString()
-                          .toLowerCase()
-                          .contains(cont.text.toLowerCase())) {
+                  } else if ((d.phone.contains(cont.text) ||
+                          d.name
+                              .toString()
+                              .toLowerCase()
+                              .contains(cont.text.toLowerCase())) &&
+                      foundAtRequest.phone == "") {
                     return Container(
                       child: Container(
                         decoration: BoxDecoration(
