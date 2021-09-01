@@ -65,6 +65,7 @@ class _ChatListPageState extends State<ChatListPage> {
   Directory folder_path = Directory("");
 
   String path;
+  bool isAtBottom = false;
 
   double xmlH = 100;
   bool isCcdAllowForPatient = false;
@@ -404,7 +405,12 @@ class _ChatListPageState extends State<ChatListPage> {
       controller: _scrollController,
       itemCount: lst.length + 1,
       itemBuilder: (ctx, index) {
-        print("index=> $index & length=> ${lst.length}");
+        final position = _scrollController.position.maxScrollExtent;
+        print(position);
+
+        if (!isAtBottom && index == 0) {
+          scrollToBottom();
+        }
         if (index == lst.length) {
           print("Enter Scroll");
           scrollToBottom();
