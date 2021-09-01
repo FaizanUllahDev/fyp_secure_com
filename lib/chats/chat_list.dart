@@ -325,22 +325,22 @@ class _ChatListPageState extends State<ChatListPage> {
                                 : InkWell(
                                     onTap: () async {
                                       try {
-                                        var conver = ChatRoom(
-                                          fromPhone: Get.find<ChatController>()
-                                              .currNumber
-                                              .value,
-                                          toPhone: widget.chatRoom.toPhone,
-                                          time: DateTime.now().toString(),
-                                          msg: message.text,
-                                          type: "text",
-                                          status: 'send',
-                                          serverStatus: 'u',
-                                          isGroup: false,
-                                          userRole: "",
-                                        );
-                                        Get.find<ChatManager>()
-                                            .addNewChatInList(conver);
-                                        scrollToBottom();
+                                        // var conver = ChatRoom(
+                                        //   fromPhone: Get.find<ChatController>()
+                                        //       .currNumber
+                                        //       .value,
+                                        //   toPhone: widget.chatRoom.toPhone,
+                                        //   time: DateTime.now().toString(),
+                                        //   msg: message.text,
+                                        //   type: "text",
+                                        //   status: 'send',
+                                        //   serverStatus: 'u',
+                                        //   isGroup: false,
+                                        //   userRole: "",
+                                        // );
+                                        // Get.find<ChatManager>()
+                                        //     .addNewChatInList(conver);
+                                        // //  scrollToBottom();
                                         ChatController().chatSender(
                                             widget.name,
                                             widget.chatRoom.toPhone,
@@ -404,11 +404,14 @@ class _ChatListPageState extends State<ChatListPage> {
       controller: _scrollController,
       itemCount: lst.length + 1,
       itemBuilder: (ctx, index) {
-        if (index == lst.length)
+        print("index=> $index & length=> ${lst.length}");
+        if (index == lst.length) {
+          print("Enter Scroll");
+          scrollToBottom();
           return Container(
             height: 50,
           );
-        else {
+        } else {
           final data = lst[index];
           var isfrom = false;
           if (data.fromPhone == widget.chatRoom.fromPhone) isfrom = true;

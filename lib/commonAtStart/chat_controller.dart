@@ -439,6 +439,7 @@ class ChatController extends GetxController {
       );
       value.add(conver);
       Get.find<ChatController>().savechatindex(value.values.length);
+      Get.find<ChatManager>().addNewChatInList(conver);
     });
   }
 
