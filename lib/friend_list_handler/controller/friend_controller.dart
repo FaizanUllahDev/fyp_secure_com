@@ -142,7 +142,7 @@ class FriendController extends GetxController {
       String url = APIHOST + getAllDoctors;
       var json = await http
           .post(Uri.parse(url), body: {"num": LoginController.number});
-      if (json.statusCode == 200) {
+      if (json.statusCode == 200 && json.body != "") {
         // print(json.body);
         List dd = jsonDecode(json.body);
         dd.forEach((d) {

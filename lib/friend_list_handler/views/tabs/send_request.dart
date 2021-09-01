@@ -141,22 +141,56 @@ class _SendingrequestState extends State<Sendingrequest> {
                                           setState(() {});
                                         },
                                         child: Container(
-                                          width: 60,
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 6, vertical: 4),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(30),
+                                              color: Colors.blue,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  blurRadius: 2,
+                                                  color: Colors.black38,
+                                                )
+                                              ]),
+                                          width: 70,
                                           child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
                                               model.status == "Accept"
-                                                  ? Text("Remove")
+                                                  ? Icon(
+                                                      Icons
+                                                          .person_remove_alt_1_outlined,
+                                                      color: white,
+                                                    )
                                                   : model.status == "Request"
-                                                      ? Text("Cancel")
-                                                      : Text("Add"),
-                                              model.status == "Accept"
-                                                  ? Icon(Icons
-                                                      .person_remove_alt_1_outlined)
-                                                  : model.status == "Request"
-                                                      ? Icon(Icons
-                                                          .person_remove_alt_1_outlined)
+                                                      ? Icon(
+                                                          Icons
+                                                              .person_remove_alt_1_outlined,
+                                                          color: white,
+                                                        )
                                                       : Icon(
-                                                          Icons.person_add_alt),
+                                                          Icons.person_add_alt,
+                                                          color: white,
+                                                        ),
+                                              model.status == "Accept"
+                                                  ? Text(
+                                                      "Remove ",
+                                                      style: TextStyle(
+                                                          color: white),
+                                                    )
+                                                  : model.status == "Request"
+                                                      ? Text(
+                                                          "Cancel ",
+                                                          style: TextStyle(
+                                                              color: white),
+                                                        )
+                                                      : Text(
+                                                          "Add ",
+                                                          style: TextStyle(
+                                                              color: white),
+                                                        ),
                                             ],
                                           ),
                                         )),
@@ -226,22 +260,56 @@ class _SendingrequestState extends State<Sendingrequest> {
                                           setState(() {});
                                         },
                                         child: Container(
-                                          width: 60,
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 6, vertical: 4),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(30),
+                                              color: Colors.blue,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  blurRadius: 2,
+                                                  color: Colors.black38,
+                                                )
+                                              ]),
+                                          width: 70,
                                           child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
                                               model.status == "Accept"
-                                                  ? Text("Remove")
+                                                  ? Icon(
+                                                      Icons
+                                                          .person_remove_alt_1_outlined,
+                                                      color: white,
+                                                    )
                                                   : model.status == "Request"
-                                                      ? Text("Cancel")
-                                                      : Text("Add"),
-                                              model.status == "Accept"
-                                                  ? Icon(Icons
-                                                      .person_remove_alt_1_outlined)
-                                                  : model.status == "Request"
-                                                      ? Icon(Icons
-                                                          .person_remove_alt_1_outlined)
+                                                      ? Icon(
+                                                          Icons
+                                                              .person_remove_alt_1_outlined,
+                                                          color: white,
+                                                        )
                                                       : Icon(
-                                                          Icons.person_add_alt),
+                                                          Icons.person_add_alt,
+                                                          color: white,
+                                                        ),
+                                              model.status == "Accept"
+                                                  ? Text(
+                                                      "Remove ",
+                                                      style: TextStyle(
+                                                          color: white),
+                                                    )
+                                                  : model.status == "Request"
+                                                      ? Text(
+                                                          "Cancel ",
+                                                          style: TextStyle(
+                                                              color: white),
+                                                        )
+                                                      : Text(
+                                                          "Add ",
+                                                          style: TextStyle(
+                                                              color: white),
+                                                        ),
                                             ],
                                           ),
                                         )),

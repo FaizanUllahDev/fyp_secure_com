@@ -92,47 +92,88 @@ class _SearchChatState extends State<SearchDoctor> {
                             onTap: () {
                               //Hive.openBox<ChatRoom>(SINGLECHAT);
                             },
-                            trailing: FloatingActionButton.extended(
-                              onPressed: () async {
-                                d.status == "Accept"
-                                    ? d.status = await FriendController()
-                                        .updateFriendReq(
-                                            d.phone,
-                                            Get.find<ChatController>()
-                                                .currNumber
-                                                .value,
-                                            'UnFriend',
-                                            index)
-                                    : d.status == "Request"
-                                        ? d.status = await FriendController()
-                                            .updateFriendReq(
-                                                Get.find<ChatController>()
-                                                    .currNumber
-                                                    .value,
-                                                d.phone,
-                                                'UnFriend',
-                                                index)
-                                        : d.status = await FriendController()
-                                            .updateFriendReq(
-                                                Get.find<ChatController>()
-                                                    .currNumber
-                                                    .value,
-                                                d.phone,
-                                                'Request',
-                                                index);
-                                setState(() {});
-                              },
-                              label: d.status == "Accept"
-                                  ? Text("Remove")
-                                  : d.status == "Request"
-                                      ? Text("Cancel")
-                                      : Text("Add"),
-                              icon: d.status == "Accept"
-                                  ? Icon(Icons.person_remove_alt_1_outlined)
-                                  : d.status == "Request"
-                                      ? Icon(Icons.person_remove_alt_1_outlined)
-                                      : Icon(Icons.person_add_alt),
-                            ),
+                            trailing: TextButton(
+                                onPressed: () async {
+                                  d.status == "Accept"
+                                      ? d.status = await FriendController()
+                                          .updateFriendReq(
+                                              d.phone,
+                                              Get.find<ChatController>()
+                                                  .currNumber
+                                                  .value,
+                                              'UnFriend',
+                                              index)
+                                      : d.status == "Request"
+                                          ? d.status = await FriendController()
+                                              .updateFriendReq(
+                                                  Get.find<ChatController>()
+                                                      .currNumber
+                                                      .value,
+                                                  d.phone,
+                                                  'UnFriend',
+                                                  index)
+                                          : d.status = await FriendController()
+                                              .updateFriendReq(
+                                                  Get.find<ChatController>()
+                                                      .currNumber
+                                                      .value,
+                                                  d.phone,
+                                                  'Request',
+                                                  index);
+                                  setState(() {});
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 6, vertical: 4),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30),
+                                      color: Colors.blue,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          blurRadius: 2,
+                                          color: Colors.black38,
+                                        )
+                                      ]),
+                                  width: 70,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      d.status == "Accept"
+                                          ? Icon(
+                                              Icons
+                                                  .person_remove_alt_1_outlined,
+                                              color: white,
+                                            )
+                                          : d.status == "Request"
+                                              ? Icon(
+                                                  Icons
+                                                      .person_remove_alt_1_outlined,
+                                                  color: white,
+                                                )
+                                              : Icon(
+                                                  Icons.person_add_alt,
+                                                  color: white,
+                                                ),
+                                      d.status == "Accept"
+                                          ? Text(
+                                              "Remove ",
+                                              style: TextStyle(color: white),
+                                            )
+                                          : d.status == "Request"
+                                              ? Text(
+                                                  "Cancel ",
+                                                  style:
+                                                      TextStyle(color: white),
+                                                )
+                                              : Text(
+                                                  "Add ",
+                                                  style:
+                                                      TextStyle(color: white),
+                                                ),
+                                    ],
+                                  ),
+                                )),
                             leading: Container(
                               width: 50,
                               child: CircleAvatar(
@@ -215,25 +256,57 @@ class _SearchChatState extends State<SearchDoctor> {
                                     setState(() {});
                                   },
                                   child: Container(
-                                    width: 60,
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 6, vertical: 4),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(30),
+                                        color: Colors.blue,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            blurRadius: 2,
+                                            color: Colors.black38,
+                                          )
+                                        ]),
+                                    width: 70,
                                     child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         d.status == "Accept"
-                                            ? Text("Remove")
+                                            ? Icon(
+                                                Icons
+                                                    .person_remove_alt_1_outlined,
+                                                color: white,
+                                              )
                                             : d.status == "Request"
-                                                ? Text("Cancel")
-                                                : Text("Add"),
+                                                ? Icon(
+                                                    Icons
+                                                        .person_remove_alt_1_outlined,
+                                                    color: white,
+                                                  )
+                                                : Icon(
+                                                    Icons.person_add_alt,
+                                                    color: white,
+                                                  ),
                                         d.status == "Accept"
-                                            ? Icon(Icons
-                                                .person_remove_alt_1_outlined)
+                                            ? Text(
+                                                "Remove ",
+                                                style: TextStyle(color: white),
+                                              )
                                             : d.status == "Request"
-                                                ? Icon(Icons
-                                                    .person_remove_alt_1_outlined)
-                                                : Icon(Icons.person_add_alt),
+                                                ? Text(
+                                                    "Cancel ",
+                                                    style:
+                                                        TextStyle(color: white),
+                                                  )
+                                                : Text(
+                                                    "Add ",
+                                                    style:
+                                                        TextStyle(color: white),
+                                                  ),
                                       ],
                                     ),
                                   )),
-                              // selected: selected,
                               leading: Container(
                                 width: 50,
                                 child: Stack(
