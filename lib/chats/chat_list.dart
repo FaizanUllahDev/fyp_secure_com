@@ -405,17 +405,11 @@ class _ChatListPageState extends State<ChatListPage> {
       controller: _scrollController,
       itemCount: lst.length + 1,
       itemBuilder: (ctx, index) {
-        final position = _scrollController.position.maxScrollExtent;
-        print(position);
-
-        if (!isAtBottom && index == 0) {
-          scrollToBottom();
-        }
         if (index == lst.length) {
           print("Enter Scroll");
           scrollToBottom();
           return Container(
-            height: 50,
+            height: 70,
           );
         } else {
           final data = lst[index];

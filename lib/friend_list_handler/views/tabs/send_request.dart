@@ -94,6 +94,12 @@ class _SendingrequestState extends State<Sendingrequest> {
                                       style: CustomStyles.bgclr
                                           .copyWith(color: blue),
                                     ),
+                                    leading: CircleAvatar(
+                                        child: Text(
+                                      "${model.name[0]}".toUpperCase(),
+                                      style: CustomStyles.bgclr
+                                          .copyWith(color: white, fontSize: 18),
+                                    )),
                                     subtitle: Text(
                                       model.phone,
                                       style: CustomStyles.bgclr
