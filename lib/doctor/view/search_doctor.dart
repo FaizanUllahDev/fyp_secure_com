@@ -134,7 +134,7 @@ class _SearchChatState extends State<SearchDoctor> {
                                           color: Colors.black38,
                                         )
                                       ]),
-                                  width: 70,
+                                  width: 100,
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -268,7 +268,7 @@ class _SearchChatState extends State<SearchDoctor> {
                                             color: Colors.black38,
                                           )
                                         ]),
-                                    width: 70,
+                                    width: 100,
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,

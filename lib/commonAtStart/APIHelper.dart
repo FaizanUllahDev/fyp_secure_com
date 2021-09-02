@@ -15,7 +15,9 @@ const formdataOfPatient = 'formdataOfPatient.php';
 
 const getGroupsCreationData = 'getGroupsCreationData.php';
 
-const getpatientFriend = 'getPatientsFriends.php';
+const getpatientFriend = 'getPatientList.php';
+
+///'getPatientsFriends.php';
 const referList = 'getrefer.php';
 const refer = 'refer.php';
 const rejectRequest = 'reject.php';

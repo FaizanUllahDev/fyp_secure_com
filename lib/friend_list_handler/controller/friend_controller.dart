@@ -15,6 +15,8 @@ class FriendController extends GetxController {
   var doctorLists = <FriendsModel>[].obs;
   var getreferList = <FriendsModel>[].obs;
 
+  var patientsAcceptList = <FriendsModel>[].obs;
+
   var selectedGroups = [];
 
   var number = ''.obs;
@@ -35,7 +37,7 @@ class FriendController extends GetxController {
 
     getFriendList();
     getAllUsers();
-    getReferListFun();
+    //getReferListFun();
     getPatientFriendList();
     getAllDoctorsList();
   }
@@ -240,7 +242,7 @@ class FriendController extends GetxController {
 
         res.forEach((data) {
           var d = FriendsModel(
-              data['name'], data['number'], data['status'], "", false);
+              data['name'], data['number'], data['status'], "doctor", false);
           // print(d);
           if (data['from_num'] == LoginController.number)
             doctorLists.add(d);
@@ -283,7 +285,7 @@ class FriendController extends GetxController {
 
         res.forEach((data) {
           var d = FriendsModel(
-              data['name'], data['number'], data['status'], "", false);
+              data['name'], data['number'], data['status'], "doctor", false);
           if (data['status'] != 'Reject')
             Get.find<FriendController>().request_of_Friend.add(d);
           if (data['status'] == 'Accept') {
@@ -307,13 +309,13 @@ class FriendController extends GetxController {
       SharedPreferences pref = await SharedPreferences.getInstance();
       number(pref.get("number").toString());
       String isDoctor = pref.getString("status");
-      print(isDoctor);
+
       if (isDoctor == "Accepted") {
         //print("FriendL:isy NUmber checker => $number");
         String url = APIHOST + getpatientFriend;
         var json = await http.post(
           Uri.parse(url),
-          body: {"number": "${number.value}"},
+          body: {"num": "${number.value}"},
         );
         if (json.statusCode != 200) {
           print(json.body);
@@ -323,15 +325,13 @@ class FriendController extends GetxController {
 
           res.forEach((data) {
             var d = FriendsModel(
-                data['name'], data['number'], data['status'], "", false);
+                data['name'], data['number'], 'Accept', "patient", false);
             // if (data['status'] != 'Reject')
             //   Get.find<FriendController>().request_of_Friend.add(d);
-            if (data['status'] == 'Accept') {
-              //  print("patient==> getfriendlist ==> ");
-              //  print(d);
-              updateAcceptedList(d);
-              print(accepted_Friend_List.length);
-            }
+
+            //  print("patient==> getfriendlist ==> ");
+            //  print(d);
+            updateAcceptedList(d);
           });
         }
       }

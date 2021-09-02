@@ -55,7 +55,7 @@ class _SendingrequestState extends State<Sendingrequest> {
           Expanded(
             child: Obx(() {
               List<FriendsModel> send_list =
-                  Get.find<FriendController>().doctorLists.value;
+                  Get.find<FriendController>().doctorLists;
               return send_list.length > 0
                   ? Container(
                       color: white,
@@ -73,12 +73,20 @@ class _SendingrequestState extends State<Sendingrequest> {
                                   .firstWhere((ele) => ele.phone == model.phone,
                                       orElse: () =>
                                           FriendsModel("", "", '', "", false));
+                          FriendsModel foundAtAccept =
+                              Get.find<FriendController>()
+                                  .accepted_Friend_List
+                                  .firstWhere((ele) => ele.phone == model.phone,
+                                      orElse: () =>
+                                          FriendsModel("", "", '', "", false));
 
                           if (foundAtRequest.phone != "" &&
+                              foundAtAccept.phone != "" &&
                               (model.status == "Accept" ||
                                   model.status == null))
                             return Container();
-                          else if (found.phone != "" &&
+                          else if (found.phone == "" &&
+                              foundAtAccept.phone == "" &&
                               model.status != "Accept") {
                             return Column(
                               children: [
@@ -208,7 +216,9 @@ class _SendingrequestState extends State<Sendingrequest> {
                                 ),
                               ],
                             );
-                          } else if (model.status != "Accept")
+                          } else if ((model.status != "Accept" ||
+                                  model.status == null) &&
+                              foundAtAccept.phone == "")
                             return Column(
                               children: [
                                 Container(
@@ -276,7 +286,7 @@ class _SendingrequestState extends State<Sendingrequest> {
                                                   color: Colors.black38,
                                                 )
                                               ]),
-                                          width: 70,
+                                          width: 100,
                                           child: Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,

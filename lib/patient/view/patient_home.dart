@@ -46,8 +46,8 @@ class _PatientHomeState extends State<PatientHome> {
             isScrollable: true,
             enableFeedback: true,
             automaticIndicatorColorAdjustment: true,
-            labelColor: Colors.black,
-            unselectedLabelColor: Colors.white,
+            labelColor: Colors.white,
+            unselectedLabelColor: Colors.black54,
             labelPadding: EdgeInsets.symmetric(horizontal: 20),
             tabs: [
               Tab(

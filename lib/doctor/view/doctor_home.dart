@@ -43,8 +43,8 @@ class _DoctorHomeState extends State<DoctorHome> {
               isScrollable: true,
               enableFeedback: true,
               automaticIndicatorColorAdjustment: true,
-              labelColor: Colors.black,
-              unselectedLabelColor: Colors.white,
+              labelColor: Colors.white,
+              unselectedLabelColor: Colors.black54,
               labelPadding: EdgeInsets.symmetric(horizontal: 30),
               tabs: [
                 Tab(
