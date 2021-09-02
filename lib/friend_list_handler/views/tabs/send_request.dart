@@ -154,10 +154,10 @@ class _SendingrequestState extends State<Sendingrequest> {
                                                   color: Colors.black38,
                                                 )
                                               ]),
-                                          width: 70,
+                                          width: 100,
                                           child: Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                                MainAxisAlignment.center,
                                             children: [
                                               model.status == "Accept"
                                                   ? Icon(
@@ -175,6 +175,9 @@ class _SendingrequestState extends State<Sendingrequest> {
                                                           Icons.person_add_alt,
                                                           color: white,
                                                         ),
+                                              SizedBox(
+                                                width: 10,
+                                              ),
                                               model.status == "Accept"
                                                   ? Text(
                                                       "Remove ",

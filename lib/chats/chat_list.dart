@@ -12,22 +12,18 @@ import 'package:fyp_secure_com/chats/xml_file.dart';
 import 'package:fyp_secure_com/commonAtStart/APIHelper.dart';
 import 'package:fyp_secure_com/commonAtStart/chat_controller.dart';
 import 'package:fyp_secure_com/commonAtStart/loginController.dart';
-import 'package:fyp_secure_com/commonAtStart/socket_controller.dart';
 import 'package:fyp_secure_com/commonAtStart/styles.dart';
-import 'package:fyp_secure_com/doctor/controller/doctor_home_controller.dart';
 import 'package:fyp_secure_com/hiveBox/chat_room.dart';
 import 'package:fyp_secure_com/hiveBox/forward_class.dart';
-import 'package:fyp_secure_com/hiveBox/room_list.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'video_image_viewer.dart';
-import 'package:http/http.dart' as http;
+//import 'package:http/http.dart' as http;
 
 import 'package:flutter_sound_platform_interface/flutter_sound_recorder_platform_interface.dart';
 // Import package
@@ -74,7 +70,7 @@ class _ChatListPageState extends State<ChatListPage> {
 
   //AudioCache cache = AudioCache();
   atStartCheckPatientAllowing() async {
-    var res = http.post(Uri.parse(APIHOST + "checkPatientCCdAllow.php"));
+//    var res = http.post(Uri.parse(APIHOST + "checkPatientCCdAllow.php"));
   }
 
   var medData;
@@ -409,12 +405,11 @@ class _ChatListPageState extends State<ChatListPage> {
       itemBuilder: (ctx, index) {
         if (index == lst.length) {
           print("Enter Scroll");
-
           scrollToBottom();
           return Container(
             height: 70,
           );
-        } else if (index < lst.length) {
+        } else {
           final data = lst[index];
           var isfrom = false;
           if (data.fromPhone == widget.chatRoom.fromPhone) isfrom = true;
@@ -435,8 +430,7 @@ class _ChatListPageState extends State<ChatListPage> {
               false,
             ),
           );
-        } else
-          return Container();
+        }
       },
     );
   }
@@ -634,7 +628,6 @@ class _ChatListPageState extends State<ChatListPage> {
       isFailed = true;
       time += '  ' + status;
     }
-    bool isDownloading = false;
     //print("Image ====== > ${message}");
 //
     return Container(

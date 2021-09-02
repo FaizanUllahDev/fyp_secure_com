@@ -382,7 +382,6 @@ class FriendController extends GetxController {
           Get.find<FriendController>().sending_Friend_list.removeAt(index);
       friendmodel.status = "Request";
       Get.find<FriendController>().sending_Friend_list.add(friendmodel);
-      print(Get.find<FriendController>().sending_Friend_list.last.phone);
       print(Get.find<FriendController>().sending_Friend_list.last.status);
     } else if (status == 'NotFriend') {
       FriendsModel friendmodel =
