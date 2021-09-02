@@ -30,12 +30,14 @@ class FriendController extends GetxController {
   void onInit() {
     super.onInit();
     clearAll();
-    getAllDoctorsList();
-    getFriendList();
+
     getSendingFriendList();
+
+    getFriendList();
     getAllUsers();
     getReferListFun();
     getPatientFriendList();
+    getAllDoctorsList();
   }
 
   clearAll() {
@@ -153,8 +155,6 @@ class FriendController extends GetxController {
               return FriendsModel("", "", "", "", false);
             },
           );
-          print("Check Number I|N Doc => " +
-              Get.find<ChatController>().currNumber.value.toString());
           if (d['number'] != Get.find<ChatController>().currNumber.value &&
               found.phone == "")
             doctorLists.add(FriendsModel(
@@ -242,8 +242,10 @@ class FriendController extends GetxController {
           var d = FriendsModel(
               data['name'], data['number'], data['status'], "", false);
           // print(d);
-          // if (data['status'] == 'Request') {
-          Get.find<FriendController>().sending_Friend_list.add(d);
+          if (data['from_num'] == LoginController.number)
+            doctorLists.add(d);
+          else
+            request_of_Friend.add(d);
           if (data['status'] == 'Accept') {
             updateAcceptedList(d);
           }
@@ -258,6 +260,8 @@ class FriendController extends GetxController {
   getFriendList() async {
     try {
       //clearAll();
+
+      print("getFriendList");
       SharedPreferences pref = await SharedPreferences.getInstance();
       number(pref.get("number").toString());
       String isDoctor = pref.getString("status");
