@@ -251,7 +251,7 @@ class GroupMsg {
   saveConversation(from, to, lastmsg, name, type, time) async {
     String dbName = from + '_' + to;
 
-    int ind = 0;
+    // int ind = 0;
     print("Saving Type");
     print(dbName);
     await Hive.openBox<ChatRoom>(dbName).then((value) {
@@ -357,7 +357,7 @@ class GroupMsg {
   getMsgFromServerOnPing(data) async {
     print("On GRoup");
     try {
-      var recData = data.toString().split(seprateString);
+      //var recData = data.toString().split(seprateString);
 
       // print(recData[1]);
       if (true) {
@@ -399,8 +399,7 @@ class GroupMsg {
         }
         // onRecievesaveROOM(recData, decrypted);
         //onrecieveSaveMesg(recData, decrypted);
-      } else
-        print("Other Chat");
+      }
     } catch (e) {}
   }
 

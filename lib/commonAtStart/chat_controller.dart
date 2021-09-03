@@ -120,7 +120,7 @@ class ChatController extends GetxController {
     Get.find<SocketController>().checkConnected.value;
     if (1 > 0) {
       uploading(true);
-      var msg;
+      //  var msg;
       String url = APIHOST + UPLOADCHAT;
       //uploaderBgTest(fileAfterSavingLocallay, url, from, to, type);
       //
@@ -170,7 +170,7 @@ class ChatController extends GetxController {
           Get.snackbar("Error", "Server Error");
         } else {
           print(req.body);
-          msg = req.body;
+          // msg = req.body;
         }
       }
 
