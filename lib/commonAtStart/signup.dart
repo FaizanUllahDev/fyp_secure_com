@@ -29,7 +29,6 @@ class _LoginScreenState extends State<SignUp> {
 
   bool isLoading = false;
   bool isDoctor = true;
-  List<String> _status = ["Doctor", "Patient"];
   String selectedRole = 'Patient';
 
   int _radioValue = 0;

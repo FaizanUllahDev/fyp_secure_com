@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fyp_secure_com/CustomsWidget/navbar.dart';
-import 'package:fyp_secure_com/chats/all_accepted_friends.dart';
 import 'package:fyp_secure_com/chats/chatDbmanger.dart/chat_manger.dart';
 import 'package:fyp_secure_com/chats/conversation.dart';
 import 'package:fyp_secure_com/chats/search_chat.dart';
@@ -14,7 +13,6 @@ import 'package:fyp_secure_com/hiveBox/room_list.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:search_page/search_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // ignore: must_be_immutable
@@ -116,7 +114,7 @@ class _ChatAllRoomPageState extends State<ArchiveChat> {
                         ));
                       } else {
                         int length = box.values.length + 1;
-                        RxList it = RxList.from(box.values);
+                        //   RxList it = RxList.from(box.values);
                         Get.find<ChatManager>()
                             .updateSearchLst(box.values.toList());
                         // setState(() {
@@ -185,7 +183,7 @@ class _ChatAllRoomPageState extends State<ArchiveChat> {
                                                       bool found = false;
                                                       // print(recData[1]);
                                                       int index = -1;
-                                                      RoomList pre;
+                                                      //   RoomList pre;
 
                                                       for (int i = 0;
                                                           i <
@@ -200,7 +198,7 @@ class _ChatAllRoomPageState extends State<ArchiveChat> {
                                                           //print("ID ==> ${i}");
                                                           index = i;
                                                           found = true;
-                                                          pre = element;
+                                                          //pre = element;
                                                         }
                                                         // if (found) return;
                                                       }

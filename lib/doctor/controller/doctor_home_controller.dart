@@ -1,16 +1,12 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:fyp_secure_com/admin/model/doctor_model.dart';
-import 'package:fyp_secure_com/chats/chatDbmanger.dart/chat_manger.dart';
-import 'package:fyp_secure_com/chats/group/groupSent_recieve.dart';
 import 'package:fyp_secure_com/commonAtStart/APIHelper.dart';
 import 'package:fyp_secure_com/commonAtStart/chat_controller.dart';
 import 'package:fyp_secure_com/commonAtStart/loginController.dart';
 import 'package:fyp_secure_com/commonAtStart/socket_controller.dart';
 import 'package:fyp_secure_com/doctor/model/invitaton.dart';
-import 'package:fyp_secure_com/friend_list_handler/controller/friend_controller.dart';
 import 'package:fyp_secure_com/hiveBox/room_list.dart';
-import 'package:fyp_secure_com/main.dart';
 import 'package:fyp_secure_com/patient/model/friends_model.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';

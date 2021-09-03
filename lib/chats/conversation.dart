@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp_secure_com/CustomsWidget/personal_settings.dart';
 import 'package:fyp_secure_com/chats/chatDbmanger.dart/chat_manger.dart';
-import 'package:fyp_secure_com/chats/xml_file.dart';
 import 'package:fyp_secure_com/colors/color.dart';
 import 'package:fyp_secure_com/commonAtStart/chat_controller.dart';
 import 'package:fyp_secure_com/commonAtStart/socket_controller.dart';
@@ -30,7 +29,6 @@ class _ConversationPageState extends State<ConversationPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     init();
     //flutterSound = new FlutterSoundRecorder();

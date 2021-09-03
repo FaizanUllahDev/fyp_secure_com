@@ -1,5 +1,3 @@
-import 'package:fyp_secure_com/chats/chatDbmanger.dart/chat_manger.dart';
-import 'package:fyp_secure_com/commonAtStart/chat_controller.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 

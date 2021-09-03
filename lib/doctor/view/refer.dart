@@ -2,14 +2,11 @@ import 'dart:convert';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:fyp_secure_com/chats/group/create_group.dart';
-import 'package:fyp_secure_com/chats/group/groupSent_recieve.dart';
 import 'package:fyp_secure_com/colors/color.dart';
 import 'package:fyp_secure_com/commonAtStart/APIHelper.dart';
 import 'package:fyp_secure_com/commonAtStart/chat_controller.dart';
 import 'package:fyp_secure_com/doctor/controller/doctor_home_controller.dart';
 import 'package:fyp_secure_com/doctor/model/names.dart';
-import 'package:fyp_secure_com/doctor/view/selectTitles.dart';
 import 'package:fyp_secure_com/friend_list_handler/controller/friend_controller.dart';
 import 'package:fyp_secure_com/hiveBox/room_list.dart';
 import 'package:fyp_secure_com/patient/controller/patient_controller.dart';

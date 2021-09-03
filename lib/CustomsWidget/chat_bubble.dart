@@ -5,7 +5,7 @@ class ChatBubble extends CustomPainter {
   final Alignment alignment;
 
   ChatBubble({
-    @required this.color = Colors.black,
+    this.color = Colors.black,
     this.alignment = Alignment.center,
   });
 

@@ -55,7 +55,7 @@ class GroupMsg {
     Get.find<SocketController>().checkConnected.value;
     if (1 > 0) {
       Get.find<ChatController>().uploading(true);
-      var msg;
+      //var msg;
       String url = APIHOST + "group_chat.php";
       //uploaderBgTest(fileAfterSavingLocallay, url, from, to, type);
       //
@@ -115,7 +115,7 @@ class GroupMsg {
           Get.snackbar("Error", "Server Error");
         } else {
           print(req.body);
-          msg = req.body;
+          //msg = req.body;
         }
       }
 
@@ -167,7 +167,7 @@ class GroupMsg {
     req.fields['type'] = type;
     req.fields['time'] = '${DateTime.now()}';
     var respose = await req.send();
-    var statusCode;
+    //var statusCode;
     // respose.then((value) => statusCode = value.statusCode);
     if (respose.statusCode == 200) {
       //msg = respose.reasonPhrase.toUpperCase();
@@ -211,14 +211,14 @@ class GroupMsg {
     Hive.openBox<RoomList>(mainDBNAme).then((value) {
       bool found = false;
       int index = -1;
-      RoomList pre;
+      // RoomList pre;
 
       for (int i = 0; i < value.values.length; ++i) {
         RoomList element = value.values.elementAt(i);
         if (element.phone == to) {
           index = i;
           found = true;
-          pre = element;
+          // pre = element;
         }
       }
       var roomData = RoomList(
@@ -277,8 +277,6 @@ class GroupMsg {
   onrecieveSaveMesg(recData, decrypted) async {
     String dbName =
         '${Get.find<ChatController>().currNumber.value}_${recData['gid']}';
-    print("On get => " + dbName);
-    int id = 0;
 
     await Hive.openBox<ChatRoom>(dbName).then((value) {
       // List abc = value.values.toList();
@@ -300,7 +298,7 @@ class GroupMsg {
       //ChatRoom lastRoom = value.values.last;
       //print("On get => ${conver.fromPhone}");
       value.add(conver);
-      id = value.length;
+      //  id = value.length;
       //if()
       //notify
       // if (!Platform.isWindows) sendnotify(conver.fromPhone, conver.msg, id);
@@ -314,7 +312,7 @@ class GroupMsg {
       bool found = false;
       // print(recData[1]);
       int index = -1;
-      RoomList pre;
+      //RoomList pre;
 
       for (int i = 0; i < value.values.length; ++i) {
         RoomList element = value.values.elementAt(i);
@@ -322,7 +320,7 @@ class GroupMsg {
           // print("ID ==> ${i}");
           index = i;
           found = true;
-          pre = element;
+          // pre = element;
         }
         // if (found) return;
       }

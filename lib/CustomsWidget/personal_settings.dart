@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fyp_secure_com/colors/color.dart';
 import 'package:fyp_secure_com/commonAtStart/APIHelper.dart';
-import 'package:fyp_secure_com/commonAtStart/chat_controller.dart';
 import 'package:fyp_secure_com/friend_list_handler/controller/friend_controller.dart';
 import 'package:fyp_secure_com/hiveBox/room_list.dart';
-import 'package:get/get.dart';
 
 class PersonalSettings extends StatelessWidget {
   final RoomList roomData;

@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fyp_secure_com/CustomsWidget/navbar.dart';
 import 'package:fyp_secure_com/colors/color.dart';
-import 'package:fyp_secure_com/commonAtStart/all_controller.dart';
-import 'package:fyp_secure_com/commonAtStart/chat_controller.dart';
 import 'package:fyp_secure_com/doctor/controller/doctor_home_controller.dart';
 import 'package:fyp_secure_com/chats/chats_all_room.dart';
-import 'package:fyp_secure_com/doctor/view/drawer.dart';
 import 'package:fyp_secure_com/friend_list_handler/views/tabs/recieve_requests.dart';
 import 'package:fyp_secure_com/friend_list_handler/views/tabs/send_request.dart';
 import 'package:get/get.dart';

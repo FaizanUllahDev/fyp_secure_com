@@ -1,27 +1,21 @@
-import 'dart:async';
 import 'dart:io';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
-import 'package:fyp_secure_com/CustomsWidget/custombutton.dart';
 import 'package:fyp_secure_com/admin/view/admin_home.dart';
 import 'package:fyp_secure_com/animations/fadeAnimation.dart';
 import 'package:fyp_secure_com/chats/chatDbmanger.dart/chat_manger.dart';
 import 'package:fyp_secure_com/colors/color.dart';
 import 'package:fyp_secure_com/commonAtStart/APIHelper.dart';
-import 'package:fyp_secure_com/commonAtStart/all_controller.dart';
 import 'package:fyp_secure_com/commonAtStart/chat_controller.dart';
 import 'package:fyp_secure_com/commonAtStart/loginController.dart';
-import 'package:fyp_secure_com/commonAtStart/socket_controller.dart';
 import 'package:fyp_secure_com/doctor/view/doctor_home.dart';
 import 'package:fyp_secure_com/friend_list_handler/controller/friend_controller.dart';
 import 'package:fyp_secure_com/pa/view/pa_home.dart';
 import 'package:fyp_secure_com/patient/view/patient_home.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -49,8 +43,6 @@ class _ScreenState extends State<OTPScreen> {
   String animationType = "idle";
 
   final passwordFocusNode = FocusNode();
-  final GlobalKey _fieldKey = GlobalKey();
-
   @override
   void initState() {
     LoginController.otp = widget.otp;

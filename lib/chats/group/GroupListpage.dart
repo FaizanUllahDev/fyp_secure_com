@@ -24,7 +24,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
+//import 'package:http/http.dart' as http;
 // Import package
 
 class GroupListpage extends StatefulWidget {
@@ -67,7 +67,7 @@ class _ChatListPageState extends State<GroupListpage> {
 
   //AudioCache cache = AudioCache();
   atStartCheckPatientAllowing() async {
-    var res = http.post(Uri.parse(APIHOST + "checkPatientCCdAllow.php"));
+    //var res = http.post(Uri.parse(APIHOST + "checkPatientCCdAllow.php"));
   }
 
   init() async {
@@ -918,7 +918,7 @@ class _ChatListPageState extends State<GroupListpage> {
       isFailed = true;
       time += '  ' + status;
     }
-    bool isDownloading = false;
+    // bool isDownloading = false;
     //print("Image ====== > ${message}");
 //
     return Container(

@@ -1,17 +1,13 @@
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_custom_dialog/flutter_custom_dialog.dart';
 import 'package:fyp_secure_com/chats/conversation.dart';
 import 'package:fyp_secure_com/chats/group/enter_title.dart';
 import 'package:fyp_secure_com/colors/color.dart';
-import 'package:fyp_secure_com/commonAtStart/index.dart';
 import 'package:fyp_secure_com/commonAtStart/styles.dart';
 import 'package:fyp_secure_com/friend_list_handler/controller/friend_controller.dart';
 import 'package:fyp_secure_com/hiveBox/room_list.dart';
 import 'package:fyp_secure_com/patient/model/friends_model.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 
 class CreateGroup extends StatelessWidget {
   @override

@@ -121,8 +121,6 @@ class ChatManager extends GetxController {
   ///
 
   downloadFiles(fileName, index, type, dbName, from) async {
-    print(from);
-    var a;
     try {
       isDownloading(true);
       ChatController().updateStatusOfServerCallingU_D("d", ++index, dbName);

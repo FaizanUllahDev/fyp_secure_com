@@ -8,10 +8,7 @@ import 'package:fyp_secure_com/colors/color.dart';
 import 'package:fyp_secure_com/commonAtStart/APIHelper.dart';
 import 'package:fyp_secure_com/commonAtStart/chat_controller.dart';
 import 'package:fyp_secure_com/doctor/controller/upload_file.dart';
-import 'package:fyp_secure_com/friend_list_handler/controller/friend_controller.dart';
-import 'package:fyp_secure_com/patient/model/friends_model.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,7 +25,6 @@ class XmlFile extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<XmlFile> {
-  int _counter = 0;
   XmlDocument document = XmlDocument();
   List<XmlElement> titles = [];
   List<XmlElement> tables = [];
@@ -53,7 +49,7 @@ class _MyHomePageState extends State<XmlFile> {
     print("object ... " + pref.getString(ccdFile).toString());
 
     //dowloadccd();
-    FriendsModel m;
+    //FriendsModel m;
 
     gid = pref.getString("gid");
     print("GID = " + gid);
@@ -435,11 +431,11 @@ class _MyHomePageState extends State<XmlFile> {
           fetchCCD(filePathAndName);
           setState(() {});
         } else {
-          FriendsModel model = Get.find<FriendController>()
-              .getreferList
-              .firstWhere((element) => element.phone == widget.number,
-                  orElse: () =>
-                      FriendsModel("name", " phone", "_status", "role", false));
+          // FriendsModel model = Get.find<FriendController>()
+          //     .getreferList
+          //     .firstWhere((element) => element.phone == widget.number,
+          //         orElse: () =>
+          //             FriendsModel("name", " phone", "_status", "role", false));
 
           // print("Enter in ccd");
           // print(model.role);

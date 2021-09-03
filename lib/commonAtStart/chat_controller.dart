@@ -1,12 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fyp_secure_com/chats/chatDbmanger.dart/chat_manger.dart';
-import 'package:fyp_secure_com/chats/group/groupSent_recieve.dart';
 import 'package:fyp_secure_com/commonAtStart/socket_controller.dart';
 import 'package:fyp_secure_com/friend_list_handler/controller/friend_controller.dart';
 import 'package:fyp_secure_com/hiveBox/chat_room.dart';
@@ -224,7 +222,7 @@ class ChatController extends GetxController {
     req.fields['type'] = type;
     req.fields['time'] = '${DateTime.now()}';
     var respose = await req.send();
-    var statusCode;
+
     // respose.then((value) => statusCode = value.statusCode);
     if (respose.statusCode == 200) {
       //msg = respose.reasonPhrase.toUpperCase();
@@ -422,9 +420,9 @@ class ChatController extends GetxController {
   saveConversation(from, to, lastmsg, name, type, time) async {
     //String sendingMSG = "${from}_${to}_${msg}_${type}_${time}_$name";
     String dbName = from + '_' + to;
-    int ind = 0;
+
     print("Saving Type");
-    print(dbName);
+
     await Hive.openBox<ChatRoom>(dbName).then((value) {
       var conver = ChatRoom(
         fromPhone: from,
@@ -504,7 +502,6 @@ class ChatController extends GetxController {
   onrecieveSaveMesg(recData, decrypted) async {
     String dbName = '${recData['toid']}_${recData['fromid']}';
     print("On get => ${recData['name']}");
-    int id = 0;
 
     await Hive.openBox<ChatRoom>(dbName).then((value) {
       var conver = ChatRoom(
@@ -521,7 +518,7 @@ class ChatController extends GetxController {
       //print("On get => ${conver.fromPhone}");
 
       value.add(conver);
-      id = value.length;
+      // id = value.length;
       //if()
       //notify
       // if (!Platform.isWindows) sendnotify(conver.fromPhone, conver.msg, id);
@@ -534,7 +531,6 @@ class ChatController extends GetxController {
       bool found = false;
       // print(recData[1]);
       int index = -1;
-      RoomList pre;
 
       for (int i = 0; i < value.values.length; ++i) {
         RoomList element = value.values.elementAt(i);
@@ -542,7 +538,6 @@ class ChatController extends GetxController {
           // print("ID ==> ${i}");
           index = i;
           found = true;
-          pre = element;
         }
         // if (found) return;
       }

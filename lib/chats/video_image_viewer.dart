@@ -1,13 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:fyp_secure_com/chats/group/groupSent_recieve.dart';
 import 'package:fyp_secure_com/commonAtStart/chat_controller.dart';
-import 'package:fyp_secure_com/hiveBox/chat_room.dart';
-import 'package:fyp_secure_com/hiveBox/room_list.dart';
 import 'package:get/get.dart';
 import 'package:photo_view/photo_view.dart';
-import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class VideoImageViewer extends StatelessWidget {
