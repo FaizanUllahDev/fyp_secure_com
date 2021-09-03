@@ -135,7 +135,7 @@ class _FriendRequestState extends State<FriendRequest> {
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           30)),
-                                              child: Text("Pending",
+                                              child: Text("",
                                                   style:
                                                       TextStyle(color: white)),
                                             )
