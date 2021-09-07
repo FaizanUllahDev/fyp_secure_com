@@ -21,7 +21,6 @@ import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 var screen;
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -92,7 +91,6 @@ class CheckLifeOFApp extends StatefulWidget {
 
 class _CheckLifeOFAppState extends State<CheckLifeOFApp>
     with WidgetsBindingObserver {
-
   @override
   void initState() {
     super.initState();
@@ -111,24 +109,18 @@ class _CheckLifeOFAppState extends State<CheckLifeOFApp>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     //print("Dispose");
-    setState(() {
-    });
+    setState(() {});
     print("object");
     if (state == AppLifecycleState.inactive) {
       Get.find<SocketController>()
           .socketlogout(Get.find<ChatController>().currNumber.value);
-
     }
     if (state == AppLifecycleState.resumed) {
       Get.find<SocketController>()
           .onCOnnected(Get.find<ChatController>().currNumber.value);
     }
-    if (state == AppLifecycleState.detached) {
-
-    }
-    if (state == AppLifecycleState.paused) {
-
-    }
+    if (state == AppLifecycleState.detached) {}
+    if (state == AppLifecycleState.paused) {}
   }
 
   /////
@@ -140,9 +132,17 @@ class _CheckLifeOFAppState extends State<CheckLifeOFApp>
       title: 'Flutter ',
       themeMode: ThemeMode.light,
       theme: ThemeData(
-        primaryColor: blue, colorScheme: ColorScheme.fromSwatch().copyWith(secondary: white),
+        primaryColor: blue,
+        colorScheme: ColorScheme.fromSwatch().copyWith(secondary: white),
       ),
       home: screen,
+      // home: Get.find<SocketController>().checkConnected.value
+      //     ? screen
+      //     : Scaffold(
+      //         body: Center(
+      //           child: Text("Network Error !"),
+      //         ),
+      //       ),
     );
   }
 }

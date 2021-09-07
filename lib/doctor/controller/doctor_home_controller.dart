@@ -63,6 +63,7 @@ class DoctorHomeController extends GetxController {
 
     // print(number);
     String url = APIHOST + GET_ALL_INVITATIONS;
+
     var json = await http.post(Uri.parse(url), body: {"phone": "$DocNum"});
     // if (json.statusCode != 200) {
     //   Get.snackbar("Error", "Network Error");
@@ -157,6 +158,7 @@ class DoctorHomeController extends GetxController {
       // print(".................................");
       if (pref.getString("name") == null) {
         String url = APIHOST + ASSETS;
+
         var res = await http.post(Uri.parse(url),
             body: {"phone": "${number.value}", "table": "doctor"});
         // print(res.body);
@@ -192,7 +194,8 @@ class DoctorHomeController extends GetxController {
       // GroupMsg().getDataOnStartOfTheChat();
       // GroupMsg().getGroupCreationDataIfCreated();
     } catch (e) {
-      print(e);
+      print("Error APi Profile");
+      print(e.printError("API PROFILE"));
     }
   }
 

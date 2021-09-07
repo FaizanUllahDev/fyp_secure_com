@@ -453,48 +453,53 @@ class ChatController extends GetxController {
 
   ///
   getDataOnStartOfTheChat() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    Get.find<ChatController>().currNumber(pref.getString("number"));
-    String url = APIHOST + getChat;
+    try {
+      SharedPreferences pref = await SharedPreferences.getInstance();
+      Get.find<ChatController>().currNumber(pref.getString("number"));
+      String url = APIHOST + getChat;
 
-    var response = await http.post(Uri.parse(url), body: {
-      "to": "${Get.find<ChatController>().currNumber.value}",
-    });
-    if (response.statusCode == 200) {
-      if (!response.body.toLowerCase().contains("error") &&
-          response.body.isNotEmpty) {
-        print(response.body);
-        List recieveMSG = jsonDecode(response.body);
-        recieveMSG.forEach((element) {
-          print(element);
+      var response = await http.post(Uri.parse(url), body: {
+        "to": "${Get.find<ChatController>().currNumber.value}",
+      });
+      if (response.statusCode == 200) {
+        if (!response.body.toLowerCase().contains("error") &&
+            response.body.isNotEmpty) {
+          print(response.body);
+          List recieveMSG = jsonDecode(response.body);
+          recieveMSG.forEach((element) {
+            print(element);
 
-          String decrypted;
-          if (element['type'] == 'text') {
-            final iv = IV.fromLength(16);
-            String keystr = '';
+            String decrypted;
+            if (element['type'] == 'text') {
+              final iv = IV.fromLength(16);
+              String keystr = '';
 
-            int value = 1;
-            for (int i = element['fromid'].toString().length; i < 32; ++i) {
-              if (value == 9) {
-                value = 1;
+              int value = 1;
+              for (int i = element['fromid'].toString().length; i < 32; ++i) {
+                if (value == 9) {
+                  value = 1;
+                }
+                value++;
+                keystr += value.toString();
               }
-              value++;
-              keystr += value.toString();
-            }
 
-            // final key = Key.fromUtf8("${from}");
-            final key = Key.fromUtf8("${element['fromid']}$keystr");
-            final encrypter = Encrypter(AES(key));
-            Encrypted encrypted = Encrypted.fromBase64(element['msg']);
-            decrypted = encrypter.decrypt(encrypted, iv: iv);
-          } else
-            decrypted = element['msg'];
-          onRecievesaveROOM(element, decrypted);
-          onrecieveSaveMesg(element, decrypted);
-        });
+              // final key = Key.fromUtf8("${from}");
+              final key = Key.fromUtf8("${element['fromid']}$keystr");
+              final encrypter = Encrypter(AES(key));
+              Encrypted encrypted = Encrypted.fromBase64(element['msg']);
+              decrypted = encrypter.decrypt(encrypted, iv: iv);
+            } else
+              decrypted = element['msg'];
+            onRecievesaveROOM(element, decrypted);
+            onrecieveSaveMesg(element, decrypted);
+          });
+        }
+      } else {
+        Get.snackbar("Error", "No Internet");
       }
-    } else {
-      Get.snackbar("Error", "No Internet");
+    } catch (e) {
+      print("CHATS ++++++++++++++++++++++++++++++++++++++++");
+      printError(info: e);
     }
   }
 
