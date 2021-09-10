@@ -23,6 +23,10 @@ class ChatManager extends GetxController {
   List<ChatRoom> individualChatList = [];
   bool isNewChatMessage = false;
 
+  var maxTime = ''.obs;
+
+  updateMaxTime(v) => maxTime(v);
+
   getFormView(pnum, docNumber) async {
     Uri url = Uri.parse(APIHOST + "getFormView.php");
     var res = await http.post(url, body: {

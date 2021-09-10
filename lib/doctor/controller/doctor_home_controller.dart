@@ -31,7 +31,7 @@ class DoctorHomeController extends GetxController {
   var status = ''.obs;
   var inviationCode = ''.obs;
   var name = ''.obs;
-  var doctor_list = <DoctorModel>[].obs;
+  var doctor_list = <FriendsModel>[].obs;
 
   getDoctorsList() async {
     String url = APIHOST + GET_DOCTOR_LIST;
@@ -43,8 +43,8 @@ class DoctorHomeController extends GetxController {
       List list = jsonDecode(json.body);
       list.forEach((data) {
         //print(data['status']);
-        DoctorModel model = DoctorModel(
-            data['name'], data['number'], data['status'], false, false);
+        FriendsModel model = FriendsModel(
+            data['name'], data['number'], data['status'], "Doctor", false);
         if (data['status'] == "Accepted" && data['number'] != number.value) {
           doctor_list.add(model);
         }

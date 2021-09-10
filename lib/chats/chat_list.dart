@@ -398,7 +398,7 @@ class _ChatListPageState extends State<ChatListPage> {
   //                           ? showChatDetails(box)
   //                           : showSelectedViewOFChat(box);
 
-  Widget showChatDetails(List lst) {
+  Widget showChatDetails(List<ChatRoom> lst) {
     return ListView.builder(
       controller: _scrollController,
       itemCount: lst.length + 1,
@@ -411,25 +411,43 @@ class _ChatListPageState extends State<ChatListPage> {
           );
         } else {
           final data = lst[index];
+          Get.find<ChatManager>().maxTime.value.split(" ")[0] ==
+                  data.time.split(" ")[0]
+              ? null
+              : Get.find<ChatManager>().updateMaxTime(data.time);
           var isfrom = false;
           if (data.fromPhone == widget.chatRoom.fromPhone) isfrom = true;
           return InkWell(
-            onLongPress: () {
-              print("Delete Multi");
-              // Get.find<ChatManager>().updateForwardIndexesSelected(index, data);
-              //setState(() {});
-            },
-            child: _chatBubble(
-              data.msg,
-              isfrom,
-              data.time.split(' ')[1].split('.')[0],
-              data.type,
-              data.status,
-              index,
-              data.serverStatus,
-              false,
-            ),
-          );
+              onLongPress: () {
+                print("Delete Multi");
+                // Get.find<ChatManager>().updateForwardIndexesSelected(index, data);
+                //setState(() {});
+
+                /*
+Obx(
+                    () => Get.find<ChatManager>().maxTime.value.split(" ")[0] ==
+                            data.time.split(" ")[0]
+                        ? Container()
+                        : Text(data.time.split(" ")[0]),
+                  ),
+                  index == 0
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(data.time.split(" ")[0]),
+                        )
+                      : Container(),
+                */
+              },
+              child: _chatBubble(
+                data.msg,
+                isfrom,
+                data.time.split(' ')[1].split('.')[0],
+                data.type,
+                data.status,
+                index,
+                data.serverStatus,
+                false,
+              ));
         }
       },
     );

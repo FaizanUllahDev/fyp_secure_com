@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:fyp_secure_com/CustomsWidget/custome_dialog_widget.dart';
 import 'package:fyp_secure_com/animations/fadeAnimation.dart';
 import 'package:fyp_secure_com/colors/color.dart';
 import 'package:fyp_secure_com/doctor/controller/doctor_home_controller.dart';
@@ -109,19 +110,6 @@ class _InvitePatientState extends State<InvitePatient> {
                         ),
                         keyboardType: TextInputType.number,
                       ),
-                      // CustomTextField(
-
-                      //   error: 'Invalid Number ',
-                      //   crontroller: number_Controller,
-                      //   label: "Number",
-                      //   isPassword: false,
-                      //   keyboard: TextInputType.phone,
-                      //   icon: Icon(
-                      //     Icons.phone,
-                      //     size: 27,
-                      //     color: blue,
-                      //   ),
-                      // ),
                     ),
                   ),
                 ),
@@ -163,30 +151,14 @@ class _InvitePatientState extends State<InvitePatient> {
                               print(json.body);
                               Get.snackbar("Error", "${json.body}");
                             } else {
+                              CustomeDialogWidget().diloagBox("Invitation",
+                                  'Invitation Sent Successfully...', context);
                               Get.snackbar("OK", "Sending Successfully");
                               Get.find<DoctorHomeController>()
                                   .updateListOfInvits(InvitationModel(
                                       "${number_Controller.text}",
                                       '',
                                       "waiting"));
-                              AwesomeDialog(
-                                context: context,
-                                animType: AnimType.SCALE,
-                                dialogType: DialogType.SUCCES,
-                                body: Center(
-                                  child: Text(
-                                    'Invitation Sent Successfully...',
-                                    style: TextStyle(
-                                        fontStyle: FontStyle.italic,
-                                        fontSize: 25),
-                                  ),
-                                ),
-                                title: 'This is Ignored',
-                                desc: 'This is also Ignored',
-                                btnOkOnPress: () {
-                                  Get.back();
-                                },
-                              )..show();
                             }
                           } else {
                             Get.snackbar("Error", "Already Exist");

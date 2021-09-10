@@ -108,10 +108,10 @@ class AdminController extends GetxController {
       if (status == "Accepted") {
         DoctorModel foundFromPending = pendingLists.firstWhere(
             (element) => element.number == number,
-            orElse: () => DoctorModel("", "", "", "", ""));
+            orElse: () => DoctorModel("", "", false, "", ""));
         DoctorModel foundFromBlock = blockedList.firstWhere(
             (element) => element.number == number,
-            orElse: () => DoctorModel("", "", "", "", ""));
+            orElse: () => DoctorModel("", "", false, "", ""));
         if (foundFromPending.number != "") {
           acceptedList.add(pendingLists.removeAt(index));
         } else if (foundFromBlock.number != "") {

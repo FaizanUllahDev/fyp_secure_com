@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fyp_secure_com/CustomsWidget/custome_dialog_widget.dart';
 import 'package:fyp_secure_com/colors/color.dart';
 import 'package:fyp_secure_com/commonAtStart/APIHelper.dart';
 import 'package:fyp_secure_com/commonAtStart/loginController.dart';
@@ -80,7 +81,7 @@ class _AddPatientFormState extends State<AddPatientForm> {
                       )),
                     ],
                   ),
-                  SizedBox(height: 30),
+                  SizedBox(height: 40),
                   isLoading
                       ? CircularProgressIndicator()
                       : InkWell(
@@ -89,15 +90,18 @@ class _AddPatientFormState extends State<AddPatientForm> {
                             if (fKey.currentState.validate()) submit();
                           },
                           child: Container(
+                            width: MediaQuery.of(context).size.width,
                             padding: EdgeInsets.symmetric(
-                                horizontal: 30, vertical: 10),
+                                horizontal: 30, vertical: 15),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(30),
                               color: blue,
                             ),
-                            child: Text(
-                              "Add History",
-                              style: TextStyle(color: white),
+                            child: Center(
+                              child: Text(
+                                "Add History",
+                                style: TextStyle(color: white, fontSize: 24),
+                              ),
                             ),
                           ),
                         ),
@@ -125,8 +129,9 @@ class _AddPatientFormState extends State<AddPatientForm> {
     isLoading = false;
     if (mounted) setState(() {});
     if (res.statusCode == 200) {
-      Get.snackbar("Alert", "Data Saved ... ");
+      //Get.snackbar("Alert", "Data Saved ... ");
+      CustomeDialogWidget().diloagBox("Alert", "Data Saved!", context);
     } else
-      Get.snackbar("Alert", "Failed  ... ");
+      CustomeDialogWidget().diloagBox("Alert", "Failed!", context);
   }
 }

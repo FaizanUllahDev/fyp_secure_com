@@ -69,47 +69,56 @@ class _PAHomeState extends State<PAHome> {
                 "PA to $name",
                 style: TextStyle(fontSize: 30, color: Colors.blue),
               ),
-              Column(
-                children: [
-                  InkWell(
-                    onTap: () {
-                      //asgId
-                      Get.to(AddRecord(number: asgId));
-                    },
-                    child: Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 35, vertical: 10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        color: blue,
-                      ),
-                      child: Text(
-                        "Add Record",
-                        style: TextStyle(color: white),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Get.to(InvitationListPage());
-                    },
-                    child: Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        color: blue,
-                      ),
-                      child: Text(
-                        "Invite Patient",
-                        style: TextStyle(color: white),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: Column(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        //asgId
+                        Get.to(AddRecord(number: asgId));
+                      },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 35, vertical: 15),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color: blue,
+                        ),
+                        child: Center(
+                          child: Text(
+                            "Add Record",
+                            style: TextStyle(color: white, fontSize: 24),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                    SizedBox(
+                      height: 20,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Get.to(InvitationListPage());
+                      },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color: blue,
+                        ),
+                        child: Center(
+                          child: Text(
+                            "Invite Patient",
+                            style: TextStyle(color: white, fontSize: 24),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

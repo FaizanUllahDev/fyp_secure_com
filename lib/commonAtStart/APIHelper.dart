@@ -1,11 +1,11 @@
 //const API_IP = '192.168.3.102';
-const API_IP = '192.168.0.113';
+const API_IP = '192.168.0.106';
 const PORT = 80;
-const APIHOST = 'http://$API_IP:$PORT/chat_app//chat_app/pages/';
+const APIHOST = 'http://$API_IP:$PORT/chat_app/chat_app/pages/';
 
-const FILES_IMG = 'http://$API_IP:$PORT/chat_app//chat_app/pages/assets/img/';
-const FILES_MP3 = 'http://$API_IP:$PORT/chat_app//chat_app/pages/assets/audio/';
-const FILES_ccd = 'http://$API_IP:$PORT/chat_app//chat_app/pages/assets/ccd/';
+const FILES_IMG = 'http://$API_IP:$PORT/chat_app/chat_app/pages/assets/img/';
+const FILES_MP3 = 'http://$API_IP:$PORT/chat_app/chat_app/pages/assets/audio/';
+const FILES_ccd = 'http://$API_IP:$PORT/chat_app/chat_app/pages/assets/ccd/';
 
 const IP = 'http://$API_IP:3000';
 

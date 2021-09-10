@@ -1,7 +1,7 @@
 class DoctorModel {
   final name;
   final number;
-  final status;
+  bool status;
   final accepted;
   final rejected;
 

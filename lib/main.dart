@@ -26,9 +26,7 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
 Future onSelectNotification(String payload) async {
-  if (payload != null) {
-    debugPrint('notification payload: $payload');
-  }
+  print('notification payload: $payload');
 }
 
 Future onDidReceiveLocalNotification(

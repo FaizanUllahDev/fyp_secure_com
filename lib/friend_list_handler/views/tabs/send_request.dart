@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fyp_secure_com/colors/color.dart';
 import 'package:fyp_secure_com/commonAtStart/chat_controller.dart';
 import 'package:fyp_secure_com/commonAtStart/styles.dart';
+import 'package:fyp_secure_com/doctor/view/all_doctors_list.dart';
 import 'package:fyp_secure_com/doctor/view/search_doctor.dart';
 import 'package:fyp_secure_com/friend_list_handler/controller/friend_controller.dart';
 import 'package:fyp_secure_com/patient/model/friends_model.dart';
@@ -33,7 +34,7 @@ class _SendingrequestState extends State<Sendingrequest> {
         children: [
           InkWell(
             onTap: () {
-              Get.to(SearchDoctor());
+              Get.to(AllDoctorsList());
             },
             child: Container(
               margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
