@@ -10,8 +10,9 @@ uploadccd(phone, file, time) async {
   try {
     String url = APIHOST + uploadCCD;
     //print(finalmsg);
-    StreamView<List<int>> stream, sending;
+    StreamView<List<int>> stream;
     int len;
+    // ignore: deprecated_member_use
     stream = http.ByteStream(DelegatingStream.typed(file.openRead()));
     len = await file.length();
     //List<int> f1st = await stream.first;

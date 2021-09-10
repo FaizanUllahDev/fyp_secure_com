@@ -1,8 +1,8 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:fyp_secure_com/commonAtStart/APIHelper.dart';
 import 'package:fyp_secure_com/commonAtStart/chat_controller.dart';
 import 'package:fyp_secure_com/commonAtStart/loginController.dart';
-import 'package:fyp_secure_com/main.dart';
 import 'package:fyp_secure_com/patient/model/friends_model.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -88,7 +88,7 @@ class FriendController extends GetxController {
         data.forEach((element) {
           getreferList.add(FriendsModel(element['name'], element['number'], "p",
               element['allowTitles'], false));
-          var num = element['number'];
+
           // FriendsModel modelFound =
           //     Get.find<FriendController>().accepted_Friend_List.firstWhere(
           //           (element) => element.phone == num,
@@ -356,7 +356,7 @@ class FriendController extends GetxController {
     if (status == "Reject" || status == "Cancel") {
       status = 'NotFriend';
       url = APIHOST + rejectRequest;
-      var json = await http.post(
+      await http.post(
         Uri.parse(url),
         body: {"from": "$numberFrom", "tonum": "$toNum", "status": "$status"},
       );
@@ -367,8 +367,6 @@ class FriendController extends GetxController {
         Uri.parse(url),
         body: {"from": "$numberFrom", "tonum": "$toNum", "status": "$status"},
       );
-
-      var msg = '';
 
       if (json.body.toString().contains('Error')) {
         //Get.snackbar("Error", "${json.body}");

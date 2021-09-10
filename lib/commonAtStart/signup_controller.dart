@@ -18,6 +18,7 @@ class SignUpController extends GetxController {
     String url = APIHOST + SIGNUP;
     var stream, len;
     if (dp != null) {
+      // ignore: deprecated_member_use
       stream = http.ByteStream(DelegatingStream.typed(dp.openRead()));
       len = await dp.length();
 

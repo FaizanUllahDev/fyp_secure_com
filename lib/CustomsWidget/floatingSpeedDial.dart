@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fyp_secure_com/chats/all_accepted_friends.dart';
-import 'package:fyp_secure_com/chats/group/create_group.dart';
 import 'package:get/get.dart';
 
 Widget customeFloatBtn = SpeedDial(

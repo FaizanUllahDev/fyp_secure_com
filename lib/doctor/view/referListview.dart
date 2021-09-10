@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fyp_secure_com/colors/color.dart';
-import 'package:fyp_secure_com/commonAtStart/chat_controller.dart';
 import 'package:fyp_secure_com/commonAtStart/styles.dart';
 import 'package:fyp_secure_com/friend_list_handler/controller/friend_controller.dart';
 import 'package:fyp_secure_com/patient/model/friends_model.dart';

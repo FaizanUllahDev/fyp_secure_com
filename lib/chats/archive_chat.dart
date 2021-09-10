@@ -180,7 +180,6 @@ class _ChatAllRoomPageState extends State<ArchiveChat> {
                                                     ///
                                                     if (room.phone != "") {
                                                       room.isArchive = false;
-                                                      bool found = false;
                                                       // print(recData[1]);
                                                       int index = -1;
                                                       //   RoomList pre;
@@ -197,7 +196,6 @@ class _ChatAllRoomPageState extends State<ArchiveChat> {
                                                             chatHeaders.phone) {
                                                           //print("ID ==> ${i}");
                                                           index = i;
-                                                          found = true;
                                                           //pre = element;
                                                         }
                                                         // if (found) return;

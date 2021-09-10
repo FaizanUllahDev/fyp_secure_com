@@ -14,6 +14,7 @@ class RoomListAdapter extends TypeAdapter<RoomList> {
   RoomList read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
+      // ignore: sdk_version_ui_as_code
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return RoomList(

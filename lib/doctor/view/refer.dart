@@ -15,8 +15,6 @@ import 'package:fyp_secure_com/patient/view/patient_home.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
-
 import 'doctor_home.dart';
 
 class Refer extends StatefulWidget {
@@ -381,8 +379,8 @@ class _ReferState extends State<Refer> {
   }
 
   getCheckBoxOpt(context) async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    var json = pref.getString("titles");
+    //SharedPreferences pref = await SharedPreferences.getInstance();
+    //var json = pref.getString("titles");
     List names = ["allergies", "medications", "procedures", "immunizations"];
     print(names);
     names.forEach((element) {

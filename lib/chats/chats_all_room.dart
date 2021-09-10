@@ -170,10 +170,8 @@ class _ChatAllRoomPageState extends State<ChatAllRoomPage> {
                                                       ///
                                                       if (room.phone != "") {
                                                         room.isArchive = true;
-                                                        bool found = false;
                                                         // print(recData[1]);
                                                         int index = -1;
-                                                        RoomList pre;
 
                                                         for (int i = 0;
                                                             i <
@@ -188,8 +186,6 @@ class _ChatAllRoomPageState extends State<ChatAllRoomPage> {
                                                                   .phone) {
                                                             //print("ID ==> ${i}");
                                                             index = i;
-                                                            found = true;
-                                                            pre = element;
                                                           }
                                                           // if (found) return;
                                                         }

@@ -27,7 +27,6 @@ class _ConversationPageState extends State<GroupConversation> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     init();
     //flutterSound = new FlutterSoundRecorder();

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fyp_secure_com/CustomsWidget/profile.dart';
 import 'package:fyp_secure_com/chats/archive_chat.dart';
-import 'package:fyp_secure_com/colors/color.dart';
 import 'package:fyp_secure_com/doctor/view/doctor_home.dart';
 import 'package:fyp_secure_com/doctor/view/invitation_list_page.dart';
 import 'package:get/get.dart';

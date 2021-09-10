@@ -16,8 +16,6 @@ class DoctorHome extends StatefulWidget {
 class _DoctorHomeState extends State<DoctorHome> {
   @override
   void initState() {
-    // TODO: implement initState
-
     super.initState();
 
     Get.put(DoctorHomeController(), permanent: true);
@@ -26,7 +24,6 @@ class _DoctorHomeState extends State<DoctorHome> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return DefaultTabController(
       length: 3,
       child: LiquidPullToRefresh(

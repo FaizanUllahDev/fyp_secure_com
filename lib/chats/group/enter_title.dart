@@ -140,6 +140,7 @@ class _GetGroupDetailsState extends State<GetGroupDetails> {
         }
       } else {
         var stream, len;
+        // ignore: deprecated_member_use
         stream = http.ByteStream(DelegatingStream.typed(_image.openRead()));
         len = await _image.length();
 

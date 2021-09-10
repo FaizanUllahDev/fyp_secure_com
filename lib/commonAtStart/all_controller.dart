@@ -50,6 +50,7 @@ updateProfile({name, preimg, phone, img, role}) async {
       },
     );
   } else {
+    // ignore: deprecated_member_use
     var stream = http.ByteStream(DelegatingStream.typed(img.openRead()));
     var len = await img.length();
     var req = http.MultipartRequest("POST", Uri.parse(APIHOST + profileUpdate));

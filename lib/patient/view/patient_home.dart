@@ -34,7 +34,6 @@ class _PatientHomeState extends State<PatientHome> {
   @override
   Widget build(BuildContext context) {
     Get.put(PatientController());
-    final size = MediaQuery.of(context).size;
     return DefaultTabController(
       length: 3,
       child: Scaffold(

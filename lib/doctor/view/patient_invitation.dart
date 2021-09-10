@@ -3,17 +3,13 @@ import 'dart:io';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
-import 'package:fyp_secure_com/CustomsWidget/customTextfield.dart';
 import 'package:fyp_secure_com/animations/fadeAnimation.dart';
 import 'package:fyp_secure_com/colors/color.dart';
 import 'package:fyp_secure_com/doctor/controller/doctor_home_controller.dart';
 import 'package:fyp_secure_com/doctor/model/invitaton.dart';
-import 'package:fyp_secure_com/doctor/model/person.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:permission_handler/permission_handler.dart';
-
-import 'invitation_list_page.dart';
 
 class InvitePatient extends StatefulWidget {
   @override

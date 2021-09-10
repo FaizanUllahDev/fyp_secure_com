@@ -141,6 +141,7 @@ class GroupMsg {
     //File file = File(enc_path);
 
     stream = http.ByteStream(
+        // ignore: deprecated_member_use
         DelegatingStream.typed(fileAfterSavingLocallay.openRead()));
     len = await fileAfterSavingLocallay.length();
 

@@ -1,4 +1,3 @@
-import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp_secure_com/commonAtStart/chat_controller.dart';
 import 'package:get/get.dart';
