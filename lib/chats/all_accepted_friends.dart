@@ -16,7 +16,7 @@ class AllAcceptedFriend extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Conatcts "),
+          title: Text("Contacts "),
           bottom: TabBar(
             tabs: [
               Tab(
