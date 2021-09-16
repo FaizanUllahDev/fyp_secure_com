@@ -14,7 +14,6 @@ class ChatRoomAdapter extends TypeAdapter<ChatRoom> {
   ChatRoom read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
-      // ignore: sdk_version_ui_as_code
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return ChatRoom(
@@ -27,13 +26,14 @@ class ChatRoomAdapter extends TypeAdapter<ChatRoom> {
       serverStatus: fields[6] as String,
       isGroup: fields[7] as bool,
       userRole: fields[8] as String,
+      chatid: fields[9] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, ChatRoom obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj.fromPhone)
       ..writeByte(1)
@@ -51,7 +51,9 @@ class ChatRoomAdapter extends TypeAdapter<ChatRoom> {
       ..writeByte(7)
       ..write(obj.isGroup)
       ..writeByte(8)
-      ..write(obj.userRole);
+      ..write(obj.userRole)
+      ..writeByte(9)
+      ..write(obj.chatid);
   }
 
   @override

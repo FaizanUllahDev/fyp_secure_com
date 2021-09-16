@@ -15,7 +15,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 class ChatManager extends GetxController {
   List<RoomList> searchLst = <RoomList>[].obs;
-  var isDownloading = false.obs;
+  bool isDownloading = false;
   double boxH = 50.0;
   var isPlaying = false.obs;
   int selectedInd = 0;
@@ -107,7 +107,11 @@ class ChatManager extends GetxController {
   //AudioPlayer advancedPlayer;
   var isPlayinga = true.obs;
 
-  updateDownloadingStatus(n) => isDownloading(n);
+  updateDownloadingStatus(n) {
+    isDownloading = n;
+    update();
+  }
+
   updateisPlaying(n) => isPlaying(n);
 
 /////audio
@@ -126,7 +130,7 @@ class ChatManager extends GetxController {
 
   downloadFiles(fileName, index, type, dbName, from) async {
     try {
-      isDownloading(true);
+      updateDownloadingStatus(true);
       ChatController().updateStatusOfServerCallingU_D("d", ++index, dbName);
 
       if (await Permission.storage.request().isGranted) {
@@ -216,7 +220,9 @@ class ChatManager extends GetxController {
       print(e);
     }
 
-    isDownloading(false);
+    print("Here isDownloading(true);");
+
+    updateDownloadingStatus(false);
 
     // return filePathAndName;
   }

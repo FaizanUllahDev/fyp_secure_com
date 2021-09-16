@@ -30,6 +30,14 @@ class _ChatAllRoomPageState extends State<ArchiveChat> {
 
   List<RoomList> items = [];
   var role = 'Patient';
+  String subtitle = "chat";
+  atStart() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    subtitle =
+        pref.containsKey("subtitle") ? pref.getString("subtitle") : subtitle;
+    setState(() {});
+  }
+
   init() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
@@ -41,6 +49,7 @@ class _ChatAllRoomPageState extends State<ArchiveChat> {
   void initState() {
     super.initState();
     init();
+    atStart();
   }
 
   @override
@@ -84,7 +93,9 @@ class _ChatAllRoomPageState extends State<ArchiveChat> {
           ),
           Expanded(
             child: FutureBuilder(
-                future: Hive.openBox<RoomList>(mainDBNAme),
+                future: Hive.isBoxOpen(mainDBNAme)
+                    ? null
+                    : Hive.openBox<RoomList>(mainDBNAme),
                 builder: (context, snapshot) {
                   return ValueListenableBuilder(
                     valueListenable:
@@ -342,7 +353,17 @@ class _ChatAllRoomPageState extends State<ArchiveChat> {
                                                 .copyWith(color: blue),
                                           ),
                                           subtitle: Text(
-                                              chatHeaders.lastMsg.toString(),
+                                              subtitle == "chat"
+                                                  ? chatHeaders.lastMsg
+                                                      .toString()
+                                                  : subtitle == "number"
+                                                      ? chatHeaders.phone
+                                                          .toString()
+                                                      : subtitle == "pro"
+                                                          ? ""
+                                                          : subtitle == "mr"
+                                                              ? ""
+                                                              : "",
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                               style: CustomStyles.foreclr

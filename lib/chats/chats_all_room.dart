@@ -29,6 +29,26 @@ class ChatAllRoomPage extends StatefulWidget {
 class _ChatAllRoomPageState extends State<ChatAllRoomPage> {
   List<RoomList> selectedItems = [];
   List<RoomList> items = [];
+  String subtitle = "chat";
+  atStart() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    subtitle =
+        pref.containsKey("subtitle") ? pref.getString("subtitle") : subtitle;
+    setState(() {});
+  }
+
+  saveSubTitleKey(keyValue) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setString("subtitle", keyValue);
+    subtitle = keyValue;
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    atStart();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,9 +80,47 @@ class _ChatAllRoomPageState extends State<ChatAllRoomPage> {
               ),
             ),
           ),
+          ListTile(
+            title: Text(
+              "Select Subtitle ",
+              style: TextStyle(color: blue),
+            ),
+            tileColor: Colors.black12,
+            trailing: PopupMenuButton(
+                icon: Container(
+                  child: Icon(
+                    Icons.arrow_downward,
+                    color: blue,
+                  ),
+                ),
+                itemBuilder: (context) => [
+                      PopupMenuItem(
+                        child: Text("Chat Last Message"),
+                        value: 1,
+                        onTap: () => saveSubTitleKey("chat"),
+                      ),
+                      PopupMenuItem(
+                        child: Text("MR No ."),
+                        value: 2,
+                        onTap: () => saveSubTitleKey("mr"),
+                      ),
+                      PopupMenuItem(
+                        child: Text("Procedure"),
+                        value: 3,
+                        onTap: () => saveSubTitleKey("pro"),
+                      ),
+                      PopupMenuItem(
+                        child: Text("Phone Number"),
+                        value: 4,
+                        onTap: () => saveSubTitleKey("number"),
+                      ),
+                    ]),
+          ),
           Expanded(
             child: FutureBuilder(
-                future: Hive.openBox<RoomList>(mainDBNAme),
+                future: Hive.isBoxOpen(mainDBNAme)
+                    ? null
+                    : Hive.openBox<RoomList>(mainDBNAme),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(child: CircularProgressIndicator());
@@ -102,10 +160,7 @@ class _ChatAllRoomPageState extends State<ChatAllRoomPage> {
                           // RxList it = RxList.from(box.values);
                           Get.find<ChatController>()
                               .updateSearchList(box.values.toList());
-                          // setState(() {
-                          //   items = box.values.toList();
-                          // });
-                          //print("=>>>>>>>> $length");
+
                           return ListView.builder(
                             itemCount: length,
                             itemBuilder: (context, index) {
@@ -273,14 +328,12 @@ class _ChatAllRoomPageState extends State<ChatAllRoomPage> {
                                                           pic: chatHeaders.pic),
                                                     ));
                                               } else
-                                                Get.to(() => ConversationPage(
-                                                      roomList: RoomList(
-                                                          name:
-                                                              chatHeaders.name,
-                                                          phone:
-                                                              chatHeaders.phone,
-                                                          pic: chatHeaders.pic),
-                                                    ));
+                                                Get.to(
+                                                  () => ConversationPage(
+                                                    index: index,
+                                                    roomList: chatHeaders,
+                                                  ),
+                                                );
                                             },
                                             // selected: selected,
                                             leading:
@@ -379,32 +432,67 @@ class _ChatAllRoomPageState extends State<ChatAllRoomPage> {
                                                       fontWeight:
                                                           FontWeight.bold),
                                             ),
-                                            subtitle: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                    chatHeaders.lastMsg
-                                                        .toString(),
-                                                    maxLines: 1,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: CustomStyles.foreclr
-                                                        .copyWith(
-                                                      color: blue,
-                                                    )),
-                                              ],
-                                            ),
+                                            subtitle: Text(
+                                                subtitle == "chat"
+                                                    ? chatHeaders.lastMsg
+                                                        .toString()
+                                                    : subtitle == "number"
+                                                        ? chatHeaders.phone
+                                                            .toString()
+                                                        : subtitle == "pro"
+                                                            ? ""
+                                                            : subtitle == "mr"
+                                                                ? ""
+                                                                : "",
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: CustomStyles.foreclr
+                                                    .copyWith(
+                                                  color: blue,
+                                                )),
                                             trailing: chatHeaders.isGroup
                                                 ? Icon(Icons.group_rounded)
-                                                : Text(time,
-                                                    maxLines: 1,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: CustomStyles.foreclr
-                                                        .copyWith(color: blue)),
+                                                : Container(
+                                                    height: 50,
+                                                    width: 50,
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        (chatHeaders.unread
+                                                                    is int &&
+                                                                chatHeaders
+                                                                        .unread !=
+                                                                    0)
+                                                            ? CircleAvatar(
+                                                                maxRadius: 10,
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .green,
+                                                                child: Text(
+                                                                  chatHeaders
+                                                                      .unread
+                                                                      .toString(),
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .black),
+                                                                ),
+                                                              )
+                                                            : Container(),
+                                                        Text(time,
+                                                            maxLines: 1,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            style: CustomStyles
+                                                                .foreclr
+                                                                .copyWith(
+                                                                    color:
+                                                                        blue)),
+                                                      ],
+                                                    ),
+                                                  ),
                                           ),
                                         ),
                                       ),

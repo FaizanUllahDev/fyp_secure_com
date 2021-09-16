@@ -112,7 +112,8 @@ class _FormViewState extends State<FormView> {
 
   getView(snapshot, index) {
     return widget.data != null && snapshot is String == false
-        ? Padding(
+        ? Container(
+            width: MediaQuery.of(context).size.width,
             padding: const EdgeInsets.all(8.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -120,29 +121,38 @@ class _FormViewState extends State<FormView> {
               children: [
                 Row(
                   children: [
-                    Text(
-                      "Procedure : ".toUpperCase(),
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                    Expanded(
+                      child: Text(
+                        "Procedure : ".toUpperCase(),
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                     ),
-                    Text(snapshot[index]['pro']),
+                    Expanded(child: Text(snapshot[index]['pro'])),
                   ],
                 ),
                 Row(
                   children: [
-                    Text(
-                      "Medications : ".toUpperCase(),
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                    Expanded(
+                      child: Text(
+                        "Medications : ".toUpperCase(),
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                     ),
-                    Text(snapshot[index]['med']),
+                    Expanded(child: Text(snapshot[index]['med'])),
                   ],
                 ),
                 Row(
                   children: [
-                    Text(
-                      "Date : ".toUpperCase(),
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                    Expanded(
+                      child: Text(
+                        "Date : ".toUpperCase(),
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                     ),
-                    Text(snapshot[index]['curDate'].toString().split(" ")[0]),
+                    Expanded(
+                        child: Text(snapshot[index]['curDate']
+                            .toString()
+                            .split(" ")[0])),
                   ],
                 )
               ],

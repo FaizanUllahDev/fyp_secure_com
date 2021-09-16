@@ -14,7 +14,6 @@ class MessageAdapter extends TypeAdapter<Message> {
   Message read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
-      // ignore: sdk_version_ui_as_code
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Message(

@@ -8,8 +8,23 @@ import 'package:fyp_secure_com/hiveBox/room_list.dart';
 import 'package:fyp_secure_com/patient/model/friends_model.dart';
 import 'package:get/get.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class AllAcceptedFriend extends StatelessWidget {
+class AllAcceptedFriend extends StatefulWidget {
+  @override
+  State<AllAcceptedFriend> createState() => _AllAcceptedFriendState();
+}
+
+class _AllAcceptedFriendState extends State<AllAcceptedFriend> {
+  atStart() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(

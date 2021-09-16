@@ -23,6 +23,12 @@ class RoomList {
   String userRole;
   @HiveField(9)
   bool isPin;
+  @HiveField(10)
+  String procedure;
+  @HiveField(11)
+  bool mrNo;
+  @HiveField(12)
+  int unread;
 
   RoomList({
     this.name = "",
@@ -35,5 +41,8 @@ class RoomList {
     this.isGroup = false,
     this.userRole = "",
     this.isPin = false,
+    this.mrNo,
+    this.procedure,
+    this.unread,
   });
 }

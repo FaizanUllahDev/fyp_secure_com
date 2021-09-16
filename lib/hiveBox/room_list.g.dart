@@ -14,7 +14,6 @@ class RoomListAdapter extends TypeAdapter<RoomList> {
   RoomList read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
-      // ignore: sdk_version_ui_as_code
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return RoomList(
@@ -28,13 +27,16 @@ class RoomListAdapter extends TypeAdapter<RoomList> {
       isGroup: fields[7] as bool,
       userRole: fields[8] as String,
       isPin: fields[9] as bool,
+      mrNo: fields[11] as bool,
+      procedure: fields[10] as String,
+      unread: fields[12] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, RoomList obj) {
     writer
-      ..writeByte(10)
+      ..writeByte(13)
       ..writeByte(0)
       ..write(obj.phone)
       ..writeByte(1)
@@ -54,7 +56,13 @@ class RoomListAdapter extends TypeAdapter<RoomList> {
       ..writeByte(8)
       ..write(obj.userRole)
       ..writeByte(9)
-      ..write(obj.isPin);
+      ..write(obj.isPin)
+      ..writeByte(10)
+      ..write(obj.procedure)
+      ..writeByte(11)
+      ..write(obj.mrNo)
+      ..writeByte(12)
+      ..write(obj.unread);
   }
 
   @override

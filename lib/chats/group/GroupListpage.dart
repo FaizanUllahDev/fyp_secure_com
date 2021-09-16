@@ -1033,24 +1033,26 @@ class _ChatListPageState extends State<GroupListpage> {
                                                                         .fromPhone);
                                                             print("Download");
                                                           },
-                                                          icon: Obx(() {
-                                                            final con = Get.find<
-                                                                ChatManager>();
-                                                            return !con
-                                                                    .isDownloading
-                                                                    .value
-                                                                ? Icon(
-                                                                    Icons
-                                                                        .file_download,
-                                                                    color: Colors
-                                                                        .red,
-                                                                  )
-                                                                : CircularProgressIndicator(
-                                                                    backgroundColor:
-                                                                        Colors
-                                                                            .amber,
-                                                                  );
-                                                          }),
+                                                          icon: GetBuilder<
+                                                              ChatManager>(
+                                                            init: ChatManager(),
+                                                            initState: (_) {},
+                                                            builder: (con) {
+                                                              return !con
+                                                                      .isDownloading
+                                                                  ? Icon(
+                                                                      Icons
+                                                                          .file_download,
+                                                                      color: Colors
+                                                                          .red,
+                                                                    )
+                                                                  : CircularProgressIndicator(
+                                                                      backgroundColor:
+                                                                          Colors
+                                                                              .amber,
+                                                                    );
+                                                            },
+                                                          ),
                                                         ),
                                                       ),
                                                     )
@@ -1115,24 +1117,26 @@ class _ChatListPageState extends State<GroupListpage> {
                                                                           .fromPhone);
                                                               print("Download");
                                                             },
-                                                            icon: Obx(() {
-                                                              final con = Get.find<
-                                                                  ChatManager>();
-                                                              return !con
-                                                                      .isDownloading
-                                                                      .value
-                                                                  ? Icon(
-                                                                      Icons
-                                                                          .file_download,
-                                                                      color: Colors
-                                                                          .red,
-                                                                    )
-                                                                  : CircularProgressIndicator(
-                                                                      backgroundColor:
-                                                                          Colors
-                                                                              .amber,
-                                                                    );
-                                                            }),
+                                                            icon: GetBuilder<
+                                                                ChatManager>(
+                                                              init:
+                                                                  ChatManager(),
+                                                              initState: (_) {},
+                                                              builder: (con) {
+                                                                return !con
+                                                                        .isDownloading
+                                                                    ? Icon(
+                                                                        Icons
+                                                                            .file_download,
+                                                                        color: Colors
+                                                                            .red,
+                                                                      )
+                                                                    : CircularProgressIndicator(
+                                                                        backgroundColor:
+                                                                            Colors.amber,
+                                                                      );
+                                                              },
+                                                            ),
                                                           ),
                                                         ),
                                                       )

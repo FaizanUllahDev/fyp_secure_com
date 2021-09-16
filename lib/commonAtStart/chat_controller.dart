@@ -537,6 +537,7 @@ class ChatController extends GetxController {
       bool found = false;
       // print(recData[1]);
       int index = -1;
+      int previousCount = 0;
 
       for (int i = 0; i < value.values.length; ++i) {
         RoomList element = value.values.elementAt(i);
@@ -544,13 +545,16 @@ class ChatController extends GetxController {
           // print("ID ==> ${i}");
           index = i;
           found = true;
+          print("UNREAD ...............................................");
+          print(element.unread);
+          previousCount = element.unread == null ? 0 : element.unread;
         }
         // if (found) return;
       }
 
       var roomData = RoomList(
         id: "-1",
-        lastMsg: decrypted,
+        lastMsg: recData['type'] == "text" ? decrypted : "file",
         lastMsgTime: recData['time'].toString(),
         name: '${recData['name']}',
         phone: '${recData['fromid']}',
@@ -559,6 +563,7 @@ class ChatController extends GetxController {
         isPin: false,
         userRole: "",
         pic: "",
+        unread: previousCount + 1,
       );
       if (found == false) {
         value.add(roomData);
