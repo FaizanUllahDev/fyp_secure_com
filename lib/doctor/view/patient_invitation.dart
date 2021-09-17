@@ -1,10 +1,7 @@
 import 'dart:io';
-
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:fyp_secure_com/CustomsWidget/custome_dialog_widget.dart';
-import 'package:fyp_secure_com/animations/fadeAnimation.dart';
 import 'package:fyp_secure_com/colors/color.dart';
 import 'package:fyp_secure_com/doctor/controller/doctor_home_controller.dart';
 import 'package:fyp_secure_com/doctor/model/invitaton.dart';
@@ -37,34 +34,6 @@ class _InvitePatientState extends State<InvitePatient> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Stack(
-                  children: [
-                    ClipPath(
-                      child: Container(
-                        color: Colors.blue[400],
-                        height: 180,
-                        width: MediaQuery.of(context).size.width,
-                      ),
-                      clipper: WaveClipperOne(),
-                    ),
-                    ClipPath(
-                      child: Container(
-                        color: Colors.blue[600],
-                        height: 160,
-                        width: MediaQuery.of(context).size.width,
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            "Send Invitation To Patient",
-                            style: GoogleFonts.pacifico(
-                                fontSize: 30, color: white),
-                          ),
-                        ),
-                      ),
-                      clipper: WaveClipperTwo(),
-                    ),
-                  ],
-                ),
                 SizedBox(
                   height: 40,
                 ),
@@ -72,44 +41,41 @@ class _InvitePatientState extends State<InvitePatient> {
                   margin: EdgeInsets.symmetric(horizontal: 20),
                   child: Form(
                     key: formKey,
-                    child: FadeAnimation(
-                      0,
-                      TextFormField(
-                        validator: (txt) {
-                          if (txt.length < 10) {
-                            return "widget.error";
-                          } else {
-                            return null;
-                          }
-                        },
-                        controller: number_Controller,
-                        style:
+                    child: TextFormField(
+                      validator: (txt) {
+                        if (txt.length < 10) {
+                          return "widget.error";
+                        } else {
+                          return null;
+                        }
+                      },
+                      controller: number_Controller,
+                      style:
+                          TextStyle(color: blue, fontWeight: FontWeight.bold),
+                      decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: blue, width: 1.0)),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: blue, width: 1.0)),
+                        labelText: "Phone Number",
+                        labelStyle:
                             TextStyle(color: blue, fontWeight: FontWeight.bold),
-                        decoration: InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: blue, width: 1.0)),
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: blue, width: 1.0)),
-                          labelText: "Phone Number",
-                          labelStyle: TextStyle(
-                              color: blue, fontWeight: FontWeight.bold),
-                          suffixIcon: IconButton(
-                              onPressed: () async {
-                                if (Platform.isAndroid &&
-                                    Platform
-                                        .isIOS) if (await Permission.contacts
-                                    .request()
-                                    .isGranted) {
-                                  ///
-
-                                }
-
+                        suffixIcon: IconButton(
+                            onPressed: () async {
+                              if (Platform.isAndroid &&
+                                  Platform
+                                      .isIOS) if (await Permission.contacts
+                                  .request()
+                                  .isGranted) {
                                 ///
-                              },
-                              icon: Icon(Icons.contact_page_rounded)),
-                        ),
-                        keyboardType: TextInputType.number,
+
+                              }
+
+                              ///
+                            },
+                            icon: Icon(Icons.contact_page_rounded)),
                       ),
+                      keyboardType: TextInputType.number,
                     ),
                   ),
                 ),

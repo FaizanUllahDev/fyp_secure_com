@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fyp_secure_com/chats/group/groupSent_recieve.dart';
 import 'package:fyp_secure_com/commonAtStart/chat_controller.dart';
 import 'package:get/get.dart';
 import 'package:photo_view/photo_view.dart';
@@ -84,14 +83,14 @@ class VideoImageViewer extends StatelessWidget {
                           await ChatController().chatSender(name,
                               roomList.toPhone, file, "image", index, dbName);
                         } else {
-                          await GroupMsg().GroupchatSender(
-                              name,
-                              roomList.toPhone,
-                              file,
-                              "image",
-                              index,
-                              dbName,
-                              img);
+                          // await GroupMsg().GroupchatSender(
+                          //     name,
+                          //     roomList.toPhone,
+                          //     file,
+                          //     "image",
+                          //     index,
+                          //     dbName,
+                          //     img);
                         }
                         // Obx(() {
 

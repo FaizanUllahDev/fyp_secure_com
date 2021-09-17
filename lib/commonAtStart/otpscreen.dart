@@ -1,11 +1,8 @@
 import 'dart:io';
-
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:fyp_secure_com/admin/view/admin_home.dart';
-import 'package:fyp_secure_com/animations/fadeAnimation.dart';
 import 'package:fyp_secure_com/chats/chatDbmanger.dart/chat_manger.dart';
 import 'package:fyp_secure_com/colors/color.dart';
 import 'package:fyp_secure_com/commonAtStart/APIHelper.dart';
@@ -67,30 +64,6 @@ class _ScreenState extends State<OTPScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: white,
-      bottomNavigationBar: Stack(
-        children: [
-          ClipPath(
-            child: Container(
-              color: Colors.blue[400],
-              height: 60,
-              width: MediaQuery.of(context).size.width,
-            ),
-            clipper: WaveClipperOne(reverse: true),
-          ),
-          ClipPath(
-            clipBehavior: Clip.hardEdge,
-            child: Container(
-              color: Colors.blue[600],
-              height: 80,
-              width: MediaQuery.of(context).size.width,
-              child: Align(
-                alignment: Alignment.center,
-              ),
-            ),
-            clipper: WaveClipperTwo(reverse: true),
-          ),
-        ],
-      ),
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 40, vertical: 0),
@@ -141,32 +114,28 @@ class _ScreenState extends State<OTPScreen> {
                 SizedBox(
                   height: 10,
                 ),
-                FadeAnimation(
-                  2.5,
-                  CustomTextField(
-                    error: 'Invalid OTP ',
-                    crontroller: otp_c,
-                    label: "OTP",
-                    isPassword: true,
-                    foucus: passwordFocusNode,
-                    keyboard: TextInputType.phone,
-                    icon: Icon(
-                      Icons.phone,
-                      size: 27,
-                      color: blue,
-                    ),
+
+                CustomTextField(
+                  error: 'Invalid OTP ',
+                  crontroller: otp_c,
+                  label: "OTP",
+                  isPassword: true,
+                  foucus: passwordFocusNode,
+                  keyboard: TextInputType.phone,
+                  icon: Icon(
+                    Icons.phone,
+                    size: 27,
+                    color: blue,
                   ),
                 ),
                 SizedBox(height: 40),
-                FadeAnimation(
-                  1.5,
-                  AnimatedButton(
-                    color: blue,
-                    text: "Verify",
-                    // buttonTextStyle:
-                    //     GoogleFonts.aladin(fontSize: 25, color: Colors.white),
-                    pressEvent: () => btnPressed(),
-                  ),
+
+                AnimatedButton(
+                  color: blue,
+                  text: "Verify",
+                  // buttonTextStyle:
+                  //     GoogleFonts.aladin(fontSize: 25, color: Colors.white),
+                  pressEvent: () => btnPressed(),
                 ),
               ],
             ),

@@ -4,8 +4,6 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
-import 'package:fyp_secure_com/animations/fadeAnimation.dart';
 import 'package:fyp_secure_com/colors/color.dart';
 import 'package:fyp_secure_com/commonAtStart/APIHelper.dart';
 import 'package:fyp_secure_com/commonAtStart/socket_controller.dart';
@@ -71,30 +69,6 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: Stack(
-        children: [
-          ClipPath(
-            child: Container(
-              color: Colors.blue[400],
-              height: 60,
-              width: MediaQuery.of(context).size.width,
-            ),
-            clipper: WaveClipperOne(reverse: true),
-          ),
-          ClipPath(
-            clipBehavior: Clip.hardEdge,
-            child: Container(
-              color: Colors.blue[600],
-              height: 80,
-              width: MediaQuery.of(context).size.width,
-              child: Align(
-                alignment: Alignment.center,
-              ),
-            ),
-            clipper: WaveClipperTwo(reverse: true),
-          ),
-        ],
-      ),
       backgroundColor: white,
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -144,30 +118,24 @@ class _LoginScreenState extends State<LoginScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        FadeAnimation(
-                          2.5,
-                          CustomTextField(
-                            error: 'Enter Valid Phone Number ',
-                            crontroller: number,
-                            label: "Phone",
-                            foucus: passwordFocusNode,
-                            keyboard: TextInputType.phone,
-                            icon: Icon(Icons.phone, size: 27, color: blue),
-                          ),
+                        CustomTextField(
+                          error: 'Enter Valid Phone Number ',
+                          crontroller: number,
+                          label: "Phone",
+                          foucus: passwordFocusNode,
+                          keyboard: TextInputType.phone,
+                          icon: Icon(Icons.phone, size: 27, color: blue),
                         ),
                         SizedBox(height: 40),
-                        FadeAnimation(
-                          1.0,
-                          AnimatedButton(
-                            color: blue,
-                            pressEvent: () {
-                              btnPress();
-                            },
-                            text: "Login",
-                            buttonTextStyle: GoogleFonts.abhayaLibre(
-                                color: white, fontSize: 25),
-                            isFixedHeight: true,
-                          ),
+                        AnimatedButton(
+                          color: blue,
+                          pressEvent: () {
+                            btnPress();
+                          },
+                          text: "Login",
+                          buttonTextStyle: GoogleFonts.abhayaLibre(
+                              color: white, fontSize: 25),
+                          isFixedHeight: true,
                         ),
                         isLoading
                             ? CircularProgressIndicator(

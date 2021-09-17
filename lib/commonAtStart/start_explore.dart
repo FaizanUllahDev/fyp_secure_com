@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fyp_secure_com/CustomsWidget/custombutton.dart';
-import 'package:fyp_secure_com/animations/fadeAnimation.dart';
 import 'package:fyp_secure_com/colors/color.dart';
 import 'package:fyp_secure_com/commonAtStart/index.dart';
 import 'package:fyp_secure_com/commonAtStart/login.dart';
@@ -29,18 +28,14 @@ class _HomeScreenState extends State<StartExploer> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  FadeAnimation(
-                      2.4,
-                      Text("Welcome To",
-                          style: TextStyle(
-                              color: blue, fontSize: 22, letterSpacing: 2))),
-                  FadeAnimation(
-                      2.6,
-                      Text("Secure Communication",
-                          style: TextStyle(
-                              color: blue,
-                              fontSize: 40,
-                              fontWeight: FontWeight.bold))),
+                  Text("Welcome To",
+                      style: TextStyle(
+                          color: blue, fontSize: 22, letterSpacing: 2)),
+                  Text("Secure Communication",
+                      style: TextStyle(
+                          color: blue,
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold)),
                 ],
               ),
               Form(
@@ -52,27 +47,23 @@ class _HomeScreenState extends State<StartExploer> {
                       "assets/images/doctor_move.json",
                     ),
                     SizedBox(height: 50),
-                    FadeAnimation(
-                        1.5,
-                        CustomButtom(
-                          name: "Login",
-                          bgcolor: blue,
-                          forecolor: white,
-                          onTap: () {
-                            Get.to(LoginScreen());
-                          },
-                        )),
+                    CustomButtom(
+                      name: "Login",
+                      bgcolor: blue,
+                      forecolor: white,
+                      onTap: () {
+                        Get.to(LoginScreen());
+                      },
+                    ),
                     SizedBox(height: 10),
-                    FadeAnimation(
-                        2.0,
-                        CustomButtom(
-                          name: "Sign Up",
-                          bgcolor: blue,
-                          forecolor: white,
-                          onTap: () {
-                            Get.to(SignUp());
-                          },
-                        )),
+                    CustomButtom(
+                      name: "Sign Up",
+                      bgcolor: blue,
+                      forecolor: white,
+                      onTap: () {
+                        Get.to(SignUp());
+                      },
+                    ),
                     SizedBox(height: 30),
                   ],
                 ),

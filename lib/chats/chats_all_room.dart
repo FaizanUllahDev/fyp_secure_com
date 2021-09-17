@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fyp_secure_com/chats/all_accepted_friends.dart';
 import 'package:fyp_secure_com/chats/conversation.dart';
-import 'package:fyp_secure_com/chats/group/group_conversation.dart';
 import 'package:fyp_secure_com/chats/search_chat.dart';
 import 'package:fyp_secure_com/colors/color.dart';
 import 'package:fyp_secure_com/commonAtStart/APIHelper.dart';
@@ -367,16 +366,6 @@ class _ChatAllRoomPageState extends State<ChatAllRoomPage> {
                                                         .getInstance();
                                                 pref.setString(
                                                     "gid", chatHeaders.phone);
-                                                print(chatHeaders.name);
-                                                Get.to(() => GroupConversation(
-                                                      roomList: RoomList(
-                                                          name:
-                                                              chatHeaders.name,
-                                                          phone: chatHeaders
-                                                              .name
-                                                              .split('_')[1],
-                                                          pic: chatHeaders.pic),
-                                                    ));
                                               } else
                                                 Get.to(
                                                   () => ConversationPage(

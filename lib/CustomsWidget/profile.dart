@@ -1,7 +1,5 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_custom_dialog/flutter_custom_dialog.dart';
 import 'package:fyp_secure_com/CustomsWidget/navbar.dart';
 import 'package:fyp_secure_com/colors/color.dart';
 import 'package:fyp_secure_com/commonAtStart/APIHelper.dart';
@@ -225,61 +223,54 @@ class _ProfileState extends State<Profile> {
   }
 
   chooseDialog(context) {
-    return YYDialog().build(context)
-      ..width = 120
-      ..height = 110
-      ..backgroundColor = Colors.white.withOpacity(1)
-      ..borderRadius = 10.0
-      ..showCallBack = () {
-        print("showCallBack invoke");
-      }
-      ..gravityAnimationEnable = true
-      ..dismissCallBack = () {
-        print("dismissCallBack invoke");
-      }
-      ..widget(Padding(
-        padding: EdgeInsets.only(top: 21),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            IconButton(
-                icon: Icon(
-                  Icons.camera,
-                  color: CustomColor.borderColor,
-                ),
-                onPressed: () {
-                  picker(ImageSource.camera);
+    return showDialog(
+        context: context,
+        builder: (ctx) {
+          return AlertDialog(
+            content: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: 21),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                          icon: Icon(
+                            Icons.camera,
+                            color: CustomColor.borderColor,
+                          ),
+                          onPressed: () {
+                            picker(ImageSource.camera);
 
-                  Navigator.pop(context);
-                }),
-            IconButton(
-                icon: Icon(
-                  Icons.photo,
-                  color: CustomColor.borderColor,
+                            Navigator.pop(context);
+                          }),
+                      IconButton(
+                          icon: Icon(
+                            Icons.photo,
+                            color: CustomColor.borderColor,
+                          ),
+                          onPressed: () {
+                            picker(ImageSource.gallery);
+                            Navigator.pop(context);
+                          }),
+                    ],
+                  ),
                 ),
-                onPressed: () {
-                  picker(ImageSource.gallery);
-                  Navigator.pop(context);
-                }),
-          ],
-        ),
-      ))
-      ..widget(Padding(
-        padding: EdgeInsets.only(top: 10),
-        child: Text(
-          "Choose One",
-          style: TextStyle(
-            fontSize: 15,
-          ),
-        ),
-      ))
-      ..animatedFunc = (child, animation) {
-        return ScaleTransition(
-          child: child,
-          scale: Tween(begin: 0.0, end: 2.0).animate(animation),
-        );
-      }
-      ..show();
+                Padding(
+                  padding: EdgeInsets.only(top: 10),
+                  child: Text(
+                    "Choose One",
+                    style: TextStyle(
+                      fontSize: 15,
+                    ),
+                  ),
+                )
+
+                //end
+              ],
+            ),
+          );
+        });
   }
 
   picker(source) async {

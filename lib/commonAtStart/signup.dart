@@ -1,10 +1,7 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
-import 'package:flutter_custom_dialog/flutter_custom_dialog.dart';
 import 'package:fyp_secure_com/CustomsWidget/custombutton.dart';
-import 'package:fyp_secure_com/animations/fadeAnimation.dart';
 import 'package:fyp_secure_com/colors/color.dart';
 import 'package:fyp_secure_com/commonAtStart/login.dart';
 import 'package:get/get.dart';
@@ -60,30 +57,6 @@ class _LoginScreenState extends State<SignUp> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: white,
-      bottomNavigationBar: Stack(
-        children: [
-          ClipPath(
-            child: Container(
-              color: Colors.blue[400],
-              height: 60,
-              width: MediaQuery.of(context).size.width,
-            ),
-            clipper: WaveClipperOne(reverse: true),
-          ),
-          ClipPath(
-            clipBehavior: Clip.hardEdge,
-            child: Container(
-              color: Colors.blue[600],
-              height: 80,
-              width: MediaQuery.of(context).size.width,
-              child: Align(
-                alignment: Alignment.center,
-              ),
-            ),
-            clipper: WaveClipperTwo(reverse: true),
-          ),
-        ],
-      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -106,71 +79,62 @@ class _LoginScreenState extends State<SignUp> {
                   children: <Widget>[
                     Visibility(
                       visible: true,
-                      child: FadeAnimation(
-                        2.5,
-                        IsImagePick
-                            ? Stack(
+                      child: IsImagePick
+                          ? Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                CircleAvatar(
+                                  backgroundImage: FileImage(_image),
+                                  radius: 80,
+                                ),
+                                InkWell(
+                                  child: Icon(Icons.camera_alt_sharp,
+                                      color: white, size: 40),
+                                  onTap: () {
+                                    chooseDialog(context);
+                                  },
+                                ),
+                              ],
+                            )
+                          : CircleAvatar(
+                              radius: 80,
+                              child: Stack(
                                 alignment: Alignment.center,
                                 children: [
-                                  CircleAvatar(
-                                    backgroundImage: FileImage(_image),
-                                    radius: 80,
-                                  ),
+                                  Image.asset('assets/images/demo.png'),
                                   InkWell(
                                     child: Icon(Icons.camera_alt_sharp,
                                         color: white, size: 40),
                                     onTap: () {
-                                      chooseDialog();
+                                      chooseDialog(context);
                                     },
                                   ),
                                 ],
-                              )
-                            : CircleAvatar(
-                                radius: 80,
-                                child: Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    Image.asset('assets/images/demo.png'),
-                                    InkWell(
-                                      child: Icon(Icons.camera_alt_sharp,
-                                          color: white, size: 40),
-                                      onTap: () {
-                                        chooseDialog();
-                                      },
-                                    ),
-                                  ],
-                                ),
                               ),
+                            ),
+                    ),
+                    SizedBox(height: 5),
+                    CustomTextField(
+                      crontroller: name,
+                      error: "Enter Name",
+                      label: "Name",
+                      keyboard: TextInputType.name,
+                      icon: Icon(
+                        Icons.person,
+                        size: 27,
+                        color: blue,
                       ),
                     ),
                     SizedBox(height: 5),
-                    FadeAnimation(
-                      2.5,
-                      CustomTextField(
-                        crontroller: name,
-                        error: "Enter Name",
-                        label: "Name",
-                        keyboard: TextInputType.name,
-                        icon: Icon(
-                          Icons.person,
-                          size: 27,
-                          color: blue,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    FadeAnimation(
-                      2.5,
-                      CustomTextField(
-                        error: 'Enter Valid Phone Number ',
-                        crontroller: number,
-                        label: "Phone",
-                        keyboard: TextInputType.phone,
-                        icon: Icon(
-                          Icons.phone,
-                          size: 27,
-                          color: blue,
-                        ),
+                    CustomTextField(
+                      error: 'Enter Valid Phone Number ',
+                      crontroller: number,
+                      label: "Phone",
+                      keyboard: TextInputType.phone,
+                      icon: Icon(
+                        Icons.phone,
+                        size: 27,
+                        color: blue,
                       ),
                     ),
                     SizedBox(height: 05),
@@ -184,48 +148,43 @@ class _LoginScreenState extends State<SignUp> {
                               color: blue,
                               fontWeight: FontWeight.bold),
                         ),
-                        FadeAnimation(
-                          1.3,
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Row(
-                                children: [
-                                  new Radio(
-                                    fillColor: MaterialStateProperty.all(blue),
-                                    value: 0,
-                                    hoverColor: Colors.white,
-                                    groupValue: _radioValue,
-                                    onChanged: (v) =>
-                                        _handleRadioValueChange(v),
-                                  ),
-                                  new Text(
-                                    'Doctor',
-                                    style: new TextStyle(
-                                        fontSize: 16.0, color: blue),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  new Radio(
-                                    activeColor: blue,
-                                    fillColor: MaterialStateProperty.all(blue),
-                                    value: 1,
-                                    hoverColor: Colors.white,
-                                    groupValue: _radioValue,
-                                    onChanged: (v) =>
-                                        _handleRadioValueChange(v),
-                                  ),
-                                  new Text(
-                                    'Patient',
-                                    style: new TextStyle(
-                                        fontSize: 16.0, color: blue),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Row(
+                              children: [
+                                new Radio(
+                                  fillColor: MaterialStateProperty.all(blue),
+                                  value: 0,
+                                  hoverColor: Colors.white,
+                                  groupValue: _radioValue,
+                                  onChanged: (v) => _handleRadioValueChange(v),
+                                ),
+                                new Text(
+                                  'Doctor',
+                                  style: new TextStyle(
+                                      fontSize: 16.0, color: blue),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                new Radio(
+                                  activeColor: blue,
+                                  fillColor: MaterialStateProperty.all(blue),
+                                  value: 1,
+                                  hoverColor: Colors.white,
+                                  groupValue: _radioValue,
+                                  onChanged: (v) => _handleRadioValueChange(v),
+                                ),
+                                new Text(
+                                  'Patient',
+                                  style: new TextStyle(
+                                      fontSize: 16.0, color: blue),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -234,20 +193,17 @@ class _LoginScreenState extends State<SignUp> {
                     ),
                     Visibility(
                       visible: true,
-                      child: FadeAnimation(
-                        0.5,
-                        CustomTextField(
-                          error: isDoctor
-                              ? 'Enter Licence Digits '
-                              : "Enter Invitation Code",
-                          crontroller: licence,
-                          label: isDoctor ? "Licence" : "Invitation Code",
-                          keyboard: TextInputType.phone,
-                          icon: Icon(
-                            Icons.local_activity,
-                            size: 27,
-                            color: blue,
-                          ),
+                      child: CustomTextField(
+                        error: isDoctor
+                            ? 'Enter Licence Digits '
+                            : "Enter Invitation Code",
+                        crontroller: licence,
+                        label: isDoctor ? "Licence" : "Invitation Code",
+                        keyboard: TextInputType.phone,
+                        icon: Icon(
+                          Icons.local_activity,
+                          size: 27,
+                          color: blue,
                         ),
                       ),
                     ),
@@ -342,62 +298,55 @@ class _LoginScreenState extends State<SignUp> {
     );
   }
 
-  chooseDialog() {
-    return YYDialog().build(context)
-      ..width = 120
-      ..height = 110
-      ..backgroundColor = Colors.white.withOpacity(1)
-      ..borderRadius = 10.0
-      ..showCallBack = () {
-        print("showCallBack invoke");
-      }
-      ..gravityAnimationEnable = true
-      ..dismissCallBack = () {
-        print("dismissCallBack invoke");
-      }
-      ..widget(Padding(
-        padding: EdgeInsets.only(top: 21),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            IconButton(
-                icon: Icon(
-                  Icons.camera,
-                  color: CustomColor.borderColor,
-                ),
-                onPressed: () {
-                  picker(ImageSource.camera);
+  chooseDialog(context) {
+    return showDialog(
+        context: context,
+        builder: (ctx) {
+          return AlertDialog(
+            content: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: 21),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                          icon: Icon(
+                            Icons.camera,
+                            color: CustomColor.borderColor,
+                          ),
+                          onPressed: () {
+                            picker(ImageSource.camera);
 
-                  Navigator.pop(context);
-                }),
-            IconButton(
-                icon: Icon(
-                  Icons.photo,
-                  color: CustomColor.borderColor,
+                            Navigator.pop(context);
+                          }),
+                      IconButton(
+                          icon: Icon(
+                            Icons.photo,
+                            color: CustomColor.borderColor,
+                          ),
+                          onPressed: () {
+                            picker(ImageSource.gallery);
+                            Navigator.pop(context);
+                          }),
+                    ],
+                  ),
                 ),
-                onPressed: () {
-                  picker(ImageSource.gallery);
-                  Navigator.pop(context);
-                }),
-          ],
-        ),
-      ))
-      ..widget(Padding(
-        padding: EdgeInsets.only(top: 10),
-        child: Text(
-          "Choose One",
-          style: TextStyle(
-            fontSize: 15,
-          ),
-        ),
-      ))
-      ..animatedFunc = (child, animation) {
-        return ScaleTransition(
-          child: child,
-          scale: Tween(begin: 0.0, end: 2.0).animate(animation),
-        );
-      }
-      ..show();
+                Padding(
+                  padding: EdgeInsets.only(top: 10),
+                  child: Text(
+                    "Choose One",
+                    style: TextStyle(
+                      fontSize: 15,
+                    ),
+                  ),
+                )
+
+                //end
+              ],
+            ),
+          );
+        });
   }
 
   picker(source) async {
