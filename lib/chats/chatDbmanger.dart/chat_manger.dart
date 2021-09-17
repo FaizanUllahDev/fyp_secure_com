@@ -19,6 +19,12 @@ class ChatManager extends GetxController {
   double boxH = 50.0;
   var isPlaying = false.obs;
   int selectedInd = 0;
+  String CurrentChatOPen = "";
+
+  updateCurrentChatOPen(v) {
+    CurrentChatOPen = v;
+    update();
+  }
 
   List<ChatRoom> individualChatList = [];
   bool isNewChatMessage = false;

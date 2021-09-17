@@ -244,10 +244,24 @@ class _ChatAllRoomPageState extends State<ArchiveChat> {
                                                 print(
                                                     "click dlete ===> $dbNAme");
                                                 Hive.deleteBoxFromDisk(dbNAme);
+                                                // Hive.openBox<RoomList>(
+                                                //         mainDBNAme)
+                                                //     .then((value) {
+
+                                                //   value.delete(index);
+                                                // });
                                                 Hive.openBox<RoomList>(
                                                         mainDBNAme)
                                                     .then((value) {
-                                                  value.deleteAt(index);
+                                                  int count = 0;
+                                                  value.values
+                                                      .forEach((element) {
+                                                    if (element.phone ==
+                                                        chatHeaders.phone) {
+                                                      value.deleteAt(count);
+                                                    }
+                                                    count++;
+                                                  });
                                                 });
                                               },
                                               child: Center(

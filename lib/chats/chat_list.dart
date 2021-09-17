@@ -79,6 +79,7 @@ class _ChatListPageState extends State<ChatListPage> {
   var medData;
 
   init() async {
+    Get.find<ChatManager>().updateCurrentChatOPen(widget.chatRoom.toPhone);
     value = FlutterSoundRecorder();
     SharedPreferences pref = await SharedPreferences.getInstance();
     role = pref.get('role');
@@ -97,7 +98,7 @@ class _ChatListPageState extends State<ChatListPage> {
     medData = await ChatManager()
         .getFormView(widget.chatRoom.toPhone, LoginController.number);
 
-    setState(() {});
+    if (mounted) setState(() {});
   }
 
   @override
@@ -407,17 +408,16 @@ class _ChatListPageState extends State<ChatListPage> {
       itemCount: lst.length + 1,
       itemBuilder: (ctx, index) {
         if (index == lst.length) {
-          print("Enter Scroll");
           scrollToBottom();
           return Container(
             height: 70,
           );
         } else {
           final data = lst[index];
-          Get.find<ChatManager>().maxTime.value.split(" ")[0] ==
-                  data.time.split(" ")[0]
-              ? null
-              : Get.find<ChatManager>().updateMaxTime(data.time);
+          // Get.find<ChatManager>().maxTime.value.split(" ")[0] ==
+          //         data.time.split(" ")[0]
+          //     ? null
+          //     : Get.find<ChatManager>().updateMaxTime(data.time);
           var isfrom = false;
           if (data.fromPhone == widget.chatRoom.fromPhone) isfrom = true;
           return InkWell(
@@ -597,6 +597,7 @@ Obx(
   void dispose() {
     // flutterSound.closeAudioSession().then((value) {});
 
+    Get.find<ChatManager>().updateCurrentChatOPen("");
     value.closeAudioSession().then((value) {});
 
     super.dispose();
@@ -732,8 +733,6 @@ Obx(
                                                           widget
                                                               .chatRoom.toPhone,
                                                         );
-
-                                                        setState(() {});
                                                       },
                                                       child:
                                                           CircularProgressIndicator()))
@@ -754,7 +753,6 @@ Obx(
                                                                   .toPhone,
                                                             );
                                                             print("Download");
-                                                            setState(() {});
                                                           },
                                                           icon: GetBuilder<
                                                               ChatManager>(
@@ -808,7 +806,6 @@ Obx(
                                                     widget.chatRoom.toPhone,
                                                   );
                                                   print("Download");
-                                                  setState(() {});
                                                 },
                                                 icon: Icon(
                                                   Icons.file_download,
@@ -840,7 +837,6 @@ Obx(
                                                                     .toPhone,
                                                               );
                                                               print("Download");
-                                                              setState(() {});
                                                             },
                                                             icon: GetBuilder<
                                                                 ChatManager>(

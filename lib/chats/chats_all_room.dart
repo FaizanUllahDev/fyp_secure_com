@@ -192,7 +192,7 @@ class _ChatAllRoomPageState extends State<ChatAllRoomPage> {
                                         secondaryActions: [
                                           Container(
                                               margin: EdgeInsets.symmetric(
-                                                  vertical: 10, horizontal: 2),
+                                                  vertical: 5, horizontal: 2),
                                               decoration: BoxDecoration(
                                                 borderRadius:
                                                     BorderRadius.circular(20),
@@ -259,6 +259,56 @@ class _ChatAllRoomPageState extends State<ChatAllRoomPage> {
                                                       Icon(Icons
                                                           .archive_outlined),
                                                       Text("Archive"),
+                                                    ],
+                                                  ),
+                                                ),
+                                              )),
+                                          Container(
+                                              margin: EdgeInsets.symmetric(
+                                                  vertical: 5),
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                                color: Colors.red,
+                                              ),
+                                              child: InkWell(
+                                                onTap: () {
+                                                  /// delete
+                                                  String dbNAme =
+                                                      '${Get.find<ChatController>().currNumber.value}_${chatHeaders.phone}';
+                                                  print(
+                                                      "click dlete ===> $dbNAme");
+                                                  Hive.deleteBoxFromDisk(
+                                                      dbNAme);
+                                                  Hive.openBox<RoomList>(
+                                                          mainDBNAme)
+                                                      .then((value) {
+                                                    int count = 0;
+                                                    value.values
+                                                        .forEach((element) {
+                                                      if (element.phone ==
+                                                          chatHeaders.phone) {
+                                                        value.deleteAt(count);
+                                                      }
+                                                      count++;
+                                                    });
+                                                  });
+                                                },
+                                                child: Center(
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Icon(
+                                                        Icons.delete,
+                                                        color: white,
+                                                      ),
+                                                      Text(
+                                                        "Delete",
+                                                        style: TextStyle(
+                                                            color: white),
+                                                      ),
                                                     ],
                                                   ),
                                                 ),

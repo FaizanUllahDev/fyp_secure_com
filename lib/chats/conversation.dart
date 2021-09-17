@@ -48,8 +48,12 @@ class _ConversationPageState extends State<ConversationPage> {
     String mainDBNAme = Get.find<ChatController>().currNumber.value + ROOMLIST;
 
     Box<RoomList> boxOFparent = Hive.box<RoomList>(mainDBNAme);
-    widget.roomList.unread = 0;
-    boxOFparent.putAt(widget.index, widget.roomList);
+    boxOFparent.values.forEach((element) {
+      if (element.phone == widget.roomList.phone) {
+        widget.roomList.unread = 0;
+        boxOFparent.putAt(widget.index, widget.roomList);
+      }
+    });
   }
 
   List<String> choices = <String>[

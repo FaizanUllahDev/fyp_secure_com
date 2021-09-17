@@ -524,10 +524,11 @@ class ChatController extends GetxController {
       //print("On get => ${conver.fromPhone}");
 
       value.add(conver);
+      Get.find<ChatManager>().addNewChatInList(conver);
       // id = value.length;
       //if()
-      //notify
-      // if (!Platform.isWindows) sendnotify(conver.fromPhone, conver.msg, id);
+      //snotify
+      if (!Platform.isWindows) sendnotify(conver.fromPhone, conver.msg, 1);
     });
   }
 
@@ -563,8 +564,12 @@ class ChatController extends GetxController {
         isPin: false,
         userRole: "",
         pic: "",
-        unread: previousCount + 1,
+        unread: Get.find<ChatManager>().CurrentChatOPen == recData['fromid']
+            ? 0
+            : previousCount + 1,
       );
+
+      print(Get.find<ChatManager>().CurrentChatOPen == recData['fromid']);
       if (found == false) {
         value.add(roomData);
       }
