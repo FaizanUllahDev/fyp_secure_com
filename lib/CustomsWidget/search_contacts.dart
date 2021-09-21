@@ -27,76 +27,113 @@ class _SearchContectState extends State<SearchContect> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: TextFormField(
-          controller: controller,
-          decoration: InputDecoration(
-            suffixIcon: FloatingActionButton.extended(
-              label: Text("Search"),
-              onPressed: () {
-                setState(() {
-                  searchedData = searchedData
-                      .where(
-                        (element) =>
-                            element.phone.contains(controller.text) &&
-                            element.name.contains(controller.text),
-                      )
-                      .toList();
-                });
+      appBar: AppBar(title: Text("Search Contact")),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextFormField(
+              controller: controller,
+              onChanged: (v) {
+                if (controller.text.length == 0) {
+                  setState(() {
+                    searchedData = widget.lst;
+                  });
+                }
               },
-              icon: Icon(Icons.search),
-            ),
-            border: OutlineInputBorder(),
-          ),
-        ),
-      ),
-      body: ListView.builder(
-          itemCount: searchedData.length,
-          itemBuilder: (ctx, index) {
-            FriendsModel model = searchedData[index];
-            return Column(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(top: 10),
-                  padding: EdgeInsets.only(
-                    left: 5,
-                  ),
-                  decoration: BoxDecoration(
-                    // color: blue,
-                    borderRadius: BorderRadius.circular(35),
-                  ),
-                  child: ListTile(
-                    onTap: () {
-                      Get.to(ConversationPage(
-                        roomList: RoomList(
-                            phone: model.phone, name: model.name, pic: ''),
-                      ));
+              decoration: InputDecoration(
+                fillColor: Colors.white,
+                filled: true,
+                suffixIcon: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: FloatingActionButton.extended(
+                    backgroundColor: Colors.blue,
+                    label: Text("Search"),
+                    onPressed: () {
+                      if (controller.text.length == 0) {
+                        setState(() {
+                          searchedData = widget.lst;
+                        });
+                      }
+                      setState(() {
+                        searchedData = searchedData
+                            .where(
+                              (element) =>
+                                  element.phone
+                                      .toString()
+                                      .toLowerCase()
+                                      .contains(controller.text) ||
+                                  element.name
+                                      .toString()
+                                      .toLowerCase()
+                                      .contains(controller.text),
+                            )
+                            .toList();
+                      });
                     },
-                    leading: Icon(
-                      Icons.person_pin_circle_rounded,
-                      size: 35,
-                      color: blue,
-                    ),
-                    title: Text(
-                      "${model.name}".toUpperCase(),
-                      style: TextStyle(
-                          fontSize: 19,
-                          color: blue,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text(model.phone,
-                        style: TextStyle(fontSize: 17, color: blue)),
+                    icon: Icon(Icons.search),
                   ),
                 ),
-                Container(
-                  height: 1,
-                  color: blue,
-                  width: MediaQuery.of(context).size.width,
-                  margin: EdgeInsets.symmetric(horizontal: 30),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: blue),
+                  borderRadius: BorderRadius.circular(30),
                 ),
-              ],
-            );
-          }),
+              ),
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+                itemCount: searchedData.length,
+                itemBuilder: (ctx, index) {
+                  FriendsModel model = searchedData[index];
+                  return Column(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(top: 10),
+                        padding: EdgeInsets.only(
+                          left: 5,
+                        ),
+                        decoration: BoxDecoration(
+                          // color: blue,
+                          borderRadius: BorderRadius.circular(35),
+                        ),
+                        child: ListTile(
+                          onTap: () {
+                            Get.to(ConversationPage(
+                              roomList: RoomList(
+                                  phone: model.phone,
+                                  name: model.name,
+                                  pic: ''),
+                            ));
+                          },
+                          leading: Icon(
+                            Icons.person_pin_circle_rounded,
+                            size: 35,
+                            color: blue,
+                          ),
+                          title: Text(
+                            "${model.name}".toUpperCase(),
+                            style: TextStyle(
+                                fontSize: 19,
+                                color: blue,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: Text(model.phone,
+                              style: TextStyle(fontSize: 17, color: blue)),
+                        ),
+                      ),
+                      Container(
+                        height: 1,
+                        color: blue,
+                        width: MediaQuery.of(context).size.width,
+                        margin: EdgeInsets.symmetric(horizontal: 30),
+                      ),
+                    ],
+                  );
+                }),
+          ),
+        ],
+      ),
     );
   }
 }

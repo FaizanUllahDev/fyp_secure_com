@@ -1,7 +1,7 @@
 class DoctorModel {
   final name;
   final number;
-  bool status;
+  String status;
   final accepted;
   final rejected;
 

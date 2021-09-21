@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
@@ -175,29 +176,28 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  loginConditions(doc, name, res) async {
-    print(doc);
-    if (name == 'Doctor' ||
-        name == "Patient" ||
-        name == "Admin" ||
-        name.toString().contains("Doctor") ||
-        name == "pa") {
-      LoginController.whoLogin = doc != null ? name : res;
+  loginConditions(role, token) async {
+    if (role == 'Doctor' ||
+        role == "Patient" ||
+        role == "Admin" ||
+        role == "pa") {
+      LoginController.whoLogin = role;
       int min = 10000; //min and max values act as your 6 digit range
       int max = 99999;
       var randomizer = new Random();
       var rNum = min + randomizer.nextInt(max - min);
       LoginController.otp = rNum;
       otp = rNum;
-      if (doc != null) {
-        LoginController.status = doc[1];
-        print(LoginController.status);
-        status = doc[1];
+      if (role != null) {
+        LoginController.status = "Accepted";
+        status = "Accepted";
       }
 
       // print(res);
       SharedPreferences pref = await SharedPreferences.getInstance();
-      await pref.setString("number", "${LoginController.number}");
+      pref.setString("number", "${LoginController.number}");
+      pref.setString("token", token);
+
       SocketController().sendOTP(LoginController.number, rNum);
       LoginController.otp = rNum;
       print(LoginController.otp);
@@ -225,41 +225,29 @@ class _LoginScreenState extends State<LoginScreen> {
         setState(() {
           isLoading = true;
         });
-        var doc = null;
-        var res = await LoginController().login();
+        Map<String, dynamic> res = await LoginController().login();
 
         String name = '';
-        if (res.contains("Doctor")) {
-          doc = res.toString().split('_');
-          name = doc[0];
-          if (doc[1] == "Accepted") isDoctorAccept = true;
-          print("status => ${doc[1]}");
-          if (doc[1] == "Blocked") doctorStatus = true;
-          if (doc[1] == "Pending") doctorStatus = true;
-          if (doc[1] == "Rejected") doctorStatus = true;
+        if (res['role'].toString().toLowerCase() == "doctor") {
+          if (res['status'] == "Accepted")
+            isDoctorAccept = true;
+          else
+            doctorStatus = false;
           setState(() {});
-          // print(doc);
         }
-        print("yes .........." + res.toString());
-        if (res.contains("pa")) {
-          doc = res.toString().split('_');
-          name = doc[0];
-          print(doc);
-          isOtherAccept = true;
-        } else {
-          name = res;
-
+        if (res['role'] == "PA") {
           isOtherAccept = true;
 
-          // print("Enter Admin ");
-        }
+          name = res['role'];
+        } else
+          isOtherAccept = true;
+
         if (isDoctorAccept) {
-          print("Enter Doctor ");
-          isOtherAccept = true;
+          isOtherAccept = false;
           setState(() {});
-          //loginConditions(doc, name, res);
+          loginConditions(res['role'], res['token']);
         } else if (doctorStatus) {
-          toast("Approval Is ${doc[1]}", Colors.red);
+          toast("Approval Is ${res['Status']}", Colors.red);
           setState(() {
             isLoading = false;
           });
@@ -267,9 +255,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
         // print("Enter Admin 333");
         if (isOtherAccept) {
-          print(doc);
-
-          loginConditions(doc, name, res);
+          loginConditions(res['role'], res['token']);
         } else if (!doctorStatus) {
           toast(" Failed", Colors.red);
           setState(() {

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
@@ -17,7 +19,8 @@ class LoginController extends GetxController {
 
   login() async {
     isLoading.value = true;
-    String msg = '';
+    Map<String, dynamic> msg = {"d": "1"};
+    print(msg);
     String url = APIHOST + LOGIN;
     try {
       await http.post(
@@ -32,12 +35,12 @@ class LoginController extends GetxController {
         //print(value);
         var json = value.body;
         // print("==> $json");
-        msg = json;
+        msg = jsonDecode(json);
       });
       //isLoading(false);
       //print(msg);
     } catch (e) {
-      print(e);
+      print("Login MAIN FUN ." + e);
     }
     return msg;
   }
