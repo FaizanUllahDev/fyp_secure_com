@@ -24,15 +24,22 @@ class _PAHomeState extends State<PAHome> {
     SharedPreferences pref = await SharedPreferences.getInstance();
     asgId = pref.getString("paData");
     LoginController.number = pref.get("number");
+    print(LoginController.number);
     print("PA");
     print("ASG _ ID :  " + asgId);
 
     String url = APIHOST + ASSETS;
-    var res = await http
-        .post(Uri.parse(url), body: {"phone": "${asgId}", "table": "doctor"});
+    var res = await http.post(Uri.parse(url),
+        body: {"phone": "${LoginController.number}", "table": "pa"});
     if (res.statusCode == 200) {
-      name = jsonDecode(res.body)['name'];
+      asgId = jsonDecode(res.body)['asgTo'];
+      res = await http
+          .post(Uri.parse(url), body: {"phone": "$asgId", "table": "doctor"});
+      if (res.statusCode == 200) {
+        name = jsonDecode(res.body)['name'];
+      }
     }
+    print(res.body);
     if (mounted) setState(() {});
   }
 

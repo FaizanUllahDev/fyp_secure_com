@@ -92,7 +92,7 @@ class _AddPatientFormState extends State<AddPatientForm> {
                       ),
                       child: Center(
                         child: Text(
-                          "Choose : ${date.toString().split(' ')[0]}",
+                          "Patient Visiting Date : ${date.toString().split(' ')[0]}",
                           style: TextStyle(
                             color: white,
                           ),

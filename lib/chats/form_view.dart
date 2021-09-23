@@ -86,6 +86,23 @@ class _FormViewState extends State<FormView> {
                                         ),
                                         Row(
                                           children: [
+                                            Expanded(
+                                              child: Text(
+                                                "Present Illness : "
+                                                    .toUpperCase(),
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Text(snapshot.data[index]
+                                                  ['presentingIllness']),
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
                                             Text(
                                               "Date : ".toUpperCase(),
                                               style: TextStyle(
@@ -103,15 +120,15 @@ class _FormViewState extends State<FormView> {
                           }),
                     ),
                   )
-                : getView(widget.data, 0),
+                : getView(0),
           ],
         ),
       ),
     );
   }
 
-  getView(snapshot, index) {
-    return widget.data != null && snapshot is String == false
+  getView(index) {
+    return widget.data != null
         ? Container(
             width: MediaQuery.of(context).size.width,
             padding: const EdgeInsets.all(8.0),
@@ -127,7 +144,7 @@ class _FormViewState extends State<FormView> {
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
-                    Expanded(child: Text(snapshot[index]['pro'])),
+                    Expanded(child: Text(widget.data[index]['pro'])),
                   ],
                 ),
                 Row(
@@ -138,7 +155,19 @@ class _FormViewState extends State<FormView> {
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
-                    Expanded(child: Text(snapshot[index]['med'])),
+                    Expanded(child: Text(widget.data[index]['med'])),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        "Present Illness : ".toUpperCase(),
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Expanded(
+                        child: Text(widget.data[index]['presentingIllness'])),
                   ],
                 ),
                 Row(
@@ -150,7 +179,7 @@ class _FormViewState extends State<FormView> {
                       ),
                     ),
                     Expanded(
-                        child: Text(snapshot[index]['curDate']
+                        child: Text(widget.data[index]['curDate']
                             .toString()
                             .split(" ")[0])),
                   ],

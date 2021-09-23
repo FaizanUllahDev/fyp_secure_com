@@ -180,7 +180,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (role == 'Doctor' ||
         role == "Patient" ||
         role == "Admin" ||
-        role == "pa") {
+        role == "PA") {
       LoginController.whoLogin = role;
       int min = 10000; //min and max values act as your 6 digit range
       int max = 99999;
@@ -237,11 +237,7 @@ class _LoginScreenState extends State<LoginScreen> {
         }
         if (res['role'] == "PA") {
           isOtherAccept = true;
-
-          name = res['role'];
-        } else
-          isOtherAccept = true;
-
+        }
         if (isDoctorAccept) {
           isOtherAccept = false;
           setState(() {});
@@ -253,8 +249,9 @@ class _LoginScreenState extends State<LoginScreen> {
           });
         }
 
-        // print("Enter Admin 333");
+        print("Enter Admin 333");
         if (isOtherAccept) {
+          print("PA");
           loginConditions(res['role'], res['token']);
         } else if (!doctorStatus) {
           toast(" Failed", Colors.red);
