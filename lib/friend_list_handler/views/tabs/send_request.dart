@@ -56,7 +56,7 @@ class _SendingrequestState extends State<Sendingrequest> {
           Expanded(
             child: Obx(() {
               List<FriendsModel> send_list =
-                  Get.find<FriendController>().doctorLists;
+                  Get.find<FriendController>().doctorLists.toSet().toList();
               return send_list.length > 0
                   ? Container(
                       color: white,
@@ -64,281 +64,161 @@ class _SendingrequestState extends State<Sendingrequest> {
                         itemCount: send_list.length,
                         itemBuilder: (ctx, index) {
                           FriendsModel model = send_list[index];
-                          FriendsModel found = send_list.firstWhere(
-                              (ele) => ele.phone == model.phone,
-                              orElse: () =>
-                                  FriendsModel("", "", '', "", false));
-                          FriendsModel foundAtRequest =
-                              Get.find<FriendController>()
-                                  .request_of_Friend
-                                  .firstWhere((ele) => ele.phone == model.phone,
-                                      orElse: () =>
-                                          FriendsModel("", "", '', "", false));
+                          // List<FriendsModel> found = send_list
+                          //     .where((ele) => ele.phone == model.phone)
+                          //     .toList();
+                          // FriendsModel foundAtRequest =
+                          //     Get.find<FriendController>()
+                          //         .request_of_Friend
+                          //         .firstWhere((ele) => ele.phone == model.phone,
+                          //             orElse: () =>
+                          //                 FriendsModel("", "", '', "", false));
+
                           FriendsModel foundAtAccept =
                               Get.find<FriendController>()
                                   .accepted_Friend_List
                                   .firstWhere((ele) => ele.phone == model.phone,
                                       orElse: () =>
                                           FriendsModel("", "", '', "", false));
-
-                          if (foundAtRequest.phone != "" &&
-                              foundAtAccept.phone != "" &&
-                              (model.status == "Accept" ||
-                                  model.status == null))
+//foundAtRequest.phone != "" &&
+                          if (foundAtAccept.phone == "" &&
+                              model.status == "Accept")
                             return Container();
-                          else if (found.phone == "" &&
-                              foundAtAccept.phone == "" &&
-                              model.status != "Accept") {
-                            return Column(
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      top: 20, left: 10, right: 10),
-                                  padding: EdgeInsets.only(top: 0),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                  child: ListTile(
-                                    title: Text(
-                                      "${model.name}".toUpperCase(),
-                                      style: CustomStyles.bgclr
-                                          .copyWith(color: blue),
-                                    ),
-                                    leading: CircleAvatar(
-                                        child: Text(
-                                      "${model.name[0]}".toUpperCase(),
-                                      style: CustomStyles.bgclr
-                                          .copyWith(color: white, fontSize: 18),
-                                    )),
-                                    subtitle: Text(
-                                      model.phone,
-                                      style: CustomStyles.bgclr
-                                          .copyWith(color: blue),
-                                    ),
-                                    //   trailing: Text("Joined"),
-                                    trailing: TextButton(
-                                        onPressed: () async {
-                                          model.status == "Accept"
-                                              ? model.status = await FriendController()
-                                                  .updateFriendReq(
-                                                      model.phone,
-                                                      Get.find<ChatController>()
-                                                          .currNumber
-                                                          .value,
-                                                      'UnFriend',
-                                                      index)
-                                              : model.status == "Request"
-                                                  ? model
-                                                          .status =
-                                                      await FriendController()
-                                                          .updateFriendReq(
-                                                              Get.find<ChatController>()
-                                                                  .currNumber
-                                                                  .value,
-                                                              model.phone,
-                                                              'UnFriend',
-                                                              index)
-                                                  : model
-                                                          .status =
-                                                      await FriendController()
-                                                          .updateFriendReq(
-                                                              Get.find<ChatController>()
-                                                                  .currNumber
-                                                                  .value,
-                                                              model.phone,
-                                                              'Request',
-                                                              index);
-                                          setState(() {});
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 6, vertical: 4),
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(30),
-                                              color: Colors.blue,
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  blurRadius: 2,
-                                                  color: Colors.black38,
-                                                )
-                                              ]),
-                                          width: 100,
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              model.status == "Accept"
-                                                  ? Icon(
-                                                      Icons
-                                                          .person_remove_alt_1_outlined,
-                                                      color: white,
-                                                    )
-                                                  : model.status == "Request"
-                                                      ? Icon(
-                                                          Icons
-                                                              .person_remove_alt_1_outlined,
-                                                          color: white,
-                                                        )
-                                                      : Icon(
-                                                          Icons.person_add_alt,
-                                                          color: white,
-                                                        ),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              model.status == "Accept"
-                                                  ? Text(
-                                                      "Remove ",
-                                                      style: TextStyle(
-                                                          color: white),
-                                                    )
-                                                  : model.status == "Request"
-                                                      ? Text(
-                                                          "Cancel ",
-                                                          style: TextStyle(
-                                                              color: white),
-                                                        )
-                                                      : Text(
-                                                          "Add ",
-                                                          style: TextStyle(
-                                                              color: white),
-                                                        ),
-                                            ],
-                                          ),
-                                        )),
-                                  ),
-                                ),
-                                Container(
-                                  height: 1,
-                                  color: blue,
-                                  width: MediaQuery.of(context).size.width,
-                                  margin: EdgeInsets.symmetric(horizontal: 30),
-                                ),
-                              ],
-                            );
-                          } else if ((model.status != "Accept" ||
-                                  model.status == null) &&
-                              foundAtAccept.phone == "")
-                            return Column(
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      top: 20, left: 10, right: 10),
-                                  padding: EdgeInsets.only(top: 0),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                  child: ListTile(
-                                    title: Text(
-                                      "${model.name}".toUpperCase(),
-                                      style: CustomStyles.bgclr
-                                          .copyWith(color: blue),
-                                    ),
-                                    subtitle: Text(
-                                      model.phone,
-                                      style: CustomStyles.bgclr
-                                          .copyWith(color: blue),
-                                    ),
-                                    trailing: TextButton(
-                                        onPressed: () async {
-                                          model.status == "Accept"
-                                              ? model.status = await FriendController()
-                                                  .updateFriendReq(
-                                                      model.phone,
-                                                      Get.find<ChatController>()
-                                                          .currNumber
-                                                          .value,
-                                                      'UnFriend',
-                                                      index)
-                                              : model.status == "Request"
-                                                  ? model
-                                                          .status =
-                                                      await FriendController()
-                                                          .updateFriendReq(
-                                                              Get.find<ChatController>()
-                                                                  .currNumber
-                                                                  .value,
-                                                              model.phone,
-                                                              'UnFriend',
-                                                              index)
-                                                  : model
-                                                          .status =
-                                                      await FriendController()
-                                                          .updateFriendReq(
-                                                              Get.find<ChatController>()
-                                                                  .currNumber
-                                                                  .value,
-                                                              model.phone,
-                                                              'Request',
-                                                              index);
-                                          setState(() {});
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 6, vertical: 4),
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(30),
-                                              color: Colors.blue,
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  blurRadius: 2,
-                                                  color: Colors.black38,
-                                                )
-                                              ]),
-                                          width: 100,
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              model.status == "Accept"
-                                                  ? Icon(
-                                                      Icons
-                                                          .person_remove_alt_1_outlined,
-                                                      color: white,
-                                                    )
-                                                  : model.status == "Request"
-                                                      ? Icon(
-                                                          Icons
-                                                              .person_remove_alt_1_outlined,
-                                                          color: white,
-                                                        )
-                                                      : Icon(
-                                                          Icons.person_add_alt,
-                                                          color: white,
-                                                        ),
-                                              model.status == "Accept"
-                                                  ? Text(
-                                                      "Remove ",
-                                                      style: TextStyle(
-                                                          color: white),
-                                                    )
-                                                  : model.status == "Request"
-                                                      ? Text(
-                                                          "Cancel ",
-                                                          style: TextStyle(
-                                                              color: white),
-                                                        )
-                                                      : Text(
-                                                          "Add ",
-                                                          style: TextStyle(
-                                                              color: white),
-                                                        ),
-                                            ],
-                                          ),
-                                        )),
-                                  ),
-                                ),
-                                Container(
-                                  height: 1,
-                                  color: blue,
-                                  width: MediaQuery.of(context).size.width,
-                                  margin: EdgeInsets.symmetric(horizontal: 30),
-                                ),
-                              ],
-                            );
-                          else
+                          // else if (found.length > 1)
+                          //   return Container();
+                          else if (foundAtAccept.phone == "" ||
+                              model.status == "Request") {
+                            return getView(model, index);
+                            // return Column(
+                            //   children: [
+                            //     Container(
+                            //       margin: EdgeInsets.only(
+                            //           top: 20, left: 10, right: 10),
+                            //       padding: EdgeInsets.only(top: 0),
+                            //       decoration: BoxDecoration(
+                            //         borderRadius: BorderRadius.circular(30),
+                            //       ),
+                            //       child: ListTile(
+                            //         title: Text(
+                            //           "${model.name}".toUpperCase(),
+                            //           style: CustomStyles.bgclr
+                            //               .copyWith(color: blue),
+                            //         ),
+                            //         leading: CircleAvatar(
+                            //             child: Text(
+                            //           "${model.name[0]}".toUpperCase(),
+                            //           style: CustomStyles.bgclr
+                            //               .copyWith(color: white, fontSize: 18),
+                            //         )),
+                            //         subtitle: Text(
+                            //           model.phone,
+                            //           style: CustomStyles.bgclr
+                            //               .copyWith(color: blue),
+                            //         ),
+                            //         //   trailing: Text("Joined"),
+                            //         trailing: TextButton(
+                            //             onPressed: () async {
+                            //               model.status == "Accept"
+                            //                   ? model.status = await FriendController()
+                            //                       .updateFriendReq(
+                            //                           model.phone,
+                            //                           Get.find<ChatController>()
+                            //                               .currNumber
+                            //                               .value,
+                            //                           'UnFriend',
+                            //                           index)
+                            //                   : model.status == "Request"
+                            //                       ? model
+                            //                               .status =
+                            //                           await FriendController()
+                            //                               .updateFriendReq(
+                            //                                   Get.find<ChatController>()
+                            //                                       .currNumber
+                            //                                       .value,
+                            //                                   model.phone,
+                            //                                   'UnFriend',
+                            //                                   index)
+                            //                       : model
+                            //                               .status =
+                            //                           await FriendController()
+                            //                               .updateFriendReq(
+                            //                                   Get.find<ChatController>()
+                            //                                       .currNumber
+                            //                                       .value,
+                            //                                   model.phone,
+                            //                                   'Request',
+                            //                                   index);
+                            //               setState(() {});
+                            //             },
+                            //             child: Container(
+                            //               padding: EdgeInsets.symmetric(
+                            //                   horizontal: 6, vertical: 4),
+                            //               decoration: BoxDecoration(
+                            //                   borderRadius:
+                            //                       BorderRadius.circular(30),
+                            //                   color: Colors.blue,
+                            //                   boxShadow: [
+                            //                     BoxShadow(
+                            //                       blurRadius: 2,
+                            //                       color: Colors.black38,
+                            //                     )
+                            //                   ]),
+                            //               width: 100,
+                            //               child: Row(
+                            //                 mainAxisAlignment:
+                            //                     MainAxisAlignment.center,
+                            //                 children: [
+                            //                   model.status == "Accept"
+                            //                       ? Icon(
+                            //                           Icons
+                            //                               .person_remove_alt_1_outlined,
+                            //                           color: white,
+                            //                         )
+                            //                       : model.status == "Request"
+                            //                           ? Icon(
+                            //                               Icons
+                            //                                   .person_remove_alt_1_outlined,
+                            //                               color: white,
+                            //                             )
+                            //                           : Icon(
+                            //                               Icons.person_add_alt,
+                            //                               color: white,
+                            //                             ),
+                            //                   SizedBox(
+                            //                     width: 10,
+                            //                   ),
+                            //                   model.status == "Accept"
+                            //                       ? Text(
+                            //                           "Remove ",
+                            //                           style: TextStyle(
+                            //                               color: white),
+                            //                         )
+                            //                       : model.status == "Request"
+                            //                           ? Text(
+                            //                               "Cancel ",
+                            //                               style: TextStyle(
+                            //                                   color: white),
+                            //                             )
+                            //                           : Text(
+                            //                               "Add ",
+                            //                               style: TextStyle(
+                            //                                   color: white),
+                            //                             ),
+                            //                 ],
+                            //               ),
+                            //             )),
+                            //       ),
+                            //     ),
+                            //     Container(
+                            //       height: 1,
+                            //       color: blue,
+                            //       width: MediaQuery.of(context).size.width,
+                            //       margin: EdgeInsets.symmetric(horizontal: 30),
+                            //     ),
+                            //   ],
+                            // );
+
+                          } else
                             return Container();
                         },
                       ))
@@ -355,6 +235,105 @@ class _SendingrequestState extends State<Sendingrequest> {
           ),
         ],
       ),
+    );
+  }
+
+  getView(model, index) {
+    return Column(
+      children: [
+        Container(
+          margin: EdgeInsets.only(top: 20, left: 10, right: 10),
+          padding: EdgeInsets.only(top: 0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          child: ListTile(
+            title: Text(
+              "${model.name}".toUpperCase(),
+              style: CustomStyles.bgclr.copyWith(color: blue),
+            ),
+            subtitle: Text(
+              model.phone,
+              style: CustomStyles.bgclr.copyWith(color: blue),
+            ),
+            trailing: TextButton(
+                onPressed: () async {
+                  model.status == "Accept"
+                      ? model.status = await FriendController().updateFriendReq(
+                          model.phone,
+                          Get.find<ChatController>().currNumber.value,
+                          'UnFriend',
+                          index)
+                      : model.status == "Request"
+                          ? model.status = await FriendController()
+                              .updateFriendReq(
+                                  Get.find<ChatController>().currNumber.value,
+                                  model.phone,
+                                  'UnFriend',
+                                  index)
+                          : model.status = await FriendController()
+                              .updateFriendReq(
+                                  Get.find<ChatController>().currNumber.value,
+                                  model.phone,
+                                  'Request',
+                                  index);
+                  setState(() {});
+                },
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: Colors.blue,
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 2,
+                          color: Colors.black38,
+                        )
+                      ]),
+                  width: 100,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      model.status == "Accept"
+                          ? Icon(
+                              Icons.person_remove_alt_1_outlined,
+                              color: white,
+                            )
+                          : model.status == "Request"
+                              ? Icon(
+                                  Icons.person_remove_alt_1_outlined,
+                                  color: white,
+                                )
+                              : Icon(
+                                  Icons.person_add_alt,
+                                  color: white,
+                                ),
+                      model.status == "Accept"
+                          ? Text(
+                              "Remove ",
+                              style: TextStyle(color: white),
+                            )
+                          : model.status == "Request"
+                              ? Text(
+                                  "Cancel ",
+                                  style: TextStyle(color: white),
+                                )
+                              : Text(
+                                  "Add ",
+                                  style: TextStyle(color: white),
+                                ),
+                    ],
+                  ),
+                )),
+          ),
+        ),
+        Container(
+          height: 1,
+          color: blue,
+          width: MediaQuery.of(context).size.width,
+          margin: EdgeInsets.symmetric(horizontal: 30),
+        ),
+      ],
     );
   }
 }

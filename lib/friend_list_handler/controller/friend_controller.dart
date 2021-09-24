@@ -32,11 +32,9 @@ class FriendController extends GetxController {
   void onInit() {
     super.onInit();
     clearAll();
-
     getSendingFriendList();
-
     getFriendList();
-    getAllUsers();
+    //getAllUsers();
     //getReferListFun();
     getPatientFriendList();
     getAllDoctorsList();
@@ -74,62 +72,62 @@ class FriendController extends GetxController {
   }
 
   ///get all registered patients and doctors
-  getReferListFun() async {
-    var json;
-    try {
-      String url = APIHOST + referList;
-      print(Get.find<ChatController>().currNumber.value);
-      json = await http.post(Uri.parse(url),
-          body: {"num": Get.find<ChatController>().currNumber.value});
-      if (json.statusCode == 200) {
-        //
+  // getReferListFun() async {
+  //   var json;
+  //   try {
+  //     String url = APIHOST + referList;
+  //     print(Get.find<ChatController>().currNumber.value);
+  //     json = await http.post(Uri.parse(url),
+  //         body: {"num": Get.find<ChatController>().currNumber.value});
+  //     if (json.statusCode == 200) {
+  //       //
 
-        List data = jsonDecode(json.body);
-        data.forEach((element) {
-          getreferList.add(FriendsModel(element['name'], element['number'], "p",
-              element['allowTitles'], false));
+  //       List data = jsonDecode(json.body);
+  //       data.forEach((element) {
+  //         getreferList.add(FriendsModel(element['name'], element['number'], "p",
+  //             element['allowTitles'], false));
 
-          // FriendsModel modelFound =
-          //     Get.find<FriendController>().accepted_Friend_List.firstWhere(
-          //           (element) => element.phone == num,
-          //           orElse: () =>
-          //               FriendsModel("name", "", "_status", "role", false),
-          //         );
-          // if (modelFound.phone != "")
-          updateAcceptedList(FriendsModel(
-              element['name'], element['number'], 'Accept', "p", false));
-        });
-      } else {}
-    } catch (e) {
-      // print(json.body.toString());
-      print(e.toString());
-    }
-  }
+  //         // FriendsModel modelFound =
+  //         //     Get.find<FriendController>().accepted_Friend_List.firstWhere(
+  //         //           (element) => element.phone == num,
+  //         //           orElse: () =>
+  //         //               FriendsModel("name", "", "_status", "role", false),
+  //         //         );
+  //         // if (modelFound.phone != "")
+  //         updateAcceptedList(FriendsModel(
+  //             element['name'], element['number'], 'Accept', "p", false));
+  //       });
+  //     } else {}
+  //   } catch (e) {
+  //     // print(json.body.toString());
+  //     print(e.toString());
+  //   }
+  // }
 
-  getReferGroupListFun(num) async {
-    var json;
-    try {
-      String url = APIHOST + "forgroup.php";
-      print(Get.find<ChatController>().currNumber.value);
-      json = await http.post(Uri.parse(url), body: {"num": "$num"});
-      if (json.statusCode == 200) {
-        //
-        print(json.body);
-        List data = jsonDecode(json.body);
-        data.forEach((element) {
-          getreferList.add(FriendsModel(element['name'], element['number'], "p",
-              element['allowTitles'], false));
-          // var num = element['number'];
+  // getReferGroupListFun(num) async {
+  //   var json;
+  //   try {
+  //     String url = APIHOST + "forgroup.php";
+  //     print(Get.find<ChatController>().currNumber.value);
+  //     json = await http.post(Uri.parse(url), body: {"num": "$num"});
+  //     if (json.statusCode == 200) {
+  //       //
+  //       print(json.body);
+  //       List data = jsonDecode(json.body);
+  //       data.forEach((element) {
+  //         getreferList.add(FriendsModel(element['name'], element['number'], "p",
+  //             element['allowTitles'], false));
+  //         // var num = element['number'];
 
-          // updateAcceptedList(FriendsModel(
-          //     element['name'], element['number'], 'Accept', "p", false));
-        });
-      } else {}
-    } catch (e) {
-      // print(json.body.toString());
-      print(e.toString());
-    }
-  }
+  //         // updateAcceptedList(FriendsModel(
+  //         //     element['name'], element['number'], 'Accept', "p", false));
+  //       });
+  //     } else {}
+  //   } catch (e) {
+  //     // print(json.body.toString());
+  //     print(e.toString());
+  //   }
+  // }
 
   ///all
   updateAcceptedList(FriendsModel model) {
@@ -157,6 +155,7 @@ class FriendController extends GetxController {
               return FriendsModel("", "", "", "", false);
             },
           );
+
           if (d['number'] != Get.find<ChatController>().currNumber.value &&
               found.phone == "")
             doctorLists.add(FriendsModel(
@@ -171,48 +170,48 @@ class FriendController extends GetxController {
 
   ///get all registered patients and doctors
   ///
-  getAllUsers() async {
-    try {
-      //print(sending_Friend_list.last.phone);
-      String url = APIHOST + GetAllUsers;
-      var json = await http.post(Uri.parse(url));
-      if (json.statusCode == 200) {
-        if (json.body.toString().contains('Error') ||
-            json.body.toString().contains('Failed')) {
-          //Get.snackbar("Error", "${json.body}");
-        } else {
-          //print("Get All Users");
-          // print(json.body);
-          List res = jsonDecode(json.body);
-          res.forEach((data) {
-            var d = FriendsModel(
-                data['name'], data['number'], data['status'], "", false);
-            bool IsNew = true;
-            Get.find<FriendController>().sending_Friend_list.forEach((element) {
-              if (element.phone == d.phone) IsNew = false;
-            });
-            FriendsModel checkFromRequest = Get.find<FriendController>()
-                .request_of_Friend
-                .firstWhere(
-                  (element) => element.phone == d.phone,
-                  orElse: () =>
-                      FriendsModel("name", "phone", "_status", "role", false),
-                );
-            if (IsNew &&
-                checkFromRequest.status == "_status" &&
-                d.phone != number.value) {
-              Get.find<FriendController>().sending_Friend_list.add(d);
-              //print(Get.find<FriendController>().sending_Friend_list.last.name);
-            }
-          });
-        }
-      } else {
-        print("Something Wrong");
-      }
-    } catch (e) {
-      print("alll=>> $e");
-    }
-  }
+  // getAllUsers() async {
+  //   try {
+  //     //print(sending_Friend_list.last.phone);
+  //     String url = APIHOST + GetAllUsers;
+  //     var json = await http.post(Uri.parse(url));
+  //     if (json.statusCode == 200) {
+  //       if (json.body.toString().contains('Error') ||
+  //           json.body.toString().contains('Failed')) {
+  //         //Get.snackbar("Error", "${json.body}");
+  //       } else {
+  //         //print("Get All Users");
+  //         // print(json.body);
+  //         List res = jsonDecode(json.body);
+  //         res.forEach((data) {
+  //           var d = FriendsModel(
+  //               data['name'], data['number'], data['status'], "", false);
+  //           bool IsNew = true;
+  //           Get.find<FriendController>().sending_Friend_list.forEach((element) {
+  //             if (element.phone == d.phone) IsNew = false;
+  //           });
+  //           FriendsModel checkFromRequest = Get.find<FriendController>()
+  //               .request_of_Friend
+  //               .firstWhere(
+  //                 (element) => element.phone == d.phone,
+  //                 orElse: () =>
+  //                     FriendsModel("name", "phone", "_status", "role", false),
+  //               );
+  //           if (IsNew &&
+  //               checkFromRequest.status == "_status" &&
+  //               d.phone != number.value) {
+  //             Get.find<FriendController>().sending_Friend_list.add(d);
+  //             //print(Get.find<FriendController>().sending_Friend_list.last.name);
+  //           }
+  //         });
+  //       }
+  //     } else {
+  //       print("Something Wrong");
+  //     }
+  //   } catch (e) {
+  //     print("alll=>> $e");
+  //   }
+  // }
 
   getSendingFriendList() async {
     try {
@@ -224,6 +223,8 @@ class FriendController extends GetxController {
         isDoctor = "Patient";
       } else
         isDoctor = "Doctor";
+
+      ///Doctor Error
       String url = APIHOST + get_person_Sending_list;
       var json = await http.post(
         Uri.parse(url),
@@ -244,7 +245,13 @@ class FriendController extends GetxController {
           var d = FriendsModel(
               data['name'], data['number'], data['status'], "doctor", false);
           // print(d);
-          if (data['from_num'] == LoginController.number)
+          var found = doctorLists.firstWhere(
+            (p0) => p0.phone == data['number'],
+            orElse: () {
+              return FriendsModel("", "", "", "", false);
+            },
+          );
+          if (data['from_num'] == LoginController.number && found.phone == "")
             doctorLists.add(d);
           else
             request_of_Friend.add(d);
@@ -303,6 +310,7 @@ class FriendController extends GetxController {
     //  pendingList.add(d);
   }
 
+  /// patinet List
   getPatientFriendList() async {
     try {
       // clearAll();
@@ -381,27 +389,27 @@ class FriendController extends GetxController {
   changesInList(index, status) {
     if (status == 'Request') {
       FriendsModel friendmodel =
-          Get.find<FriendController>().sending_Friend_list.removeAt(index);
+          Get.find<FriendController>().doctorLists.removeAt(index);
       friendmodel.status = "Request";
-      Get.find<FriendController>().sending_Friend_list.add(friendmodel);
-      print(Get.find<FriendController>().sending_Friend_list.last.status);
+      Get.find<FriendController>().doctorLists.add(friendmodel);
+      print(Get.find<FriendController>().doctorLists.last.status);
     } else if (status == 'NotFriend') {
       FriendsModel friendmodel =
           Get.find<FriendController>().request_of_Friend.removeAt(index);
       friendmodel.status = "NotFriend";
-      Get.find<FriendController>().sending_Friend_list.add(friendmodel);
+      Get.find<FriendController>().doctorLists.add(friendmodel);
     } else if (status == "UnFriend") {
       FriendsModel friendmodel =
-          Get.find<FriendController>().sending_Friend_list.removeAt(index);
+          Get.find<FriendController>().doctorLists.removeAt(index);
       friendmodel.status = "NotFriend";
-      Get.find<FriendController>().sending_Friend_list.add(friendmodel);
+      Get.find<FriendController>().doctorLists.add(friendmodel);
     }
     //dv. =  "NotFriend";
     else if (status == "Cancel") {
       FriendsModel friendmodel =
-          Get.find<FriendController>().sending_Friend_list.removeAt(index);
+          Get.find<FriendController>().doctorLists.removeAt(index);
       friendmodel.status = "NotFriend";
-      Get.find<FriendController>().sending_Friend_list.add(friendmodel);
+      Get.find<FriendController>().doctorLists.add(friendmodel);
       FriendsModel modelFound = Get.find<FriendController>()
           .accepted_Friend_List
           .firstWhere(

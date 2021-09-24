@@ -140,7 +140,7 @@ class _CheckLifeOFAppState extends State<CheckLifeOFApp>
       //     ? screen
       //     : Scaffold(
       //         body: Center(
-      //           child: Text("Network Error !"),
+      //           child: Text("Network Error ! \n Check Wifi OR Mobile Data "),
       //         ),
       //       ),
     );

@@ -123,29 +123,29 @@ class DoctorHomeController extends GetxController {
     status(pref.getString("status").toString());
     name(pref.getString("name").toString());
     Get.find<ChatController>().updateCurrNumber(number.value);
-    checkDoctorStatus();
+    // checkDoctorStatus();
     isLoading(false);
     // print(number);
   }
 
-  checkDoctorStatus() async {
-    try {
-      SharedPreferences pref = await SharedPreferences.getInstance();
-      String url = APIHOST + CHECK_STATUS_DOCTOR;
-      var status_res =
-          await http.post(Uri.parse(url), body: {"phone": "$number"});
-      if (status_res.body.toString().contains('Failed')) {
-        //  print("Error satyts");
-      } else {
-        var json = jsonDecode(status_res.body);
-        // print(json['status']);
-        pref.setString("status", "${json['status']}");
-        status(json['status']);
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
+  // checkDoctorStatus() async {
+  //   try {
+  //     SharedPreferences pref = await SharedPreferences.getInstance();
+  //     String url = APIHOST + CHECK_STATUS_DOCTOR;
+  //     var status_res =
+  //         await http.post(Uri.parse(url), body: {"phone": "$number"});
+  //     if (status_res.body.toString().contains('Failed')) {
+  //       //  print("Error satyts");
+  //     } else {
+  //       var json = jsonDecode(status_res.body);
+  //       // print(json['status']);
+  //       pref.setString("status", "${json['status']}");
+  //       status(json['status']);
+  //     }
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
 
   getProfile() async {
     try {
@@ -202,10 +202,10 @@ class DoctorHomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    checkDoctorStatus();
+    //checkDoctorStatus();
     getProfile();
     init_inviteList();
-    getDoctorsList();
+    //getDoctorsList();
     init();
   }
 

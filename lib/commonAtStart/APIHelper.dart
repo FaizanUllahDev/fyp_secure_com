@@ -1,5 +1,5 @@
 //const API_IP = '192.168.3.102';
-const API_IP = '192.168.0.113';
+const API_IP = '192.168.0.118';
 const PORT = 80;
 const APIHOST = 'http://$API_IP:$PORT/chat_app/chat_app/pages/';
 

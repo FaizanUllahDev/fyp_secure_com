@@ -8,7 +8,6 @@ import 'package:fyp_secure_com/chats/audio_player.dart';
 import 'package:fyp_secure_com/chats/chatDbmanger.dart/chat_manger.dart';
 import 'package:fyp_secure_com/chats/form_view.dart';
 import 'package:fyp_secure_com/chats/photo_viewer.dart';
-import 'package:fyp_secure_com/chats/xml_file.dart';
 import 'package:fyp_secure_com/commonAtStart/APIHelper.dart';
 import 'package:fyp_secure_com/commonAtStart/chat_controller.dart';
 import 'package:fyp_secure_com/commonAtStart/loginController.dart';
@@ -532,50 +531,6 @@ Obx(
           codec: Codec.aacMP4,
           audioSource: AudioSource.microphone);
     });
-  }
-
-  getPatientCCDIFAllowing(context) async {
-    return GestureDetector(
-      onVerticalDragUpdate: (detail) {
-        print(detail.delta.dy);
-        print(h);
-        if (detail.delta.dy.toString().contains('-')) {
-          if (h != 50) {
-            h -= 3;
-          }
-        } else if (h < (MediaQuery.of(context).size.height - 200)) {
-          h += 3;
-        }
-        Get.find<ChatManager>().updateHBox(h);
-        //setState(() {});
-      },
-      child: GetBuilder<ChatManager>(
-        init: ChatManager(),
-        initState: (_) {},
-        builder: (_) {
-          return Container(
-            height: _.boxH,
-            color: Colors.black,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Expanded(
-                    child: XmlFile(
-                  number: widget.chatRoom.toPhone,
-                )),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Icon(
-                    Icons.menu,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
-      ),
-    );
   }
 
   stopRec() async {

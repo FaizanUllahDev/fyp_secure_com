@@ -234,8 +234,9 @@ class _LoginScreenState extends State<LoginScreen> {
           else
             doctorStatus = false;
           setState(() {});
-        }
-        if (res['role'] == "PA") {
+        } else if (res['role'] == "PA" ||
+            res['role'] == "Admin" ||
+            res['role'] == "Patient") {
           isOtherAccept = true;
         }
         if (isDoctorAccept) {
@@ -264,6 +265,7 @@ class _LoginScreenState extends State<LoginScreen> {
         });
       }
     } catch (e) {
+      print(e);
       toast("Something Wrong \n $e", Colors.red);
       setState(() {
         animationType = "fail";

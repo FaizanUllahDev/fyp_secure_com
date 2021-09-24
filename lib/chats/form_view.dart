@@ -88,7 +88,7 @@ class _FormViewState extends State<FormView> {
                                           children: [
                                             Expanded(
                                               child: Text(
-                                                "Present Illness : "
+                                                "Presenting Illness : "
                                                     .toUpperCase(),
                                                 style: TextStyle(
                                                     fontWeight:
@@ -162,7 +162,7 @@ class _FormViewState extends State<FormView> {
                   children: [
                     Expanded(
                       child: Text(
-                        "Present Illness : ".toUpperCase(),
+                        "Presenting Illness : ".toUpperCase(),
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),

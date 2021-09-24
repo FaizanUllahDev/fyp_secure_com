@@ -35,6 +35,7 @@ class LoginController extends GetxController {
         //print(value);
         var json = value.body;
         // print("==> $json");
+        if(value.statusCode == 200)
         msg = jsonDecode(json);
       });
       //isLoading(false);
