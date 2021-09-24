@@ -32,11 +32,12 @@ class FriendController extends GetxController {
   void onInit() {
     super.onInit();
     clearAll();
-    getSendingFriendList();
     getFriendList();
     //getAllUsers();
     //getReferListFun();
     getPatientFriendList();
+
+    getSendingFriendList();
     getAllDoctorsList();
   }
 
@@ -141,6 +142,8 @@ class FriendController extends GetxController {
 
   getAllDoctorsList() async {
     try {
+      SharedPreferences pref = await SharedPreferences.getInstance();
+      LoginController.number = pref.get("number");
       String url = APIHOST + getAllDoctors;
       var json = await http
           .post(Uri.parse(url), body: {"num": LoginController.number});
@@ -149,12 +152,14 @@ class FriendController extends GetxController {
         List dd = jsonDecode(json.body);
         dd.forEach((d) {
           // print(Get.find<ChatController>().currNumber.value);
-          var found = doctorLists.firstWhere(
+          var found = sending_Friend_list.firstWhere(
             (p0) => p0.phone == d['number'],
             orElse: () {
               return FriendsModel("", "", "", "", false);
             },
           );
+
+          d['status'] = found.status;
 
           if (d['number'] != Get.find<ChatController>().currNumber.value &&
               found.phone == "")
@@ -245,14 +250,13 @@ class FriendController extends GetxController {
           var d = FriendsModel(
               data['name'], data['number'], data['status'], "doctor", false);
           // print(d);
-          var found = doctorLists.firstWhere(
-            (p0) => p0.phone == data['number'],
-            orElse: () {
-              return FriendsModel("", "", "", "", false);
-            },
-          );
-          if (data['from_num'] == LoginController.number && found.phone == "")
-            doctorLists.add(d);
+
+          // var found = doctorLists.firstWhere(
+          //     (element) => element.phone == d.phone,
+          //     orElse: () => FriendsModel("", "", "", "", false));
+
+          if (data['from_num'] == LoginController.number)
+            sending_Friend_list.add(d);
           else
             request_of_Friend.add(d);
           if (data['status'] == 'Accept') {
