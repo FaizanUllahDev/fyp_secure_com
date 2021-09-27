@@ -563,7 +563,7 @@ class ChatController extends GetxController {
         isGroup: false,
         isPin: false,
         userRole: "",
-        pic: "",
+        pic: recData['img'],
         unread: Get.find<ChatManager>().CurrentChatOPen == recData['fromid']
             ? 0
             : previousCount + 1,

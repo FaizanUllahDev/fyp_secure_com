@@ -133,11 +133,12 @@ class FriendController extends GetxController {
 
   ///all
   updateAcceptedList(FriendsModel model) {
-    FriendsModel modelFound =
-        Get.find<FriendController>().accepted_Friend_List.firstWhere(
-              (element) => element.phone == model.phone,
-              orElse: () => FriendsModel("name", "", "_status", "role", false),
-            );
+    FriendsModel modelFound = Get.find<FriendController>()
+        .accepted_Friend_List
+        .firstWhere(
+          (element) => element.phone == model.phone,
+          orElse: () => FriendsModel("name", "", "_status", "role", false, ""),
+        );
     if (modelFound.phone == "") accepted_Friend_List.add(model);
   }
 
@@ -156,13 +157,13 @@ class FriendController extends GetxController {
           var found = sending_Friend_list.firstWhere(
             (p0) => p0.phone == d['number'],
             orElse: () {
-              return FriendsModel("", "", "", "", false);
+              return FriendsModel("", "", "", "", false, d['img']);
             },
           );
           if (found.phone != "") d['status'] = found.status;
           if (d['number'] != Get.find<ChatController>().currNumber.value)
-            doctorLists.add(FriendsModel(
-                d["name"], d["number"], d["status"], 'doctor', false));
+            doctorLists.add(FriendsModel(d["name"], d["number"], d["status"],
+                'doctor', false, d['img']));
         });
       }
     } catch (e) {
@@ -244,8 +245,8 @@ class FriendController extends GetxController {
         // print(res);
 
         res.forEach((data) {
-          var d = FriendsModel(
-              data['name'], data['number'], data['status'], "doctor", false);
+          var d = FriendsModel(data['name'], data['number'], data['status'],
+              "doctor", false, data['img']);
           // print(d);
 
           // var found = doctorLists.firstWhere(
@@ -294,8 +295,8 @@ class FriendController extends GetxController {
         List res = jsonDecode(json.body);
 
         res.forEach((data) {
-          var d = FriendsModel(
-              data['name'], data['number'], data['status'], "doctor", false);
+          var d = FriendsModel(data['name'], data['number'], data['status'],
+              "doctor", false, data['img']);
           if (data['status'] != 'Reject')
             Get.find<FriendController>().request_of_Friend.add(d);
           if (data['status'] == 'Accept') {
@@ -335,8 +336,8 @@ class FriendController extends GetxController {
           List res = jsonDecode(json.body);
 
           res.forEach((data) {
-            var d = FriendsModel(
-                data['name'], data['number'], 'Accept', "patient", false);
+            var d = FriendsModel(data['name'], data['number'], 'Accept',
+                "patient", false, data['img']);
             // if (data['status'] != 'Reject')
             //   Get.find<FriendController>().request_of_Friend.add(d);
 
@@ -413,12 +414,12 @@ class FriendController extends GetxController {
           Get.find<FriendController>().doctorLists.removeAt(index);
       friendmodel.status = "NotFriend";
       Get.find<FriendController>().doctorLists.add(friendmodel);
-      FriendsModel modelFound = Get.find<FriendController>()
-          .accepted_Friend_List
-          .firstWhere(
-            (element) => element.phone == friendmodel.phone,
-            orElse: () => FriendsModel("name", "", "_status", "role", false),
-          );
+      FriendsModel modelFound =
+          Get.find<FriendController>().accepted_Friend_List.firstWhere(
+                (element) => element.phone == friendmodel.phone,
+                orElse: () =>
+                    FriendsModel("name", "", "_status", "role", false, ''),
+              );
       if (modelFound.phone != "")
         Get.find<FriendController>().accepted_Friend_List.remove(friendmodel);
     } else if (status == 'Accept') {
@@ -427,12 +428,12 @@ class FriendController extends GetxController {
       var a = Get.find<FriendController>().request_of_Friend.removeAt(index);
       a.status = "Accept";
       Get.find<FriendController>().request_of_Friend.add(a);
-      FriendsModel modelFound = Get.find<FriendController>()
-          .accepted_Friend_List
-          .firstWhere(
-            (element) => element.phone == a.phone,
-            orElse: () => FriendsModel("name", "", "_status", "role", false),
-          );
+      FriendsModel modelFound =
+          Get.find<FriendController>().accepted_Friend_List.firstWhere(
+                (element) => element.phone == a.phone,
+                orElse: () =>
+                    FriendsModel("name", "", "_status", "role", false, ''),
+              );
       if (modelFound.phone == "")
         Get.find<FriendController>().accepted_Friend_List.add(a);
     }

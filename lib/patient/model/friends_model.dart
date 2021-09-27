@@ -6,12 +6,14 @@ class FriendsModel {
   String _status;
   String role;
   bool isSelected;
+  String img;
 
   String get status => this._status;
 
   set status(String value) => this._status = value;
 
-  FriendsModel(this.name, this.phone, this._status, this.role, this.isSelected);
+  FriendsModel(this.name, this.phone, this._status, this.role, this.isSelected,
+      this.img);
 
   Map<String, dynamic> toMap() {
     return {
@@ -20,6 +22,7 @@ class FriendsModel {
       '_status': _status,
       'role': role,
       'isSelected': isSelected,
+      "img": img,
     };
   }
 
@@ -30,6 +33,7 @@ class FriendsModel {
       map['_status'],
       map['role'],
       map['isSelected'],
+      map['img'],
     );
   }
 

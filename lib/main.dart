@@ -21,7 +21,7 @@ import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-///flutter packages pub run build_runner build
+///flutter packages pub run build_runner build --delete-conflicting-outputs
 
 var screen;
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
