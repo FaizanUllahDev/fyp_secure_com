@@ -126,31 +126,32 @@ class _FriendRequestState extends State<FriendRequest> {
                                             fontWeight: FontWeight.bold,
                                             color: blue),
                                       ),
-                                      trailing: model.status == 'Request'
-                                          ? Container(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 15, vertical: 8),
-                                              decoration: BoxDecoration(
-                                                  color: blue,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          30)),
-                                              child: Text("",
-                                                  style:
-                                                      TextStyle(color: white)),
-                                            )
-                                          : Container(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 7, vertical: 7),
-                                              decoration: BoxDecoration(
-                                                  color: blue,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          30)),
-                                              child: Text("Confirmed",
-                                                  style:
-                                                      TextStyle(color: white)),
-                                            ),
+                                      // trailing: model.status == 'Request'
+                                      //     ? Container(
+                                      //         padding: EdgeInsets.symmetric(
+                                      //             horizontal: 15, vertical: 8),
+                                      //         decoration: BoxDecoration(
+                                      //             color: blue,
+                                      //             borderRadius:
+                                      //                 BorderRadius.circular(
+                                      //                     30)),
+                                      //         child: Text("",
+                                      //             style:
+                                      //                 TextStyle(color: white)),
+                                      //       )
+                                      //     : Container(
+                                      //         padding: EdgeInsets.symmetric(
+                                      //             horizontal: 7, vertical: 7),
+                                      //         decoration: BoxDecoration(
+                                      //             color: blue,
+                                      //             borderRadius:
+                                      //                 BorderRadius.circular(
+                                      //                     30)),
+                                      //         child: Text("Confirmed",
+                                      //             style:
+                                      //                 TextStyle(color: white)),
+                                      //       ),
+
                                       subtitle: Text(model.phone,
                                           style: TextStyle(
                                               fontSize: 17, color: blue)),

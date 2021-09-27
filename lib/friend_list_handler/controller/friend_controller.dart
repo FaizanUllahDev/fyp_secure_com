@@ -35,9 +35,10 @@ class FriendController extends GetxController {
     getFriendList();
     //getAllUsers();
     //getReferListFun();
-    getPatientFriendList();
 
     getSendingFriendList();
+    getPatientFriendList();
+
     getAllDoctorsList();
   }
 
@@ -158,11 +159,8 @@ class FriendController extends GetxController {
               return FriendsModel("", "", "", "", false);
             },
           );
-
-          d['status'] = found.status;
-
-          if (d['number'] != Get.find<ChatController>().currNumber.value &&
-              found.phone == "")
+          if (found.phone != "") d['status'] = found.status;
+          if (d['number'] != Get.find<ChatController>().currNumber.value)
             doctorLists.add(FriendsModel(
                 d["name"], d["number"], d["status"], 'doctor', false));
         });
@@ -235,7 +233,6 @@ class FriendController extends GetxController {
         Uri.parse(url),
         body: {"number": "${number.value}", "role": "$isDoctor"},
       );
-      print(json.body);
       if (json.body.contains('Error') ||
           json.body.toString().contains('Failed')) {
         print("Error");
@@ -255,9 +252,11 @@ class FriendController extends GetxController {
           //     (element) => element.phone == d.phone,
           //     orElse: () => FriendsModel("", "", "", "", false));
 
-          if (data['from_num'] == LoginController.number)
+          if (data['from_num'] == LoginController.number &&
+              data['status'] != 'Accept')
             sending_Friend_list.add(d);
-          else
+          else if (data['status'] == 'Request' &&
+              data['from_num'] != LoginController.number)
             request_of_Friend.add(d);
           if (data['status'] == 'Accept') {
             updateAcceptedList(d);

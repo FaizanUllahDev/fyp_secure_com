@@ -64,15 +64,24 @@ class _SendingrequestState extends State<Sendingrequest> {
                         itemCount: send_list.length,
                         itemBuilder: (ctx, index) {
                           FriendsModel model = send_list[index];
-                          // List<FriendsModel> found = send_list
-                          //     .where((ele) => ele.phone == model.phone)
-                          //     .toList();
-                          // FriendsModel foundAtRequest =
-                          //     Get.find<FriendController>()
-                          //         .request_of_Friend
-                          //         .firstWhere((ele) => ele.phone == model.phone,
-                          //             orElse: () =>
-                          //                 FriendsModel("", "", '', "", false));
+                          // FriendsModel foundSending =
+                          // Get.find<FriendController>()
+                          //     .sending_Friend_list
+                          //     .firstWhere((ele) => ele.phone == model.phone,
+                          //         orElse: () =>
+                          //             FriendsModel("", "", '', "", false));
+                          FriendsModel foundAtRequest =
+                              Get.find<FriendController>()
+                                  .request_of_Friend
+                                  .firstWhere((ele) => ele.phone == model.phone,
+                                      orElse: () =>
+                                          FriendsModel("", "", '', "", false));
+
+                          // print(model.phone + foundSending.status);
+                          // if (foundSending.phone != "") {
+                          //   model = foundSending;
+                          //   print(model.phone + foundSending.status);
+                          // }
 
                           FriendsModel foundAtAccept =
                               Get.find<FriendController>()
@@ -81,13 +90,13 @@ class _SendingrequestState extends State<Sendingrequest> {
                                       orElse: () =>
                                           FriendsModel("", "", '', "", false));
 //foundAtRequest.phone != "" &&
-                          if (foundAtAccept.phone == "" &&
+                          if (foundAtAccept.phone != "" &&
                               model.status == "Accept")
                             return Container();
-                          // else if (found.length > 1)
+                          // else if (foundSending.length > 0)
                           //   return Container();
-                          else if (foundAtAccept.phone == "" ||
-                              model.status == "Request") {
+                          else if (foundAtRequest.phone == "" &&
+                              foundAtAccept.phone == "") {
                             return getView(model, index);
                             // return Column(
                             //   children: [
