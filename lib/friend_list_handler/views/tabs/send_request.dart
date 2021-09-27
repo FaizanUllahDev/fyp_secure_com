@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp_secure_com/colors/color.dart';
+import 'package:fyp_secure_com/commonAtStart/APIHelper.dart';
 import 'package:fyp_secure_com/commonAtStart/chat_controller.dart';
 import 'package:fyp_secure_com/commonAtStart/styles.dart';
 import 'package:fyp_secure_com/doctor/view/all_doctors_list.dart';
@@ -74,8 +75,8 @@ class _SendingrequestState extends State<Sendingrequest> {
                               Get.find<FriendController>()
                                   .request_of_Friend
                                   .firstWhere((ele) => ele.phone == model.phone,
-                                      orElse: () =>
-                                          FriendsModel("", "", '', "", false));
+                                      orElse: () => FriendsModel(
+                                          "", "", '', "", false, ""));
 
                           // print(model.phone + foundSending.status);
                           // if (foundSending.phone != "") {
@@ -87,8 +88,8 @@ class _SendingrequestState extends State<Sendingrequest> {
                               Get.find<FriendController>()
                                   .accepted_Friend_List
                                   .firstWhere((ele) => ele.phone == model.phone,
-                                      orElse: () =>
-                                          FriendsModel("", "", '', "", false));
+                                      orElse: () => FriendsModel(
+                                          "", "", '', "", false, ""));
 //foundAtRequest.phone != "" &&
                           if (foundAtAccept.phone != "" &&
                               model.status == "Accept")
@@ -247,7 +248,7 @@ class _SendingrequestState extends State<Sendingrequest> {
     );
   }
 
-  getView(model, index) {
+  getView(FriendsModel model, index) {
     return Column(
       children: [
         Container(
@@ -257,6 +258,11 @@ class _SendingrequestState extends State<Sendingrequest> {
             borderRadius: BorderRadius.circular(30),
           ),
           child: ListTile(
+            leading: CircleAvatar(
+              backgroundImage: model.img == ""
+                  ? AssetImage("assets/images/demo.png")
+                  : NetworkImage(FILES_IMG + model.img),
+            ),
             title: Text(
               "${model.name}".toUpperCase(),
               style: CustomStyles.bgclr.copyWith(color: blue),

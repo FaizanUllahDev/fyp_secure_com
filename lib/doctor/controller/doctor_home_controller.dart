@@ -43,8 +43,8 @@ class DoctorHomeController extends GetxController {
       List list = jsonDecode(json.body);
       list.forEach((data) {
         //print(data['status']);
-        FriendsModel model = FriendsModel(
-            data['name'], data['number'], data['status'], "Doctor", false);
+        FriendsModel model = FriendsModel(data['name'], data['number'],
+            data['status'], "Doctor", false, data['img']);
         if (data['status'] == "Accepted" && data['number'] != number.value) {
           doctor_list.add(model);
         }

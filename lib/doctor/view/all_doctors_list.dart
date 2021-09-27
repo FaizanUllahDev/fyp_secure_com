@@ -46,7 +46,8 @@ class _AllDoctorsListState extends State<AllDoctorsList> {
                       .firstWhere(
                           (element) =>
                               element.phone == _con.doctor_list[index].phone,
-                          orElse: () => FriendsModel("", '', "", "", false));
+                          orElse: () =>
+                              FriendsModel("", '', "", "", false, ""));
                   if (found.name == "")
                     return InkWell(
                         // onTap: () {

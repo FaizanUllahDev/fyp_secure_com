@@ -28,7 +28,7 @@ class Refer extends StatefulWidget {
 }
 
 class _ReferState extends State<Refer> {
-  FriendsModel selectedDoctor = FriendsModel("", "", "", "", false);
+  FriendsModel selectedDoctor = FriendsModel("", "", "", "", false, '');
   List<CcdNames> ccdTitles = [];
   List<FriendsModel> doc = [];
   @override
@@ -275,29 +275,12 @@ class _ReferState extends State<Refer> {
     try {
       List<String> selectedMembers = [];
 
-      FriendsModel mem = FriendsModel(
-        "name",
-        Get.find<ChatController>().currNumber.value,
-        "",
-        "",
-        true,
-      );
+      FriendsModel mem = FriendsModel("name",
+          Get.find<ChatController>().currNumber.value, "", "", true, "");
       selectedMembers.add(mem.toJson());
-      mem = FriendsModel(
-        "name",
-        widget.pNumber,
-        "",
-        "",
-        true,
-      );
+      mem = FriendsModel("name", widget.pNumber, "", "", true, "");
       selectedMembers.add(mem.toJson());
-      mem = FriendsModel(
-        "name",
-        selectedDoctor.phone,
-        "",
-        "patient",
-        true,
-      );
+      mem = FriendsModel("name", selectedDoctor.phone, "", "patient", true, "");
       selectedMembers.add(mem.toJson());
 
       String groupName =

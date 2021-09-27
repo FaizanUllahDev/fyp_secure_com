@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fyp_secure_com/CustomsWidget/search_contacts.dart';
 import 'package:fyp_secure_com/chats/conversation.dart';
 import 'package:fyp_secure_com/colors/color.dart';
+import 'package:fyp_secure_com/commonAtStart/APIHelper.dart';
 import 'package:fyp_secure_com/commonAtStart/styles.dart';
 import 'package:fyp_secure_com/friend_list_handler/controller/friend_controller.dart';
 import 'package:fyp_secure_com/hiveBox/room_list.dart';
@@ -144,11 +145,15 @@ class _AllAcceptedFriendState extends State<AllAcceptedFriend> {
                                                             pic: ''),
                                                       ));
                                                     },
-                                                    leading: Icon(
-                                                      Icons
-                                                          .person_pin_circle_rounded,
-                                                      size: 35,
-                                                      color: blue,
+                                                    leading: CircleAvatar(
+                                                      backgroundImage: model
+                                                                  .img !=
+                                                              ""
+                                                          ? NetworkImage(
+                                                              FILES_IMG +
+                                                                  model.img)
+                                                          : AssetImage(
+                                                              "assets/images/demo.png"),
                                                     ),
                                                     title: Text(
                                                       "${model.name}"
@@ -284,11 +289,15 @@ class _AllAcceptedFriendState extends State<AllAcceptedFriend> {
                                                               pic: ''),
                                                         ));
                                                       },
-                                                      leading: Icon(
-                                                        Icons
-                                                            .person_pin_circle_rounded,
-                                                        size: 35,
-                                                        color: blue,
+                                                      leading: CircleAvatar(
+                                                        backgroundImage: model
+                                                                    .img !=
+                                                                ""
+                                                            ? NetworkImage(
+                                                                FILES_IMG +
+                                                                    model.img)
+                                                            : AssetImage(
+                                                                "assets/images/demo.png"),
                                                       ),
                                                       title: Text(
                                                         "${model.name}"

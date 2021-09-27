@@ -375,89 +375,90 @@ class _ChatAllRoomPageState extends State<ChatAllRoomPage> {
                                                 );
                                             },
                                             // selected: selected,
-                                            leading:
-                                                chatHeaders.pic != null &&
-                                                        chatHeaders.pic != ""
+                                            leading: chatHeaders.pic != null &&
+                                                    chatHeaders.pic != ""
+                                                ? CircleAvatar(
+                                                    backgroundImage:
+                                                        NetworkImage(FILES_IMG +
+                                                            chatHeaders.pic),
+                                                  )
+                                                : chatHeaders.isGroup
                                                     ? CircleAvatar(
-                                                        backgroundImage:
-                                                            NetworkImage(
-                                                                FILES_IMG +
-                                                                    chatHeaders
-                                                                        .pic),
+                                                        child: Icon(Icons
+                                                            .group_rounded),
                                                       )
-                                                    : chatHeaders.isGroup
-                                                        ? CircleAvatar(
-                                                            child: Icon(Icons
-                                                                .group_rounded),
-                                                          )
-                                                        : Container(
-                                                            width: 35,
-                                                            child: Stack(
-                                                              children: [
-                                                                Hero(
-                                                                  tag:
-                                                                      chatHeaders
-                                                                          .name,
-                                                                  child:
-                                                                      CircleAvatar(
-                                                                    radius: 30,
-                                                                    child:
-                                                                        Center(
-                                                                      child: Text(
-                                                                          chatHeaders.name.isEmpty
-                                                                              ? chatHeaders.phone[
-                                                                                  0]
-                                                                              : chatHeaders.name[0]
-                                                                                  .toUpperCase(),
-                                                                          style: CustomStyles
-                                                                              .foreclr
-                                                                              .copyWith(color: white)
-                                                                              .copyWith(fontSize: 25)),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                Obx(() {
-                                                                  bool
-                                                                      isOnline =
-                                                                      false;
-                                                                  Get.find<
-                                                                          SocketController>()
-                                                                      .onlineFriends
-                                                                      .forEach(
-                                                                          (element) {
-                                                                    if (element ==
-                                                                        chatHeaders
-                                                                            .phone)
-                                                                      isOnline =
-                                                                          true;
-                                                                  });
-                                                                  return isOnline
-                                                                      ? Align(
-                                                                          alignment:
-                                                                              Alignment.topRight,
-                                                                          child:
-                                                                              CircleAvatar(
-                                                                            backgroundColor:
-                                                                                Colors.green,
-                                                                            radius:
-                                                                                10,
-                                                                          ),
-                                                                        )
-                                                                      : Align(
-                                                                          alignment:
-                                                                              Alignment.topRight,
-                                                                          child:
-                                                                              CircleAvatar(
-                                                                            backgroundColor:
-                                                                                Colors.transparent,
-                                                                            radius:
-                                                                                10,
-                                                                          ),
-                                                                        );
-                                                                }),
-                                                              ],
-                                                            ),
-                                                          ),
+                                                    : CircleAvatar(
+                                                        backgroundImage: AssetImage(
+                                                            "assets/images/demo.png"),
+                                                      ),
+                                            // Container(
+                                            //     width: 35,
+                                            //     child: Stack(
+                                            //       children: [
+                                            //         Hero(
+                                            //           tag:
+                                            //               chatHeaders
+                                            //                   .name,
+                                            //           child:
+                                            //               CircleAvatar(
+                                            //             radius: 30,
+                                            //             child:
+                                            //                 Center(
+                                            //               child: Text(
+                                            //                   chatHeaders.name.isEmpty
+                                            //                       ? chatHeaders.phone[
+                                            //                           0]
+                                            //                       : chatHeaders.name[0]
+                                            //                           .toUpperCase(),
+                                            //                   style: CustomStyles
+                                            //                       .foreclr
+                                            //                       .copyWith(color: white)
+                                            //                       .copyWith(fontSize: 25)),
+                                            //             ),
+                                            //           ),
+                                            //         ),
+                                            //         Obx(() {
+                                            //           bool
+                                            //               isOnline =
+                                            //               false;
+                                            //           Get.find<
+                                            //                   SocketController>()
+                                            //               .onlineFriends
+                                            //               .forEach(
+                                            //                   (element) {
+                                            //             if (element ==
+                                            //                 chatHeaders
+                                            //                     .phone)
+                                            //               isOnline =
+                                            //                   true;
+                                            //           });
+                                            //           return isOnline
+                                            //               ? Align(
+                                            //                   alignment:
+                                            //                       Alignment.topRight,
+                                            //                   child:
+                                            //                       CircleAvatar(
+                                            //                     backgroundColor:
+                                            //                         Colors.green,
+                                            //                     radius:
+                                            //                         10,
+                                            //                   ),
+                                            //                 )
+                                            //               : Align(
+                                            //                   alignment:
+                                            //                       Alignment.topRight,
+                                            //                   child:
+                                            //                       CircleAvatar(
+                                            //                     backgroundColor:
+                                            //                         Colors.transparent,
+                                            //                     radius:
+                                            //                         10,
+                                            //                   ),
+                                            //                 );
+                                            //         }),
+                                            //       ],
+                                            //     ),
+                                            //   ),
 
                                             title: Text(
                                               chatHeaders.name.isEmpty

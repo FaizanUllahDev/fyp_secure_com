@@ -71,11 +71,13 @@ class _SearchChatState extends State<SearchDoctor> {
                   FriendsModel foundAtRequest = Get.find<FriendController>()
                       .request_of_Friend
                       .firstWhere((ele) => ele.phone == d.phone,
-                          orElse: () => FriendsModel("", "", '', "", false));
+                          orElse: () =>
+                              FriendsModel("", "", '', "", false, ""));
                   FriendsModel found = Get.find<FriendController>()
                       .accepted_Friend_List
                       .firstWhere((ele) => ele.phone == d.phone,
-                          orElse: () => FriendsModel("", "", '', "", false));
+                          orElse: () =>
+                              FriendsModel("", "", '', "", false, ""));
 
                   if (found.phone != '') return Container();
 

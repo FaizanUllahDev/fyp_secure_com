@@ -114,16 +114,20 @@ class _ConversationPageState extends State<ConversationPage> {
                               child: Hero(
                                 tag: widget.roomList.name,
                                 child: CircleAvatar(
-                                  radius: 25,
-                                  backgroundColor: white,
-                                  child: Text(
-                                    widget.roomList.name.isEmpty
-                                        ? '0'
-                                        : "${widget.roomList.name[0]}"
-                                            .toUpperCase(),
-                                    style: TextStyle(fontSize: 20, color: blue),
-                                  ),
+                                  backgroundImage:
+                                      AssetImage("assets/images/demo.png"),
                                 ),
+                                //   child: CircleAvatar(
+                                //     radius: 25,
+                                //     backgroundColor: white,
+                                //     child: Text(
+                                //       widget.roomList.name.isEmpty
+                                //           ? '0'
+                                //           : "${widget.roomList.name[0]}"
+                                //               .toUpperCase(),
+                                //       style: TextStyle(fontSize: 20, color: blue),
+                                //     ),
+                                //   ),
                               ),
                             ),
                             Align(

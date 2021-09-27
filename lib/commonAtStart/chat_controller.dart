@@ -44,7 +44,7 @@ class ChatController extends GetxController {
     contactList.forEach((cont) {
       FriendsModel found = Get.find<FriendController>().doctorLists.firstWhere(
           (element) => element.phone == cont.phones,
-          orElse: () => FriendsModel("", "", "", "", false));
+          orElse: () => FriendsModel("", "", "", "", false, ""));
       if (found.name == "") contactList.remove(cont);
     });
     update();
