@@ -128,7 +128,7 @@ class _FormViewState extends State<FormView> {
   }
 
   getView(index) {
-    return widget.data != ""
+    return widget.data != "" && widget.data != null
         ? Container(
             width: MediaQuery.of(context).size.width,
             padding: const EdgeInsets.all(8.0),

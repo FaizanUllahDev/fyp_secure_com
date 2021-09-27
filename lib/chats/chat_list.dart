@@ -740,85 +740,93 @@ Obx(
                                   //end
 
                                   : status == 'notdownload' && type == 'audio'
-                                      ? Stack(
-                                          children: [
-                                            new AudioPlayerView(
-                                              path: message,
-                                            ),
-                                            Container(
-                                              height: 50,
-                                              width: 50,
-                                              alignment: Alignment.center,
-                                              color: Colors.white,
-                                              child: IconButton(
-                                                onPressed: () async {
-                                                  await ChatManager()
-                                                      .downloadFiles(
-                                                    message,
-                                                    index,
-                                                    "audio",
-                                                    dbName,
-                                                    widget.chatRoom.toPhone,
-                                                  );
-                                                  print("Download");
-                                                },
-                                                icon: Icon(
-                                                  Icons.file_download,
-                                                  color: Colors.blue,
+                                      ? GetBuilder(
+                                          init: ChatManager(),
+                                          initState: (_) {},
+                                          builder: (ChatManager con) {
+                                            return Stack(
+                                              children: [
+                                                new AudioPlayerView(
+                                                  path: message,
                                                 ),
-                                              ),
-                                            ),
-                                            serverStatus == 'd'
-                                                ? Align(
-                                                    alignment:
-                                                        Alignment.topLeft,
-                                                    child:
-                                                        CircularProgressIndicator())
-                                                : serverStatus == 'f'
+                                                Container(
+                                                  height: 50,
+                                                  width: 50,
+                                                  alignment: Alignment.center,
+                                                  color: Colors.white,
+                                                  child: IconButton(
+                                                    onPressed: () async {
+                                                      await ChatManager()
+                                                          .downloadFiles(
+                                                        message,
+                                                        index,
+                                                        "audio",
+                                                        dbName,
+                                                        widget.chatRoom.toPhone,
+                                                      );
+                                                      print("Download");
+                                                    },
+                                                    icon: Icon(
+                                                      Icons.file_download,
+                                                      color: Colors.blue,
+                                                    ),
+                                                  ),
+                                                ),
+                                                serverStatus == 'd'
                                                     ? Align(
                                                         alignment:
                                                             Alignment.topLeft,
-                                                        child: CircleAvatar(
-                                                          child: IconButton(
-                                                            onPressed:
-                                                                () async {
-                                                              await ChatManager()
-                                                                  .downloadFiles(
-                                                                message,
-                                                                index,
-                                                                type,
-                                                                dbName,
-                                                                widget.chatRoom
-                                                                    .toPhone,
-                                                              );
-                                                              print("Download");
-                                                            },
-                                                            icon: GetBuilder<
-                                                                ChatManager>(
-                                                              init:
-                                                                  ChatManager(),
-                                                              initState: (_) {},
-                                                              builder: (con) {
-                                                                return !con
-                                                                        .isDownloading
-                                                                    ? Icon(
-                                                                        Icons
-                                                                            .file_download,
-                                                                        color: Colors
-                                                                            .red,
-                                                                      )
-                                                                    : CircularProgressIndicator(
-                                                                        backgroundColor:
-                                                                            Colors.amber,
-                                                                      );
-                                                              },
+                                                        child:
+                                                            CircularProgressIndicator())
+                                                    : serverStatus == 'f'
+                                                        ? Align(
+                                                            alignment: Alignment
+                                                                .topLeft,
+                                                            child: CircleAvatar(
+                                                              child: IconButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  await ChatManager()
+                                                                      .downloadFiles(
+                                                                    message,
+                                                                    index,
+                                                                    type,
+                                                                    dbName,
+                                                                    widget
+                                                                        .chatRoom
+                                                                        .toPhone,
+                                                                  );
+                                                                  print(
+                                                                      "Download");
+                                                                },
+                                                                icon: GetBuilder<
+                                                                    ChatManager>(
+                                                                  init:
+                                                                      ChatManager(),
+                                                                  initState:
+                                                                      (_) {},
+                                                                  builder:
+                                                                      (con) {
+                                                                    return !con
+                                                                            .isDownloading
+                                                                        ? Icon(
+                                                                            Icons.file_download,
+                                                                            color:
+                                                                                Colors.red,
+                                                                          )
+                                                                        : CircularProgressIndicator(
+                                                                            backgroundColor:
+                                                                                Colors.amber,
+                                                                          );
+                                                                  },
+                                                                ),
+                                                              ),
                                                             ),
-                                                          ),
-                                                        ),
-                                                      )
-                                                    : Container(),
-                                          ],
-                                        )
+                                                          )
+                                                        : Container(),
+                                              ],
+                                            );
+                                          })
                                       : new AudioPlayerView(
                                           path: message,
                                         ),

@@ -199,7 +199,7 @@ class ChatManager extends GetxController {
           // newF.deleteSync(recursive: true);
           updateStatusFileOfChat("downloaded", --index, dbName, file2.path);
           ChatController()
-              .updateStatusOfServerCallingU_D("done", --index, dbName);
+              .updateStatusOfServerCallingU_D("downloaded", --index, dbName);
 
           url = APIHOST + onDownload;
           var dltFile = await http.post(Uri.parse(url), body: {
