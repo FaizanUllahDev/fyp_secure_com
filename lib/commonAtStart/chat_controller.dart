@@ -554,7 +554,7 @@ class ChatController extends GetxController {
       }
 
       var roomData = RoomList(
-        id: "-1",
+        id: recData['mr'].toString().replaceAll("null", ""),
         lastMsg: recData['type'] == "text" ? decrypted : "file",
         lastMsgTime: recData['time'].toString(),
         name: '${recData['name']}',

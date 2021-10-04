@@ -33,6 +33,15 @@ class ChatManager extends GetxController {
 
   updateMaxTime(v) => maxTime(v);
 
+  // getProcedure(number) {
+  //   String proc = "Procedure: ";
+  //   var response = http.post(Uri.parse(APIHOST + "getProc.php"), body: {
+  //     "number": number,
+  //   });
+  //   response.then((value) => proc += "$value");
+  //   return proc;
+  // }
+
   getFormView(pnum, docNumber) async {
     Uri url = Uri.parse(APIHOST + "getFormView.php");
     var res = await http.post(url, body: {

@@ -26,6 +26,7 @@ class ChatRoom {
   String userRole;
   @HiveField(9)
   String chatid;
+  @HiveField(10)
   ChatRoom({
     this.fromPhone = "",
     this.toPhone = "",

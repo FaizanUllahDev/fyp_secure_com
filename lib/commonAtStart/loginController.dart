@@ -34,14 +34,13 @@ class LoginController extends GetxController {
       ).then((value) {
         //print(value);
         var json = value.body;
-        // print("==> $json");
-        if(value.statusCode == 200)
-        msg = jsonDecode(json);
+        print("==> $json");
+        if (value.statusCode == 200) msg = jsonDecode(json);
       });
       //isLoading(false);
       //print(msg);
     } catch (e) {
-      print("Login MAIN FUN ." + e);
+      print("Login MAIN FUN ." + e.toString());
     }
     return msg;
   }
