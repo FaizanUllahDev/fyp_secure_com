@@ -42,18 +42,18 @@ class _ConversationPageState extends State<ConversationPage> {
     SharedPreferences pref = await SharedPreferences.getInstance();
     setState(() {
       role = pref.getString("role");
-      print(role);
     });
 
     String mainDBNAme = Get.find<ChatController>().currNumber.value + ROOMLIST;
 
-    Box<RoomList> boxOFparent = Hive.box<RoomList>(mainDBNAme);
-    boxOFparent.values.forEach((element) {
-      if (element.phone == widget.roomList.phone) {
-        widget.roomList.unread = 0;
-        boxOFparent.putAt(widget.index, widget.roomList);
-      }
-    });
+    // Box<RoomList> boxOFparent = Hive.box<RoomList>(mainDBNAme);
+    // boxOFparent.values.forEach((element) {
+    //   if (element.phone == widget.roomList.phone) {
+    //     widget.roomList.unread = 0;
+    //     boxOFparent.putAt(widget.index, widget.roomList);
+    //     print(boxOFparent.getAt(widget.index).name);
+    //   }
+    // });
   }
 
   List<String> choices = <String>[
@@ -114,8 +114,10 @@ class _ConversationPageState extends State<ConversationPage> {
                               child: Hero(
                                 tag: widget.roomList.name,
                                 child: CircleAvatar(
-                                  backgroundImage:
-                                      AssetImage("assets/images/demo.png"),
+                                  backgroundImage: widget.roomList.pic != ""
+                                      ? NetworkImage(
+                                          FILES_IMG + widget.roomList.pic)
+                                      : AssetImage("assets/images/demo.png"),
                                 ),
                                 //   child: CircleAvatar(
                                 //     radius: 25,
@@ -179,6 +181,7 @@ class _ConversationPageState extends State<ConversationPage> {
           children: [
             ChatListPage(
               name: widget.roomList.name,
+              roomList: widget.roomList,
               chatRoom: ChatRoom(
                 fromPhone: Get.find<ChatController>().currNumber.value,
                 toPhone: widget.roomList.phone,

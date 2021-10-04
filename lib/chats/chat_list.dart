@@ -30,10 +30,12 @@ import 'package:flutter_sound_platform_interface/flutter_sound_recorder_platform
 
 class ChatListPage extends StatefulWidget {
   final ChatRoom chatRoom;
+  final RoomList roomList;
   final name;
   final int index;
 
-  const ChatListPage({Key key, this.chatRoom, this.name, this.index})
+  const ChatListPage(
+      {Key key, this.chatRoom, this.name, this.index, this.roomList})
       : super(key: key);
 
   @override
@@ -349,7 +351,8 @@ class _ChatListPageState extends State<ChatListPage> {
                                             message.text,
                                             'text',
                                             0,
-                                            dbName);
+                                            dbName,
+                                            widget.roomList.pic);
                                         message.clear();
                                       } catch (e) {}
 
@@ -540,8 +543,8 @@ Obx(
       isPlaying = false;
       isAudioSending = true;
     });
-    ChatController().chatSender(
-        widget.name, widget.chatRoom.toPhone, path, 'audio', 0, dbName);
+    ChatController().chatSender(widget.name, widget.chatRoom.toPhone, path,
+        'audio', 0, dbName, widget.chatRoom);
 
     setState(() {
       isAudioSending = false;
@@ -575,6 +578,7 @@ Obx(
           name: widget.name,
           dbName: dbName,
           index: 0,
+          details: widget.roomList,
         ));
       } else {
         print('No image selected.');

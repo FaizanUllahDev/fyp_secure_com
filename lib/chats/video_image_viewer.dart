@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fyp_secure_com/commonAtStart/chat_controller.dart';
+import 'package:fyp_secure_com/hiveBox/chat_room.dart';
+import 'package:fyp_secure_com/hiveBox/room_list.dart';
 import 'package:get/get.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -7,12 +9,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 class VideoImageViewer extends StatelessWidget {
   final file;
   final name;
-  final roomList;
+  ChatRoom roomList;
+  RoomList details;
   final textOFImage = TextEditingController();
   final index, dbName, img;
 
   VideoImageViewer(
-      {this.file, this.name, this.roomList, this.dbName, this.index, this.img});
+      {this.file,
+      this.name,
+      this.roomList,
+      this.dbName,
+      this.index,
+      this.img,
+      this.details});
 
   @override
   Widget build(BuildContext context) {
@@ -80,8 +89,15 @@ class VideoImageViewer extends StatelessWidget {
                             await SharedPreferences.getInstance();
                         String gid = pref.getString("gid");
                         if (gid == "" || gid == null) {
-                          await ChatController().chatSender(name,
-                              roomList.toPhone, file, "image", index, dbName);
+                          await ChatController().chatSender(
+                            name,
+                            roomList.toPhone,
+                            file,
+                            "image",
+                            index,
+                            dbName,
+                            details.pic,
+                          );
                         } else {
                           // await GroupMsg().GroupchatSender(
                           //     name,

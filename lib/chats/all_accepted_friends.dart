@@ -138,11 +138,13 @@ class _AllAcceptedFriendState extends State<AllAcceptedFriend> {
                                                   ),
                                                   child: ListTile(
                                                     onTap: () {
+                                                      print(model.img);
                                                       Get.to(ConversationPage(
                                                         roomList: RoomList(
-                                                            phone: model.phone,
-                                                            name: model.name,
-                                                            pic: ''),
+                                                          phone: model.phone,
+                                                          name: model.name,
+                                                          pic: model.img,
+                                                        ),
                                                       ));
                                                     },
                                                     leading: CircleAvatar(
@@ -286,7 +288,7 @@ class _AllAcceptedFriendState extends State<AllAcceptedFriend> {
                                                               phone:
                                                                   model.phone,
                                                               name: model.name,
-                                                              pic: ''),
+                                                              pic: model.img),
                                                         ));
                                                       },
                                                       leading: CircleAvatar(

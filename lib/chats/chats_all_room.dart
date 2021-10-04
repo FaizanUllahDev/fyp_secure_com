@@ -30,6 +30,7 @@ class _ChatAllRoomPageState extends State<ChatAllRoomPage> {
   List<RoomList> selectedItems = [];
   List<RoomList> items = [];
   String subtitle = "chat";
+  String role = "doctor";
   atStart() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     subtitle =
@@ -41,6 +42,7 @@ class _ChatAllRoomPageState extends State<ChatAllRoomPage> {
     SharedPreferences pref = await SharedPreferences.getInstance();
     pref.setString("subtitle", keyValue);
     subtitle = keyValue;
+    role = pref.getString("role");
     setState(() {});
   }
 
@@ -80,42 +82,44 @@ class _ChatAllRoomPageState extends State<ChatAllRoomPage> {
               ),
             ),
           ),
-          ListTile(
-            title: Text(
-              "View By $subtitle",
-              style: TextStyle(color: blue),
-            ),
-            tileColor: Colors.black12,
-            trailing: PopupMenuButton(
-                icon: Container(
-                  child: Icon(
-                    Icons.arrow_downward,
-                    color: blue,
+          role.toLowerCase() == "patinet"
+              ? Center()
+              : ListTile(
+                  title: Text(
+                    "View By $subtitle",
+                    style: TextStyle(color: blue),
                   ),
+                  tileColor: Colors.black12,
+                  trailing: PopupMenuButton(
+                      icon: Container(
+                        child: Icon(
+                          Icons.arrow_downward,
+                          color: blue,
+                        ),
+                      ),
+                      itemBuilder: (context) => [
+                            PopupMenuItem(
+                              child: Text("Chat Last Message"),
+                              value: 1,
+                              onTap: () => saveSubTitleKey("Chat"),
+                            ),
+                            PopupMenuItem(
+                              child: Text("MR No ."),
+                              value: 2,
+                              onTap: () => saveSubTitleKey("Mr.No"),
+                            ),
+                            PopupMenuItem(
+                              child: Text("Procedure"),
+                              value: 3,
+                              onTap: () => saveSubTitleKey("Procedure"),
+                            ),
+                            PopupMenuItem(
+                              child: Text("Phone Number"),
+                              value: 4,
+                              onTap: () => saveSubTitleKey("Number"),
+                            ),
+                          ]),
                 ),
-                itemBuilder: (context) => [
-                      PopupMenuItem(
-                        child: Text("Chat Last Message"),
-                        value: 1,
-                        onTap: () => saveSubTitleKey("Chat"),
-                      ),
-                      PopupMenuItem(
-                        child: Text("MR No ."),
-                        value: 2,
-                        onTap: () => saveSubTitleKey("Mr.No"),
-                      ),
-                      PopupMenuItem(
-                        child: Text("Procedure"),
-                        value: 3,
-                        onTap: () => saveSubTitleKey("Procedure"),
-                      ),
-                      PopupMenuItem(
-                        child: Text("Phone Number"),
-                        value: 4,
-                        onTap: () => saveSubTitleKey("Number"),
-                      ),
-                    ]),
-          ),
           Expanded(
             child: FutureBuilder(
                 future: Hive.isBoxOpen(mainDBNAme)
@@ -191,6 +195,19 @@ class _ChatAllRoomPageState extends State<ChatAllRoomPage> {
                                             "number": chatHeaders.phone,
                                           }),
                                       builder: (context, snapshot) {
+                                        if (snapshot.data == null) {
+                                          proc = '';
+                                        } else {
+                                          print(snapshot.data.toString());
+                                          try {
+                                            proc =
+                                                snapshot.data.body.toString();
+                                          } catch (e) {}
+                                        }
+
+                                        print(chatHeaders.phone +
+                                            ".... " +
+                                            chatHeaders.pic);
                                         return Column(
                                           children: [
                                             Slidable(
@@ -303,20 +320,18 @@ class _ChatAllRoomPageState extends State<ChatAllRoomPage> {
                                                             "click dlete ===> $dbNAme");
                                                         Hive.deleteBoxFromDisk(
                                                             dbNAme);
-                                                        Hive.openBox<RoomList>(
-                                                                mainDBNAme)
-                                                            .then((value) {
-                                                          int count = 0;
-                                                          value.values.forEach(
-                                                              (element) {
-                                                            if (element.phone ==
-                                                                chatHeaders
-                                                                    .phone) {
-                                                              value.deleteAt(
-                                                                  count);
-                                                            }
-                                                            count++;
-                                                          });
+
+                                                        int counter = 0;
+                                                        box.values
+                                                            .forEach((element) {
+                                                          if (element.phone ==
+                                                              chatHeaders
+                                                                  .phone) {
+                                                            element.unread = 0;
+                                                            box.deleteAt(
+                                                                counter);
+                                                          }
+                                                          counter++;
                                                         });
                                                       },
                                                       child: Center(
@@ -393,118 +408,122 @@ class _ChatAllRoomPageState extends State<ChatAllRoomPage> {
                                                               .getInstance();
                                                       pref.setString("gid",
                                                           chatHeaders.phone);
-                                                    } else
+                                                    } else {
+                                                      int counter = 0;
+                                                      box.values
+                                                          .forEach((element) {
+                                                        if (element.phone ==
+                                                            chatHeaders.phone) {
+                                                          element.unread = 0;
+                                                          box.putAt(
+                                                              counter, element);
+                                                        }
+                                                        counter++;
+                                                      });
+
                                                       Get.to(
                                                         () => ConversationPage(
                                                           index: index,
                                                           roomList: chatHeaders,
                                                         ),
                                                       );
+                                                    }
                                                   },
                                                   // selected: selected,
-                                                  leading: chatHeaders.pic !=
-                                                              null &&
-                                                          chatHeaders.pic != ""
-                                                      ? CircleAvatar(
-                                                          backgroundImage:
-                                                              NetworkImage(
-                                                                  FILES_IMG +
-                                                                      chatHeaders
-                                                                          .pic),
-                                                        )
-                                                      : chatHeaders.isGroup
-                                                          ? CircleAvatar(
-                                                              child: Icon(Icons
-                                                                  .group_rounded),
-                                                            )
-                                                          : CircleAvatar(
-                                                              backgroundImage:
-                                                                  AssetImage(
-                                                                      "assets/images/demo.png"),
-                                                            ),
-                                                  // Container(
-                                                  //     width: 35,
-                                                  //     child: Stack(
-                                                  //       children: [
-                                                  //         Hero(
-                                                  //           tag:
-                                                  //               chatHeaders
-                                                  //                   .name,
-                                                  //           child:
-                                                  //               CircleAvatar(
-                                                  //             radius: 30,
-                                                  //             child:
-                                                  //                 Center(
-                                                  //               child: Text(
-                                                  //                   chatHeaders.name.isEmpty
-                                                  //                       ? chatHeaders.phone[
-                                                  //                           0]
-                                                  //                       : chatHeaders.name[0]
-                                                  //                           .toUpperCase(),
-                                                  //                   style: CustomStyles
-                                                  //                       .foreclr
-                                                  //                       .copyWith(color: white)
-                                                  //                       .copyWith(fontSize: 25)),
-                                                  //             ),
-                                                  //           ),
-                                                  //         ),
-                                                  //         Obx(() {
-                                                  //           bool
-                                                  //               isOnline =
-                                                  //               false;
-                                                  //           Get.find<
-                                                  //                   SocketController>()
-                                                  //               .onlineFriends
-                                                  //               .forEach(
-                                                  //                   (element) {
-                                                  //             if (element ==
-                                                  //                 chatHeaders
-                                                  //                     .phone)
-                                                  //               isOnline =
-                                                  //                   true;
-                                                  //           });
-                                                  //           return isOnline
-                                                  //               ? Align(
-                                                  //                   alignment:
-                                                  //                       Alignment.topRight,
-                                                  //                   child:
-                                                  //                       CircleAvatar(
-                                                  //                     backgroundColor:
-                                                  //                         Colors.green,
-                                                  //                     radius:
-                                                  //                         10,
-                                                  //                   ),
-                                                  //                 )
-                                                  //               : Align(
-                                                  //                   alignment:
-                                                  //                       Alignment.topRight,
-                                                  //                   child:
-                                                  //                       CircleAvatar(
-                                                  //                     backgroundColor:
-                                                  //                         Colors.transparent,
-                                                  //                     radius:
-                                                  //                         10,
-                                                  //                   ),
-                                                  //                 );
-                                                  //         }),
-                                                  //       ],
-                                                  //     ),
-                                                  //   ),
-
-                                                  title: Text(
-                                                    chatHeaders.name.isEmpty
-                                                        ? chatHeaders.phone
-                                                        : chatHeaders.name
-                                                            .split('_')[0],
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: CustomStyles.foreclr
-                                                        .copyWith(
-                                                            color: blue,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
+                                                  leading: Container(
+                                                    width: 55,
+                                                    child: Stack(
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                      children: [
+                                                        chatHeaders.pic !=
+                                                                    null &&
+                                                                chatHeaders
+                                                                        .pic !=
+                                                                    ""
+                                                            ? CircleAvatar(
+                                                                maxRadius: 55,
+                                                                backgroundImage:
+                                                                    NetworkImage(
+                                                                        FILES_IMG +
+                                                                            chatHeaders.pic),
+                                                              )
+                                                            : chatHeaders
+                                                                    .isGroup
+                                                                ? CircleAvatar(
+                                                                    child: Icon(
+                                                                        Icons
+                                                                            .group_rounded),
+                                                                  )
+                                                                : CircleAvatar(
+                                                                    maxRadius:
+                                                                        55,
+                                                                    backgroundImage:
+                                                                        AssetImage(
+                                                                            "assets/images/demo.png"),
+                                                                  ),
+                                                        Obx(() {
+                                                          bool isOnline = false;
+                                                          Get.find<
+                                                                  SocketController>()
+                                                              .onlineFriends
+                                                              .forEach(
+                                                                  (element) {
+                                                            if (element ==
+                                                                chatHeaders
+                                                                    .phone)
+                                                              isOnline = true;
+                                                          });
+                                                          return isOnline
+                                                              ? Align(
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .topRight,
+                                                                  child:
+                                                                      CircleAvatar(
+                                                                    backgroundColor:
+                                                                        Colors
+                                                                            .green,
+                                                                    radius: 10,
+                                                                  ),
+                                                                )
+                                                              : Align(
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .topRight,
+                                                                  child:
+                                                                      CircleAvatar(
+                                                                    backgroundColor:
+                                                                        Colors
+                                                                            .transparent,
+                                                                    radius: 7,
+                                                                  ),
+                                                                );
+                                                        }),
+                                                      ],
+                                                    ),
                                                   ),
+
+                                                  title: snapshot.data == null ||
+                                                          snapshot.data.body
+                                                                  .toString() ==
+                                                              ""
+                                                      ? Text(chatHeaders.name.isEmpty ? chatHeaders.phone : chatHeaders.name.split('_')[0] + " (D)",
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          style: CustomStyles
+                                                              .foreclr
+                                                              .copyWith(
+                                                                  color: blue,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold))
+                                                      : Text(
+                                                          chatHeaders.name.isEmpty
+                                                              ? chatHeaders.phone
+                                                              : chatHeaders.name.split('_')[0],
+                                                          overflow: TextOverflow.ellipsis,
+                                                          style: CustomStyles.foreclr.copyWith(color: blue, fontWeight: FontWeight.bold)),
                                                   subtitle: Text(
                                                       subtitle == "Chat"
                                                           ? chatHeaders.lastMsg
@@ -515,15 +534,13 @@ class _ChatAllRoomPageState extends State<ChatAllRoomPage> {
                                                                   .toString()
                                                               : subtitle ==
                                                                       "Procedure"
-                                                                  ? proc +
-                                                                      snapshot
-                                                                          .data
-                                                                          .body
-                                                                          .toString()
+                                                                  ? proc
                                                                   : subtitle ==
                                                                           "Mr.No"
-                                                                      ? "Mr.No: " +
-                                                                          chatHeaders
+                                                                      ? proc ==
+                                                                              ""
+                                                                          ? ""
+                                                                          : chatHeaders
                                                                               .id
                                                                       : "",
                                                       maxLines: 1,

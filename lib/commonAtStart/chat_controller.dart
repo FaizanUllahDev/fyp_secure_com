@@ -61,9 +61,9 @@ class ChatController extends GetxController {
   updateCurrName(newName) => currName(newName);
 
   ////
-  Future chatSender(name, tophone, msg, type, index, dbName) async {
+  Future chatSender(name, tophone, msg, type, index, dbName, pic) async {
     await uploading_all_MSG(msg, Get.find<ChatController>().currNumber.value,
-        tophone, type, name, DateTime.now(), dbName);
+        tophone, type, name, DateTime.now(), dbName, pic);
   }
 
   var taskbgStart = false.obs;
@@ -71,9 +71,10 @@ class ChatController extends GetxController {
   //
 
   // in used
-  uploading_all_MSG(file, from, to, type, name, time, dbname) async {
+  uploading_all_MSG(file, from, to, type, name, time, dbname, pic) async {
     Get.find<ChatController>().isSending(false);
-
+    print(pic +
+        '         ///////////////////////////////////////////////////////////////////////////////');
     Encrypted encrypted;
 
     final iv = IV.fromLength(16);
@@ -94,17 +95,17 @@ class ChatController extends GetxController {
     print(keystr.length);
     final encrypter = Encrypter(AES(key));
 
-    saveROOM(to, type == "text" ? file : "file", time, name);
+    saveROOM(to, type == "text" ? file : "file", time, name, pic);
     File fileAfterSavingLocallay = File("");
     if (type != 'text') {
       if (type == "audio") {
         fileAfterSavingLocallay = File(file);
         //fileAfterSavingLocallay = await saveFilesOFChat(fil, type);
-        saveConversation(from, to, file, name, type, time);
+        saveConversation(from, to, file, name, type, time, pic);
       } else {
         fileAfterSavingLocallay = await saveFilesOFChat(file, type);
         saveConversation(
-            from, to, fileAfterSavingLocallay.path, name, type, time);
+            from, to, fileAfterSavingLocallay.path, name, type, time, pic);
 
         fileAfterSavingLocallay = file;
       }
@@ -113,7 +114,7 @@ class ChatController extends GetxController {
       print("TExt");
       encrypted = encrypter.encrypt(file, iv: iv);
       // final decrypted = encrypter.decrypt(encrypted, iv: iv);
-      saveConversation(from, to, file, name, type, time);
+      saveConversation(from, to, file, name, type, time, pic);
     }
     print("Enter ");
     Get.find<ChatController>().isSending(false);
@@ -377,7 +378,7 @@ class ChatController extends GetxController {
   }
 
   ///send
-  saveROOM(to, lastmsg, time, name) {
+  saveROOM(to, lastmsg, time, name, pic) {
     String mainDBNAme = Get.find<ChatController>().currNumber.value + ROOMLIST;
     Hive.openBox<RoomList>(mainDBNAme).then((value) {
       bool found = false;
@@ -405,7 +406,7 @@ class ChatController extends GetxController {
         isGroup: false,
         isPin: false,
         userRole: "",
-        pic: "",
+        pic: pic,
         isArchive: false,
       );
 
@@ -418,7 +419,7 @@ class ChatController extends GetxController {
     });
   }
 
-  saveConversation(from, to, lastmsg, name, type, time) async {
+  saveConversation(from, to, lastmsg, name, type, time, pic) async {
     //String sendingMSG = "${from}_${to}_${msg}_${type}_${time}_$name";
     String dbName = from + '_' + to;
 
@@ -519,7 +520,7 @@ class ChatController extends GetxController {
         status: recData['type'] != 'text' ? 'notdownload' : 'recieved',
         serverStatus: 'f',
         isGroup: false,
-        userRole: "",
+        userRole: recData['role'].toString(),
       );
       //print("On get => ${conver.fromPhone}");
 
@@ -562,7 +563,7 @@ class ChatController extends GetxController {
         isArchive: false,
         isGroup: false,
         isPin: false,
-        userRole: "",
+        userRole: recData['role'].toString(),
         pic: recData['img'],
         unread: Get.find<ChatManager>().CurrentChatOPen == recData['fromid']
             ? 0
