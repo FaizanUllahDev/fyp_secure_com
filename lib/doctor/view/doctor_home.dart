@@ -26,62 +26,59 @@ class _DoctorHomeState extends State<DoctorHome> {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 3,
-      child: LiquidPullToRefresh(
-        onRefresh: () async {},
-        child: Scaffold(
-          bottomNavigationBar: getNavBar(0, context),
-          appBar: AppBar(
-            actionsIconTheme: IconThemeData(color: white),
-            elevation: 0,
-            title: TabBar(
-              isScrollable: true,
-              enableFeedback: true,
-              automaticIndicatorColorAdjustment: true,
-              labelColor: Colors.white,
-              unselectedLabelColor: Colors.black54,
-              labelPadding: EdgeInsets.symmetric(horizontal: 30),
-              tabs: [
-                Tab(
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.chat,
-                      ),
-                      Text("  Chat")
-                    ],
-                  ),
+      child: Scaffold(
+        bottomNavigationBar: getNavBar(0, context),
+        appBar: AppBar(
+          actionsIconTheme: IconThemeData(color: white),
+          elevation: 0,
+          title: TabBar(
+            isScrollable: true,
+            enableFeedback: true,
+            automaticIndicatorColorAdjustment: true,
+            labelColor: Colors.white,
+            unselectedLabelColor: Colors.black54,
+            labelPadding: EdgeInsets.symmetric(horizontal: 30),
+            tabs: [
+              Tab(
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.chat,
+                    ),
+                    Text("  Chat")
+                  ],
                 ),
-                Tab(
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.notifications_active_rounded,
-                      ),
-                      Text(" Request")
-                    ],
-                  ),
+              ),
+              Tab(
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.notifications_active_rounded,
+                    ),
+                    Text(" Request")
+                  ],
                 ),
-                Tab(
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.person_add_sharp,
-                      ),
-                      Text(" Doctors")
-                    ],
-                  ),
+              ),
+              Tab(
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.person_add_sharp,
+                    ),
+                    Text(" Doctors")
+                  ],
                 ),
-              ],
-            ),
-          ),
-          //  drawer: DocDrawer(),
-          body: TabBarView(
-            children: [
-              ChatAllRoomPage(),
-              FriendRequest(),
-              Sendingrequest(),
+              ),
             ],
           ),
+        ),
+        //  drawer: DocDrawer(),
+        body: TabBarView(
+          children: [
+            ChatAllRoomPage(),
+            FriendRequest(),
+            Sendingrequest(),
+          ],
         ),
       ),
     );

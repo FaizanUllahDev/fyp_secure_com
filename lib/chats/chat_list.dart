@@ -99,7 +99,7 @@ class _ChatListPageState extends State<ChatListPage> {
     medData = await ChatManager()
         .getFormView(widget.chatRoom.toPhone, LoginController.number);
 
-    if (mounted) setState(() {});
+    setState(() {});
   }
 
   @override
