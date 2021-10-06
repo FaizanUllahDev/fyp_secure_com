@@ -506,15 +506,17 @@ class _ChatAllRoomPageState extends State<ChatAllRoomPage> {
 
                                                   title: Text(
                                                       chatHeaders.name.isEmpty
-                                                          ? chatHeaders
+                                                          ? "(" +
+                                                              chatHeaders
                                                                   .userRole[0]
                                                                   .toUpperCase() +
-                                                              " " +
+                                                              ") " +
                                                               chatHeaders.phone
-                                                          : chatHeaders
+                                                          : "(" +
+                                                              chatHeaders
                                                                   .userRole[0]
                                                                   .toUpperCase() +
-                                                              " " +
+                                                              ") " +
                                                               chatHeaders.name
                                                                   .split(
                                                                       '_')[0],

@@ -195,7 +195,6 @@ class _ScreenState extends State<OTPScreen> {
     try {
       Get.find<ChatManager>();
       Get.find<FriendController>();
-      FriendController().onInit();
     } catch (e) {
       Get.put(ChatManager(), permanent: true);
       Get.put(FriendController(), permanent: true);
