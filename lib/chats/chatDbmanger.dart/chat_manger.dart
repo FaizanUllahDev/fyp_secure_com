@@ -122,8 +122,9 @@ class ChatManager extends GetxController {
   //AudioPlayer advancedPlayer;
   var isPlayinga = true.obs;
 
-  updateDownloadingStatus(n) {
+  updateDownloadingStatus(bool n) {
     isDownloading = n;
+    print(isDownloading);
     update();
   }
 
@@ -239,7 +240,7 @@ class ChatManager extends GetxController {
 
     updateDownloadingStatus(false);
 
-    // return filePathAndName;
+    return "";
   }
 
   updateStatusFileOfChat(status, index, dbname, path) {

@@ -183,28 +183,34 @@ class _ChatListPageState extends State<ChatListPage> {
                   : Container(),
           Flexible(
             flex: 1,
-            child: GetBuilder<ChatManager>(
-              init: ChatManager(),
-              initState: (_) {},
-              builder: (_) {
-                // if (_.isNewChatMessage) {
-
-                //   _.removeNewMessageIndicator();
-                // }
-                if (_.individualChatList.length == 0)
+            child: ValueListenableBuilder(
+                valueListenable: Hive.box<ChatRoom>(dbName).listenable(),
+                builder: (context, Box<ChatRoom> box, _) {
                   return Center(
-                    child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 30),
-                        child: Text(
-                          "End-To-End Encrpted Chat",
-                          style: CustomStyles.foreclr
-                              .copyWith(color: Colors.blue, fontSize: 15),
-                        )),
+                    child: GetBuilder<ChatManager>(
+                      init: ChatManager(),
+                      initState: (_) {},
+                      builder: (_) {
+                        // if (_.isNewChatMessage) {
+
+                        //   _.removeNewMessageIndicator();
+                        // }
+                        if (_.individualChatList.length == 0)
+                          return Center(
+                            child: Container(
+                                padding: EdgeInsets.symmetric(vertical: 30),
+                                child: Text(
+                                  "End-To-End Encrpted Chat",
+                                  style: CustomStyles.foreclr.copyWith(
+                                      color: Colors.blue, fontSize: 15),
+                                )),
+                          );
+                        else
+                          return showChatDetails(_.individualChatList);
+                      },
+                    ),
                   );
-                else
-                  return showChatDetails(_.individualChatList);
-              },
-            ),
+                }),
           ),
           //bottom bar
           GetBuilder<ChatManager>(
@@ -881,6 +887,7 @@ class ChatBubbleView extends StatefulWidget {
 }
 
 class _ChatBubbleState extends State<ChatBubbleView> {
+  final isProcessing = false;
   @override
   Widget build(BuildContext context) {
     bool fromMe = widget.isme;
@@ -978,6 +985,7 @@ class _ChatBubbleState extends State<ChatBubbleView> {
                                                   child: InkWell(
                                                     onTap: () async {
                                                       print("object");
+
                                                       await ChatManager()
                                                           .downloadFiles(
                                                         widget.message,
@@ -986,7 +994,6 @@ class _ChatBubbleState extends State<ChatBubbleView> {
                                                         widget.dbName,
                                                         widget.chatRoom.toPhone,
                                                       );
-                                                      setState(() {});
                                                     },
                                                     child:
                                                         CircularProgressIndicator(),
