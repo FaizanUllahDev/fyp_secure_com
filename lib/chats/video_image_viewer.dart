@@ -97,6 +97,7 @@ class VideoImageViewer extends StatelessWidget {
                             index,
                             dbName,
                             details.pic,
+                            details.userRole,
                           );
                         } else {
                           // await GroupMsg().GroupchatSender(

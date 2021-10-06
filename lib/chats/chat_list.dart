@@ -352,7 +352,8 @@ class _ChatListPageState extends State<ChatListPage> {
                                             'text',
                                             0,
                                             dbName,
-                                            widget.roomList.pic);
+                                            widget.roomList.pic,
+                                            widget.roomList.userRole);
                                         message.clear();
                                       } catch (e) {}
 
@@ -544,7 +545,7 @@ Obx(
       isAudioSending = true;
     });
     ChatController().chatSender(widget.name, widget.chatRoom.toPhone, path,
-        'audio', 0, dbName, widget.chatRoom);
+        'audio', 0, dbName, widget.roomList.pic, widget.roomList.userRole);
 
     setState(() {
       isAudioSending = false;
