@@ -61,9 +61,10 @@ class ChatController extends GetxController {
   updateCurrName(newName) => currName(newName);
 
   ////
-  Future chatSender(name, tophone, msg, type, index, dbName, pic) async {
+  Future chatSender(
+      name, tophone, msg, type, index, dbName, pic, per_role) async {
     await uploading_all_MSG(msg, Get.find<ChatController>().currNumber.value,
-        tophone, type, name, DateTime.now(), dbName, pic);
+        tophone, type, name, DateTime.now(), dbName, pic, per_role);
   }
 
   var taskbgStart = false.obs;
@@ -71,7 +72,8 @@ class ChatController extends GetxController {
   //
 
   // in used
-  uploading_all_MSG(file, from, to, type, name, time, dbname, pic) async {
+  uploading_all_MSG(
+      file, from, to, type, name, time, dbname, pic, per_role) async {
     Get.find<ChatController>().isSending(false);
     print(pic +
         '         ///////////////////////////////////////////////////////////////////////////////');
@@ -95,7 +97,7 @@ class ChatController extends GetxController {
     print(keystr.length);
     final encrypter = Encrypter(AES(key));
 
-    saveROOM(to, type == "text" ? file : "file", time, name, pic);
+    saveROOM(to, type == "text" ? file : "file", time, name, pic, per_role);
     File fileAfterSavingLocallay = File("");
     if (type != 'text') {
       if (type == "audio") {
@@ -378,7 +380,7 @@ class ChatController extends GetxController {
   }
 
   ///send
-  saveROOM(to, lastmsg, time, name, pic) {
+  saveROOM(to, lastmsg, time, name, pic, per_role) {
     String mainDBNAme = Get.find<ChatController>().currNumber.value + ROOMLIST;
     Hive.openBox<RoomList>(mainDBNAme).then((value) {
       bool found = false;
@@ -405,7 +407,7 @@ class ChatController extends GetxController {
         phone: "$to",
         isGroup: false,
         isPin: false,
-        userRole: "",
+        userRole: per_role,
         pic: pic,
         isArchive: false,
       );

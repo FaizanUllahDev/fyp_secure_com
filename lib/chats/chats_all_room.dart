@@ -504,26 +504,29 @@ class _ChatAllRoomPageState extends State<ChatAllRoomPage> {
                                                     ),
                                                   ),
 
-                                                  title: snapshot.data == null ||
-                                                          snapshot.data.body
-                                                                  .toString() ==
-                                                              ""
-                                                      ? Text(chatHeaders.name.isEmpty ? chatHeaders.phone : chatHeaders.name.split('_')[0] + " (D)",
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          style: CustomStyles
-                                                              .foreclr
-                                                              .copyWith(
-                                                                  color: blue,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold))
-                                                      : Text(
-                                                          chatHeaders.name.isEmpty
-                                                              ? chatHeaders.phone
-                                                              : chatHeaders.name.split('_')[0],
-                                                          overflow: TextOverflow.ellipsis,
-                                                          style: CustomStyles.foreclr.copyWith(color: blue, fontWeight: FontWeight.bold)),
+                                                  title: Text(
+                                                      chatHeaders.name.isEmpty
+                                                          ? chatHeaders
+                                                                  .userRole[0]
+                                                                  .toUpperCase() +
+                                                              " " +
+                                                              chatHeaders.phone
+                                                          : chatHeaders
+                                                                  .userRole[0]
+                                                                  .toUpperCase() +
+                                                              " " +
+                                                              chatHeaders.name
+                                                                  .split(
+                                                                      '_')[0],
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: CustomStyles
+                                                          .foreclr
+                                                          .copyWith(
+                                                              color: blue,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold)),
                                                   subtitle: Text(
                                                       subtitle == "Chat"
                                                           ? chatHeaders.lastMsg

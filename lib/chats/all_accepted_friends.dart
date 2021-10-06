@@ -141,6 +141,7 @@ class _AllAcceptedFriendState extends State<AllAcceptedFriend> {
                                                       print(model.img);
                                                       Get.to(ConversationPage(
                                                         roomList: RoomList(
+                                                          userRole: model.role,
                                                           phone: model.phone,
                                                           name: model.name,
                                                           pic: model.img,
@@ -285,6 +286,8 @@ class _AllAcceptedFriendState extends State<AllAcceptedFriend> {
                                                       onTap: () {
                                                         Get.to(ConversationPage(
                                                           roomList: RoomList(
+                                                              userRole:
+                                                                  model.role,
                                                               phone:
                                                                   model.phone,
                                                               name: model.name,
@@ -397,6 +400,7 @@ class _AllAcceptedFriendState extends State<AllAcceptedFriend> {
                                             onTap: () {
                                               Get.to(ConversationPage(
                                                 roomList: RoomList(
+                                                    userRole: model.role,
                                                     phone: model.phone,
                                                     name: model.name,
                                                     pic: ''),
