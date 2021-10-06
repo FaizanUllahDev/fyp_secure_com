@@ -424,12 +424,12 @@ class _ChatListPageState extends State<ChatListPage> {
           var isfrom = false;
           if (data.fromPhone == widget.chatRoom.fromPhone) isfrom = true;
           return InkWell(
-              onLongPress: () {
-                print("Delete Multi");
-                // Get.find<ChatManager>().updateForwardIndexesSelected(index, data);
-                //setState(() {});
+            onLongPress: () {
+              print("Delete Multi");
+              // Get.find<ChatManager>().updateForwardIndexesSelected(index, data);
+              //setState(() {});
 
-                /*
+              /*
 Obx(
                     () => Get.find<ChatManager>().maxTime.value.split(" ")[0] ==
                             data.time.split(" ")[0]
@@ -443,17 +443,20 @@ Obx(
                         )
                       : Container(),
                 */
-              },
-              child: _chatBubble(
-                data.msg,
-                isfrom,
-                data.time.split(' ')[1].split('.')[0],
-                data.type,
-                data.status,
-                index,
-                data.serverStatus,
-                false,
-              ));
+            },
+            child: ChatBubbleView(
+              message: data.msg,
+              isme: isfrom,
+              time: data.time.split(' ')[1].split('.')[0],
+              type: data.type,
+              status: data.status,
+              index: index,
+              serverStatus: data.serverStatus,
+              checkSelected: false,
+              dbName: dbName,
+              chatRoom: widget.chatRoom,
+            ),
+          );
         }
       },
     );
@@ -488,15 +491,17 @@ Obx(
                   Get.find<ChatManager>()
                       .updateForwardIndexesSelected(index, data);
               },
-              child: _chatBubble(
-                data.msg,
-                isfrom,
-                data.time.split(' ')[1].split('.')[0],
-                data.type,
-                data.status,
-                index,
-                data.serverStatus,
-                checkSelected,
+              child: ChatBubbleView(
+                message: data.msg,
+                isme: isfrom,
+                time: data.time.split(' ')[1].split('.')[0],
+                type: data.type,
+                status: data.status,
+                index: index,
+                serverStatus: data.serverStatus,
+                checkSelected: checkSelected,
+                dbName: dbName,
+                chatRoom: widget.chatRoom,
               ),
             );
           },
@@ -587,9 +592,298 @@ Obx(
     });
   }
 
-  _chatBubble(
-      message, isme, time, type, status, index, serverStatus, checkSelected) {
-    bool fromMe = isme;
+  // _chatBubble(
+  //     message, isme, time, type, status, index, serverStatus, checkSelected) {
+  //   //print("Image ====== > ${message}");
+
+  //   return Container(
+  //     color: checkSelected ? Colors.blue : Colors.white,
+  //     margin: margins,
+  //     child: Align(
+  //       alignment: alignment,
+  //       child: Column(
+  //         children: <Widget>[
+  //           CustomPaint(
+  //             painter: ChatBubble(
+  //               color: chatBgColor,
+  //               alignment: chatArrowAlignment,
+  //             ),
+  //             child: Container(
+  //               margin: EdgeInsets.only(right: 7, left: 7, bottom: 2, top: 3),
+  //               child: Column(
+  //                 mainAxisAlignment: MainAxisAlignment.end,
+  //                 crossAxisAlignment: CrossAxisAlignment.end,
+  //                 children: <Widget>[
+  //                   Padding(
+  //                     padding: edgeInsets,
+  //                     child: type == "text"
+  //                         ? Text(
+  //                             '$message',
+  //                             style: textStyle,
+  //                           )
+  //                         : (status == "downloaded" || status == "failed") &&
+  //                                 type == 'image'
+  //                             ? Container(
+  //                                 height: 200,
+  //                                 child: Stack(
+  //                                   alignment: Alignment.center,
+  //                                   children: [
+  //                                     GestureDetector(
+  //                                       onTap: () {
+  //                                         print("Viewer");
+  //                                         Get.to(PhotoViewer(
+  //                                           file: File(message),
+  //                                         ));
+  //                                       },
+  //                                       child: Image.file(
+  //                                         File(message),
+  //                                         fit: BoxFit.fill,
+  //                                         width: 300,
+  //                                       ),
+  //                                     ),
+  //                                     serverStatus == 'u'
+  //                                         ? Align(
+  //                                             alignment: Alignment.center,
+  //                                             child:
+  //                                                 CircularProgressIndicator())
+  //                                         : Container(),
+  //                                   ],
+  //                                 ),
+  //                               )
+  //                             : status == 'notdownload' && type == 'image'
+  //                                 ? Container(
+  //                                     height: 200,
+  //                                     width: 100,
+  //                                     child: Stack(
+  //                                       alignment: Alignment.center,
+  //                                       children: [
+  //                                         Image.network(
+  //                                           FILES_IMG + "blur.jpg",
+  //                                           height: 200,
+  //                                           fit: BoxFit.fill,
+  //                                         ),
+  //                                         serverStatus == 'd'
+  //                                             ? Align(
+  //                                                 alignment: Alignment.center,
+  //                                                 child: InkWell(
+  //                                                   onTap: () async {
+  //                                                     print("object");
+  //                                                     await ChatManager()
+  //                                                         .downloadFiles(
+  //                                                       message,
+  //                                                       index,
+  //                                                       type,
+  //                                                       dbName,
+  //                                                       widget.chatRoom.toPhone,
+  //                                                     );
+  //                                                     setState(() {});
+  //                                                   },
+  //                                                   child:
+  //                                                       CircularProgressIndicator(),
+  //                                                 ),
+  //                                               )
+  //                                             : serverStatus == 'f'
+  //                                                 ? Align(
+  //                                                     alignment:
+  //                                                         Alignment.center,
+  //                                                     child: CircleAvatar(
+  //                                                       child: IconButton(
+  //                                                         onPressed: () async {
+  //                                                           await ChatManager()
+  //                                                               .downloadFiles(
+  //                                                             message,
+  //                                                             index,
+  //                                                             type,
+  //                                                             dbName,
+  //                                                             widget.chatRoom
+  //                                                                 .toPhone,
+  //                                                           );
+  //                                                           print("Download");
+  //                                                           setState(() {});
+  //                                                         },
+  //                                                         icon: GetBuilder<
+  //                                                             ChatManager>(
+  //                                                           init: ChatManager(),
+  //                                                           initState: (_) {},
+  //                                                           builder: (con) {
+  //                                                             return !con
+  //                                                                     .isDownloading
+  //                                                                 ? Icon(
+  //                                                                     Icons
+  //                                                                         .file_download,
+  //                                                                     color: Colors
+  //                                                                         .red,
+  //                                                                   )
+  //                                                                 : CircularProgressIndicator(
+  //                                                                     backgroundColor:
+  //                                                                         Colors
+  //                                                                             .amber,
+  //                                                                   );
+  //                                                           },
+  //                                                         ),
+  //                                                       ),
+  //                                                     ),
+  //                                                   )
+  //                                                 : Container(),
+  //                                       ],
+  //                                     ),
+  //                                   )
+
+  //                                 //end
+
+  //                                 : status == 'notdownload' && type == 'audio'
+  //                                     ? GetBuilder(
+  //                                         init: ChatManager(),
+  //                                         initState: (_) {},
+  //                                         builder: (ChatManager con) {
+  //                                           return Stack(
+  //                                             children: [
+  //                                               new AudioPlayerView(
+  //                                                 path: message,
+  //                                               ),
+  //                                               Container(
+  //                                                 height: 50,
+  //                                                 width: 50,
+  //                                                 alignment: Alignment.center,
+  //                                                 color: Colors.white,
+  //                                                 child: IconButton(
+  //                                                   onPressed: () async {
+  //                                                     await ChatManager()
+  //                                                         .downloadFiles(
+  //                                                       message,
+  //                                                       index,
+  //                                                       "audio",
+  //                                                       dbName,
+  //                                                       widget.chatRoom.toPhone,
+  //                                                     );
+  //                                                     print("Download");
+  //                                                     setState(() {});
+  //                                                   },
+  //                                                   icon: Icon(
+  //                                                     Icons.file_download,
+  //                                                     color: Colors.blue,
+  //                                                   ),
+  //                                                 ),
+  //                                               ),
+  //                                               serverStatus == 'd'
+  //                                                   ? Align(
+  //                                                       alignment:
+  //                                                           Alignment.topLeft,
+  //                                                       child:
+  //                                                           CircularProgressIndicator())
+  //                                                   : serverStatus == 'f'
+  //                                                       ? Align(
+  //                                                           alignment: Alignment
+  //                                                               .topLeft,
+  //                                                           child: CircleAvatar(
+  //                                                             child: IconButton(
+  //                                                               onPressed:
+  //                                                                   () async {
+  //                                                                 await ChatManager()
+  //                                                                     .downloadFiles(
+  //                                                                   message,
+  //                                                                   index,
+  //                                                                   type,
+  //                                                                   dbName,
+  //                                                                   widget
+  //                                                                       .chatRoom
+  //                                                                       .toPhone,
+  //                                                                 );
+  //                                                                 print(
+  //                                                                     "Download");
+  //                                                                 setState(
+  //                                                                     () {});
+  //                                                               },
+  //                                                               icon: GetBuilder<
+  //                                                                   ChatManager>(
+  //                                                                 init:
+  //                                                                     ChatManager(),
+  //                                                                 initState:
+  //                                                                     (_) {},
+  //                                                                 builder:
+  //                                                                     (con) {
+  //                                                                   return !con
+  //                                                                           .isDownloading
+  //                                                                       ? Icon(
+  //                                                                           Icons.file_download,
+  //                                                                           color:
+  //                                                                               Colors.red,
+  //                                                                         )
+  //                                                                       : CircularProgressIndicator(
+  //                                                                           backgroundColor:
+  //                                                                               Colors.amber,
+  //                                                                         );
+  //                                                                 },
+  //                                                               ),
+  //                                                             ),
+  //                                                           ),
+  //                                                         )
+  //                                                       : Container(),
+  //                                             ],
+  //                                           );
+  //                                         })
+  //                                     : new AudioPlayerView(
+  //                                         path: message,
+  //                                       ),
+  //                   ),
+  //                   isFailed
+  //                       ? Text(
+  //                           ' $time'.split(":")[0] + '$time'.split(":")[1],
+  //                           style: TextStyle(color: Colors.red, fontSize: 12),
+  //                         )
+  //                       : Text(
+  //                           '$time'.split(":")[0] +
+  //                               ":" +
+  //                               '$time'.split(":")[1] +
+  //                               "  ",
+  //                           style:
+  //                               TextStyle(color: Colors.black38, fontSize: 12),
+  //                         ),
+  //                 ],
+  //               ),
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
+}
+
+class ChatBubbleView extends StatefulWidget {
+  var message,
+      isme,
+      time,
+      type,
+      status,
+      index,
+      serverStatus,
+      checkSelected,
+      dbName,
+      chatRoom;
+
+  ChatBubbleView({
+    Key key,
+    this.message,
+    this.isme,
+    this.time,
+    this.type,
+    this.status,
+    this.index,
+    this.serverStatus,
+    this.checkSelected,
+    this.dbName,
+    this.chatRoom,
+  }) : super(key: key);
+
+  @override
+  State<ChatBubbleView> createState() => _ChatBubbleState();
+}
+
+class _ChatBubbleState extends State<ChatBubbleView> {
+  @override
+  Widget build(BuildContext context) {
+    bool fromMe = widget.isme;
     Alignment alignment = fromMe ? Alignment.topRight : Alignment.topLeft;
     Alignment chatArrowAlignment =
         fromMe ? Alignment.topRight : Alignment.topLeft;
@@ -606,14 +900,12 @@ Obx(
         : EdgeInsets.fromLTRB(10, 5, 80, 5);
 
     bool isFailed = false;
-    if (status == 'failed') {
+    if (widget.status == 'failed') {
       isFailed = true;
-      time += '  ' + status;
+      widget.time += '  ' + widget.status;
     }
-    //print("Image ====== > ${message}");
-//
     return Container(
-      color: checkSelected ? Colors.blue : Colors.white,
+      color: widget.checkSelected ? Colors.blue : Colors.white,
       margin: margins,
       child: Align(
         alignment: alignment,
@@ -632,13 +924,14 @@ Obx(
                   children: <Widget>[
                     Padding(
                       padding: edgeInsets,
-                      child: type == "text"
+                      child: widget.type == "text"
                           ? Text(
-                              '$message',
+                              '${widget.message}',
                               style: textStyle,
                             )
-                          : (status == "downloaded" || status == "failed") &&
-                                  type == 'image'
+                          : (widget.status == "downloaded" ||
+                                      widget.status == "failed") &&
+                                  widget.type == 'image'
                               ? Container(
                                   height: 200,
                                   child: Stack(
@@ -648,16 +941,16 @@ Obx(
                                         onTap: () {
                                           print("Viewer");
                                           Get.to(PhotoViewer(
-                                            file: File(message),
+                                            file: File(widget.message),
                                           ));
                                         },
                                         child: Image.file(
-                                          File(message),
+                                          File(widget.message),
                                           fit: BoxFit.fill,
                                           width: 300,
                                         ),
                                       ),
-                                      serverStatus == 'u'
+                                      widget.serverStatus == 'u'
                                           ? Align(
                                               alignment: Alignment.center,
                                               child:
@@ -666,7 +959,8 @@ Obx(
                                     ],
                                   ),
                                 )
-                              : status == 'notdownload' && type == 'image'
+                              : widget.status == 'notdownload' &&
+                                      widget.type == 'image'
                                   ? Container(
                                       height: 200,
                                       width: 100,
@@ -678,25 +972,27 @@ Obx(
                                             height: 200,
                                             fit: BoxFit.fill,
                                           ),
-                                          serverStatus == 'd'
+                                          widget.serverStatus == 'd'
                                               ? Align(
                                                   alignment: Alignment.center,
                                                   child: InkWell(
-                                                      onTap: () async {
-                                                        print("object");
-                                                        await ChatManager()
-                                                            .downloadFiles(
-                                                          message,
-                                                          index,
-                                                          type,
-                                                          dbName,
-                                                          widget
-                                                              .chatRoom.toPhone,
-                                                        );
-                                                      },
-                                                      child:
-                                                          CircularProgressIndicator()))
-                                              : serverStatus == 'f'
+                                                    onTap: () async {
+                                                      print("object");
+                                                      await ChatManager()
+                                                          .downloadFiles(
+                                                        widget.message,
+                                                        widget.index,
+                                                        widget.type,
+                                                        widget.dbName,
+                                                        widget.chatRoom.toPhone,
+                                                      );
+                                                      setState(() {});
+                                                    },
+                                                    child:
+                                                        CircularProgressIndicator(),
+                                                  ),
+                                                )
+                                              : widget.serverStatus == 'f'
                                                   ? Align(
                                                       alignment:
                                                           Alignment.center,
@@ -705,14 +1001,15 @@ Obx(
                                                           onPressed: () async {
                                                             await ChatManager()
                                                                 .downloadFiles(
-                                                              message,
-                                                              index,
-                                                              type,
-                                                              dbName,
+                                                              widget.message,
+                                                              widget.index,
+                                                              widget.type,
+                                                              widget.dbName,
                                                               widget.chatRoom
                                                                   .toPhone,
                                                             );
                                                             print("Download");
+                                                            setState(() {});
                                                           },
                                                           icon: GetBuilder<
                                                               ChatManager>(
@@ -744,7 +1041,8 @@ Obx(
 
                                   //end
 
-                                  : status == 'notdownload' && type == 'audio'
+                                  : widget.status == 'notdownload' &&
+                                          widget.type == 'audio'
                                       ? GetBuilder(
                                           init: ChatManager(),
                                           initState: (_) {},
@@ -752,7 +1050,7 @@ Obx(
                                             return Stack(
                                               children: [
                                                 new AudioPlayerView(
-                                                  path: message,
+                                                  path: widget.message,
                                                 ),
                                                 Container(
                                                   height: 50,
@@ -763,13 +1061,14 @@ Obx(
                                                     onPressed: () async {
                                                       await ChatManager()
                                                           .downloadFiles(
-                                                        message,
-                                                        index,
+                                                        widget.message,
+                                                        widget.index,
                                                         "audio",
-                                                        dbName,
+                                                        widget.dbName,
                                                         widget.chatRoom.toPhone,
                                                       );
                                                       print("Download");
+                                                      setState(() {});
                                                     },
                                                     icon: Icon(
                                                       Icons.file_download,
@@ -777,13 +1076,13 @@ Obx(
                                                     ),
                                                   ),
                                                 ),
-                                                serverStatus == 'd'
+                                                widget.serverStatus == 'd'
                                                     ? Align(
                                                         alignment:
                                                             Alignment.topLeft,
                                                         child:
                                                             CircularProgressIndicator())
-                                                    : serverStatus == 'f'
+                                                    : widget.serverStatus == 'f'
                                                         ? Align(
                                                             alignment: Alignment
                                                                 .topLeft,
@@ -793,16 +1092,21 @@ Obx(
                                                                     () async {
                                                                   await ChatManager()
                                                                       .downloadFiles(
-                                                                    message,
-                                                                    index,
-                                                                    type,
-                                                                    dbName,
+                                                                    widget
+                                                                        .message,
+                                                                    widget
+                                                                        .index,
+                                                                    widget.type,
+                                                                    widget
+                                                                        .dbName,
                                                                     widget
                                                                         .chatRoom
                                                                         .toPhone,
                                                                   );
                                                                   print(
                                                                       "Download");
+                                                                  setState(
+                                                                      () {});
                                                                 },
                                                                 icon: GetBuilder<
                                                                     ChatManager>(
@@ -833,18 +1137,19 @@ Obx(
                                             );
                                           })
                                       : new AudioPlayerView(
-                                          path: message,
+                                          path: widget.message,
                                         ),
                     ),
                     isFailed
                         ? Text(
-                            ' $time'.split(":")[0] + '$time'.split(":")[1],
+                            ' ${widget.time}'.split(":")[0] +
+                                '${widget.time}'.split(":")[1],
                             style: TextStyle(color: Colors.red, fontSize: 12),
                           )
                         : Text(
-                            '$time'.split(":")[0] +
+                            '${widget.time}'.split(":")[0] +
                                 ":" +
-                                '$time'.split(":")[1] +
+                                '${widget.time}'.split(":")[1] +
                                 "  ",
                             style:
                                 TextStyle(color: Colors.black38, fontSize: 12),
