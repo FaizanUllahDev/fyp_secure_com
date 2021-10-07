@@ -23,6 +23,7 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 ///flutter packages pub run build_runner build --delete-conflicting-outputs
 
@@ -44,7 +45,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   SharedPreferences pref = await SharedPreferences.getInstance();
-  String role = pref.getString("role");
+  String role = pref.containsKey("role") ? pref.getString("role") : "";
+  String token = pref.containsKey("token") ? pref.get("token") : "";
+  String number = pref.containsKey("number") ? pref.get("number") : "";
 
   //ChatController().updateCurrNumber(pref.get("number"));
   if (role == null)

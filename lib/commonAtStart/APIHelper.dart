@@ -11,6 +11,8 @@ const IP = 'http://$API_IP:3000';
 
 const AllowCcdToPatient = 'allowccdToPatient.php';
 
+const token_checker = "check_header.php"; // number and token
+
 const formdataOfPatient = 'formdataOfPatient.php';
 
 const getGroupsCreationData = 'getGroupsCreationData.php';
