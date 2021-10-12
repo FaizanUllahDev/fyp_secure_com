@@ -334,15 +334,22 @@ class ChatController extends GetxController {
 // called when user turn online
   getMsgFromServerOnPing(data) async {
     print("On GEt111");
+    SharedPreferences pref = await SharedPreferences.getInstance();
 
     var recData = data.toString().split(seprateString);
 
     // print(recData[1]);
     if (recData[1] == Get.find<ChatController>().currNumber.value) {
       String url = APIHOST + getChat;
-      var response = await http.post(Uri.parse(url), body: {
-        "to": "${recData[1]}",
-      });
+      var response = await http.post(
+        Uri.parse(url),
+        body: {
+          "to": "${recData[1]}",
+        },
+        headers: {
+          "Authorization": pref.containsKey("token") ? pref.get("token") : ""
+        },
+      );
       if (response.statusCode == 200) {
         if (!response.body.toLowerCase().contains("failed") &&
             !response.body.toLowerCase().contains("Error")) {
@@ -468,9 +475,15 @@ class ChatController extends GetxController {
       Get.find<ChatController>().currNumber(pref.getString("number"));
       String url = APIHOST + getChat;
 
-      var response = await http.post(Uri.parse(url), body: {
-        "to": "${Get.find<ChatController>().currNumber.value}",
-      });
+      var response = await http.post(
+        Uri.parse(url),
+        body: {
+          "to": "${Get.find<ChatController>().currNumber.value}",
+        },
+        headers: {
+          "Authorization": pref.containsKey("token") ? pref.get("token") : ""
+        },
+      );
       if (response.statusCode == 200) {
         if (!response.body.toLowerCase().contains("error") &&
             response.body.isNotEmpty) {

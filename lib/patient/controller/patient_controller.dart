@@ -23,8 +23,13 @@ class PatientController extends GetxController {
 
     {
       String url = APIHOST + ASSETS;
-      var res = await http.post(Uri.parse(url),
-          body: {"phone": "${number.value}", "table": "patient"});
+      var res = await http.post(
+        Uri.parse(url),
+        body: {"phone": "${number.value}", "table": "patient"},
+        headers: {
+          "Authorization": pref.containsKey("token") ? pref.get("token") : ""
+        },
+      );
       var json;
       if (res.body.contains('Error'))
         print("    ==== > ${res.body}");

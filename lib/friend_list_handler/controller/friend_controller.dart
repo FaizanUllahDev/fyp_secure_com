@@ -54,12 +54,16 @@ class FriendController extends GetxController {
 
   removeContact(phone) async {
     String url = APIHOST + rejectRequest;
+    SharedPreferences pref = await SharedPreferences.getInstance();
     var json = await http.post(
       Uri.parse(url),
       body: {
         "tonum": "$phone",
         "from": "${Get.find<ChatController>().currNumber.value}",
         "status": ""
+      },
+      headers: {
+        "Authorization": pref.containsKey("token") ? pref.get("token") : ""
       },
     );
     json = await http.post(
@@ -68,6 +72,9 @@ class FriendController extends GetxController {
         "from": "$phone",
         "tonum": "${Get.find<ChatController>().currNumber.value}",
         "status": ""
+      },
+      headers: {
+        "Authorization": pref.containsKey("token") ? pref.get("token") : ""
       },
     );
     print(json.body);
@@ -233,6 +240,9 @@ class FriendController extends GetxController {
       var json = await http.post(
         Uri.parse(url),
         body: {"number": "${number.value}", "role": "$isDoctor"},
+        headers: {
+          "Authorization": pref.containsKey("token") ? pref.get("token") : ""
+        },
       );
       if (json.body.contains('Error') ||
           json.body.toString().contains('Failed')) {
@@ -288,6 +298,9 @@ class FriendController extends GetxController {
       var json = await http.post(
         Uri.parse(url),
         body: {"number": "${number.value}", "role": "$isDoctor"},
+        headers: {
+          "Authorization": pref.containsKey("token") ? pref.get("token") : ""
+        },
       );
       if (json.statusCode != 200) {
         // Get.snackbar("Error", "${number.value} . . " + isDoctor);
@@ -328,6 +341,9 @@ class FriendController extends GetxController {
         var json = await http.post(
           Uri.parse(url),
           body: {"num": "${number.value}"},
+          headers: {
+            "Authorization": pref.containsKey("token") ? pref.get("token") : ""
+          },
         );
         if (json.statusCode != 200) {
           print(json.body);
@@ -359,6 +375,7 @@ class FriendController extends GetxController {
 
   Future<String> updateFriendReq(numberFrom, toNum, status, int index) async {
     String url = APIHOST + updateFriendRequest;
+    SharedPreferences pref = await SharedPreferences.getInstance();
 
     if (status == "Request") {
       url = APIHOST + addFriend;
@@ -371,6 +388,9 @@ class FriendController extends GetxController {
       await http.post(
         Uri.parse(url),
         body: {"from": "$numberFrom", "tonum": "$toNum", "status": "$status"},
+        headers: {
+          "Authorization": pref.containsKey("token") ? pref.get("token") : ""
+        },
       );
 
       changesInList(index, status);
@@ -378,6 +398,9 @@ class FriendController extends GetxController {
       var json = await http.post(
         Uri.parse(url),
         body: {"from": "$numberFrom", "tonum": "$toNum", "status": "$status"},
+        headers: {
+          "Authorization": pref.containsKey("token") ? pref.get("token") : ""
+        },
       );
 
       if (json.body.toString().contains('Error')) {

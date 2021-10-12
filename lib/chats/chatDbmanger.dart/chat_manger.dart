@@ -12,6 +12,7 @@ import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ChatManager extends GetxController {
   List<RoomList> searchLst = <RoomList>[].obs;
@@ -43,11 +44,18 @@ class ChatManager extends GetxController {
   // }
 
   getFormView(pnum, docNumber) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
     Uri url = Uri.parse(APIHOST + "getFormView.php");
-    var res = await http.post(url, body: {
-      "pnum": pnum,
-      "docnum": docNumber,
-    });
+    var res = await http.post(
+      url,
+      body: {
+        "pnum": pnum,
+        "docnum": docNumber,
+      },
+      headers: {
+        "Authorization": pref.containsKey("token") ? pref.get("token") : ""
+      },
+    );
     if (res.statusCode == 200) {
       print(res.body);
       return jsonDecode(res.body);
@@ -148,6 +156,7 @@ class ChatManager extends GetxController {
     try {
       updateDownloadingStatus(true);
       ChatController().updateStatusOfServerCallingU_D("d", ++index, dbName);
+      SharedPreferences pref = await SharedPreferences.getInstance();
 
       if (await Permission.storage.request().isGranted) {
         try {
@@ -155,7 +164,13 @@ class ChatManager extends GetxController {
           if (type == "image")
             url = FILES_IMG + fileName;
           else if (type == "audio") url = FILES_MP3 + fileName;
-          var response = await http.get(Uri.parse(url)); // <--2
+          var response = await http.get(
+            Uri.parse(url),
+            headers: {
+              "Authorization":
+                  pref.containsKey("token") ? pref.get("token") : ""
+            },
+          ); // <--2
           await ChatController().getDirpPath();
           var documentDirectory = await getExternalStorageDirectory();
           //var firstPath = documentDirectory.path + "/$folderName/img";
@@ -212,10 +227,17 @@ class ChatManager extends GetxController {
               .updateStatusOfServerCallingU_D("downloaded", --index, dbName);
 
           url = APIHOST + onDownload;
-          var dltFile = await http.post(Uri.parse(url), body: {
-            "filename": fileName,
-            "type": type,
-          });
+          var dltFile = await http.post(
+            Uri.parse(url),
+            body: {
+              "filename": fileName,
+              "type": type,
+            },
+            headers: {
+              "Authorization":
+                  pref.containsKey("token") ? pref.get("token") : ""
+            },
+          );
 
           if (!dltFile.body.contains('Error')) {
             print("deleted");

@@ -34,8 +34,15 @@ class DoctorHomeController extends GetxController {
   var doctor_list = <FriendsModel>[].obs;
 
   getDoctorsList() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
     String url = APIHOST + GET_DOCTOR_LIST;
-    var json = await http.post(Uri.parse(url), body: {"getlist": "true"});
+    var json = await http.post(
+      Uri.parse(url),
+      body: {"getlist": "true"},
+      headers: {
+        "Authorization": pref.containsKey("token") ? pref.get("token") : ""
+      },
+    );
     //print(json.body);
     if (json.body.contains('Failed')) {
       print("http Error");
@@ -64,7 +71,13 @@ class DoctorHomeController extends GetxController {
     // print(number);
     String url = APIHOST + GET_ALL_INVITATIONS;
 
-    var json = await http.post(Uri.parse(url), body: {"phone": "$DocNum"});
+    var json = await http.post(
+      Uri.parse(url),
+      body: {"phone": "$DocNum"},
+      headers: {
+        "Authorization": pref.containsKey("token") ? pref.get("token") : ""
+      },
+    );
     // if (json.statusCode != 200) {
     //   Get.snackbar("Error", "Network Error");
     // } else
@@ -159,8 +172,13 @@ class DoctorHomeController extends GetxController {
       if (pref.getString("name") == null) {
         String url = APIHOST + ASSETS;
 
-        var res = await http.post(Uri.parse(url),
-            body: {"phone": "${number.value}", "table": "doctor"});
+        var res = await http.post(
+          Uri.parse(url),
+          body: {"phone": "${number.value}", "table": "doctor"},
+          headers: {
+            "Authorization": pref.containsKey("token") ? pref.get("token") : ""
+          },
+        );
         // print(res.body);
         var json;
         if (res.body.toString().contains('Error') ||
@@ -240,12 +258,18 @@ class DoctorHomeController extends GetxController {
       var randomizer = new Random();
       var rNum = min + randomizer.nextInt(max - min);
       //
-      var json = await http.post(Uri.parse(url), body: {
-        "fromphone": "$fromNum",
-        "tophone": "$toNumber",
-        "inviationCode": "$rNum",
-        "time": "${DateTime.now()}"
-      });
+      var json = await http.post(
+        Uri.parse(url),
+        body: {
+          "fromphone": "$fromNum",
+          "tophone": "$toNumber",
+          "inviationCode": "$rNum",
+          "time": "${DateTime.now()}"
+        },
+        headers: {
+          "Authorization": pref.containsKey("token") ? pref.get("token") : ""
+        },
+      );
 
       return json;
     } catch (e) {

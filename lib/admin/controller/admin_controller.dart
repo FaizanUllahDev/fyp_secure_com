@@ -38,7 +38,13 @@ class AdminController extends GetxController {
     SocketController().onCOnnected(await pref.getString("number"));
 
     String url = APIHOST + GET_DOCTOR_LIST;
-    var json = await http.post(Uri.parse(url), body: {"getlist": "true"});
+    var json = await http.post(
+      Uri.parse(url),
+      body: {"getlist": "true"},
+      headers: {
+        "Authorization": pref.containsKey("token") ? pref.get("token") : ""
+      },
+    );
     //print(json.body);
     if (json.body.contains('Failed')) {
       print("http Error");
@@ -97,10 +103,14 @@ class AdminController extends GetxController {
   updateDoctorStatus(number, status, index) async {
     String msg = '${number}_$status';
     String url = APIHOST + UPDATESTATUS;
-    print(msg);
+    SharedPreferences pref = await SharedPreferences.getInstance();
+
     var res = await http.post(
       Uri.parse(url),
       body: {"phone": "$number", "status": "$status"},
+      headers: {
+        "Authorization": pref.containsKey("token") ? pref.get("token") : ""
+      },
     );
     print(res.body);
     if (res.body == "update") {

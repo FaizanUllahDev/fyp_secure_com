@@ -4,6 +4,7 @@ import 'package:fyp_secure_com/commonAtStart/APIHelper.dart';
 import 'package:http/http.dart' as http;
 import 'package:async/async.dart';
 import 'package:path/path.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 uploadccd(phone, file, time) async {
   print("enter");
@@ -30,6 +31,10 @@ uploadccd(phone, file, time) async {
     req.files.add(multi);
     req.fields['from'] = phone;
     req.fields['time'] = time;
+    SharedPreferences pref = await SharedPreferences.getInstance();
+
+    req.headers.addAll(
+        {"Authorization": pref.containsKey("token") ? pref.get("token") : ""});
     var uploadRes = await req.send();
 
     if (uploadRes.statusCode == 200) {
