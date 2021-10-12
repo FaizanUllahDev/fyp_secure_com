@@ -161,7 +161,7 @@ class ChatController extends GetxController {
             'msg': "${encrypted.base64}",
           },
           headers: {
-            "Authorization": pref.containsKey("token") ? pref.get("token") : ""
+            "authorization": pref.containsKey("token") ? pref.get("token") : ""
           },
         );
         if (req.statusCode != 200) {
@@ -228,7 +228,7 @@ class ChatController extends GetxController {
     req.fields['time'] = '${DateTime.now()}';
     SharedPreferences pref = await SharedPreferences.getInstance();
 
-    req.headers.addIf(true, "Authorization",
+    req.headers.addIf(true, "authorization",
         pref.containsKey("token") ? pref.get("token") : "");
     print(pref.get("token"));
     var respose = await req.send();
@@ -347,7 +347,7 @@ class ChatController extends GetxController {
           "to": "${recData[1]}",
         },
         headers: {
-          "Authorization": pref.containsKey("token") ? pref.get("token") : ""
+          "authorization": pref.containsKey("token") ? pref.get("token") : ""
         },
       );
       if (response.statusCode == 200) {
@@ -385,9 +385,10 @@ class ChatController extends GetxController {
             onrecieveSaveMesg(element, decrypted);
           });
         }
-      } else {
-        Get.snackbar("Error", "No Internet");
       }
+      // else {
+      //   Get.snackbar("Error", "No Internet");
+      // }
     } else
       print("Other Chat");
   }
@@ -481,7 +482,7 @@ class ChatController extends GetxController {
           "to": "${Get.find<ChatController>().currNumber.value}",
         },
         headers: {
-          "Authorization": pref.containsKey("token") ? pref.get("token") : ""
+          "authorization": pref.containsKey("token") ? pref.get("token") : ""
         },
       );
       if (response.statusCode == 200) {
@@ -517,9 +518,10 @@ class ChatController extends GetxController {
             onrecieveSaveMesg(element, decrypted);
           });
         }
-      } else {
-        Get.snackbar("Error", "No Internet");
       }
+      // else {
+      //   Get.snackbar("Error", "No Internet");
+      // }
     } catch (e) {
       print("CHATS ++++++++++++++++++++++++++++++++++++++++");
       printError(info: e);

@@ -15,7 +15,7 @@ getPatientList(String numberOfPa) async {
       "num": numberOfPa.toString(),
     },
     headers: {
-      "Authorization": pref.containsKey("token") ? pref.get("token") : ""
+      "authorization": pref.containsKey("token") ? pref.get("token") : ""
     },
   );
 

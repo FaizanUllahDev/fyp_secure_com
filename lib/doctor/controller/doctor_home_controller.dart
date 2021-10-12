@@ -40,7 +40,7 @@ class DoctorHomeController extends GetxController {
       Uri.parse(url),
       body: {"getlist": "true"},
       headers: {
-        "Authorization": pref.containsKey("token") ? pref.get("token") : ""
+        "authorization": pref.containsKey("token") ? pref.get("token") : ""
       },
     );
     //print(json.body);
@@ -75,7 +75,7 @@ class DoctorHomeController extends GetxController {
       Uri.parse(url),
       body: {"phone": "$DocNum"},
       headers: {
-        "Authorization": pref.containsKey("token") ? pref.get("token") : ""
+        "authorization": pref.containsKey("token") ? pref.get("token") : ""
       },
     );
     // if (json.statusCode != 200) {
@@ -83,7 +83,7 @@ class DoctorHomeController extends GetxController {
     // } else
     {
       // print("===> ${json.body}");
-      if (!json.body.toString().contains("Failed")) {
+      if (json.statusCode == 200) {
         List data = jsonDecode(json.body);
 
         data.forEach((element) {
@@ -176,7 +176,7 @@ class DoctorHomeController extends GetxController {
           Uri.parse(url),
           body: {"phone": "${number.value}", "table": "doctor"},
           headers: {
-            "Authorization": pref.containsKey("token") ? pref.get("token") : ""
+            "authorization": pref.containsKey("token") ? pref.get("token") : ""
           },
         );
         // print(res.body);
@@ -267,7 +267,7 @@ class DoctorHomeController extends GetxController {
           "time": "${DateTime.now()}"
         },
         headers: {
-          "Authorization": pref.containsKey("token") ? pref.get("token") : ""
+          "authorization": pref.containsKey("token") ? pref.get("token") : ""
         },
       );
 

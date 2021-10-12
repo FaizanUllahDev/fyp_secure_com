@@ -27,7 +27,7 @@ class PatientController extends GetxController {
         Uri.parse(url),
         body: {"phone": "${number.value}", "table": "patient"},
         headers: {
-          "Authorization": pref.containsKey("token") ? pref.get("token") : ""
+          "authorization": pref.containsKey("token") ? pref.get("token") : ""
         },
       );
       var json;

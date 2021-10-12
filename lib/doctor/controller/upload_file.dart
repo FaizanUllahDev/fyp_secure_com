@@ -34,7 +34,7 @@ uploadccd(phone, file, time) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
 
     req.headers.addAll(
-        {"Authorization": pref.containsKey("token") ? pref.get("token") : ""});
+        {"authorization": pref.containsKey("token") ? pref.get("token") : ""});
     var uploadRes = await req.send();
 
     if (uploadRes.statusCode == 200) {

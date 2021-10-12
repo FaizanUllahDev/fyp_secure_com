@@ -43,7 +43,7 @@ class ChatListPage extends StatefulWidget {
 }
 
 class _ChatListPageState extends State<ChatListPage> {
-  String dbName;
+  String dbName = "";
   //FlutterRecord _flutterRecord;
 
   //AutoScrollController controller;
@@ -78,8 +78,10 @@ class _ChatListPageState extends State<ChatListPage> {
   }
 
   var medData;
+  bool isProcess = true;
 
   init() async {
+    isProcess = true;
     Get.find<ChatManager>().updateCurrentChatOPen(widget.chatRoom.toPhone);
     value = FlutterSoundRecorder();
     SharedPreferences pref = await SharedPreferences.getInstance();
@@ -99,6 +101,7 @@ class _ChatListPageState extends State<ChatListPage> {
     medData = await ChatManager()
         .getFormView(widget.chatRoom.toPhone, LoginController.number);
 
+    isProcess = false;
     setState(() {});
   }
 
@@ -181,37 +184,40 @@ class _ChatListPageState extends State<ChatListPage> {
               : isCcdAllowForPatient
                   ? Text("data")
                   : Container(),
-          Flexible(
-            flex: 1,
-            child: ValueListenableBuilder(
-                valueListenable: Hive.box<ChatRoom>(dbName).listenable(),
-                builder: (context, Box<ChatRoom> box, _) {
-                  return Center(
-                    child: GetBuilder<ChatManager>(
-                      init: ChatManager(),
-                      initState: (_) {},
-                      builder: (_) {
-                        // if (_.isNewChatMessage) {
+          isProcess
+              ? CircularProgressIndicator()
+              : Flexible(
+                  flex: 1,
+                  child: ValueListenableBuilder(
+                      valueListenable: Hive.box<ChatRoom>(dbName).listenable(),
+                      builder: (context, Box<ChatRoom> box, _) {
+                        return Center(
+                          child: GetBuilder<ChatManager>(
+                            init: ChatManager(),
+                            initState: (_) {},
+                            builder: (_) {
+                              // if (_.isNewChatMessage) {
 
-                        //   _.removeNewMessageIndicator();
-                        // }
-                        if (_.individualChatList.length == 0)
-                          return Center(
-                            child: Container(
-                                padding: EdgeInsets.symmetric(vertical: 30),
-                                child: Text(
-                                  "End-To-End Encrpted Chat",
-                                  style: CustomStyles.foreclr.copyWith(
-                                      color: Colors.blue, fontSize: 15),
-                                )),
-                          );
-                        else
-                          return showChatDetails(_.individualChatList);
-                      },
-                    ),
-                  );
-                }),
-          ),
+                              //   _.removeNewMessageIndicator();
+                              // }
+                              if (_.individualChatList.length == 0)
+                                return Center(
+                                  child: Container(
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 30),
+                                      child: Text(
+                                        "End-To-End Encrpted Chat",
+                                        style: CustomStyles.foreclr.copyWith(
+                                            color: Colors.blue, fontSize: 15),
+                                      )),
+                                );
+                              else
+                                return showChatDetails(_.individualChatList);
+                            },
+                          ),
+                        );
+                      }),
+                ),
           //bottom bar
           GetBuilder<ChatManager>(
             init: ChatManager(),

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:fyp_secure_com/commonAtStart/APIHelper.dart';
 import 'package:fyp_secure_com/commonAtStart/chat_controller.dart';
 import 'package:fyp_secure_com/commonAtStart/loginController.dart';
@@ -63,7 +64,7 @@ class FriendController extends GetxController {
         "status": ""
       },
       headers: {
-        "Authorization": pref.containsKey("token") ? pref.get("token") : ""
+        "authorization": pref.containsKey("token") ? pref.get("token") : ""
       },
     );
     json = await http.post(
@@ -74,7 +75,7 @@ class FriendController extends GetxController {
         "status": ""
       },
       headers: {
-        "Authorization": pref.containsKey("token") ? pref.get("token") : ""
+        "authorization": pref.containsKey("token") ? pref.get("token") : ""
       },
     );
     print(json.body);
@@ -241,7 +242,7 @@ class FriendController extends GetxController {
         Uri.parse(url),
         body: {"number": "${number.value}", "role": "$isDoctor"},
         headers: {
-          "Authorization": pref.containsKey("token") ? pref.get("token") : ""
+          "authorization": pref.containsKey("token") ? pref.get("token") : ""
         },
       );
       if (json.body.contains('Error') ||
@@ -299,7 +300,7 @@ class FriendController extends GetxController {
         Uri.parse(url),
         body: {"number": "${number.value}", "role": "$isDoctor"},
         headers: {
-          "Authorization": pref.containsKey("token") ? pref.get("token") : ""
+          "authorization": pref.containsKey("token") ? pref.get("token") : ""
         },
       );
       if (json.statusCode != 200) {
@@ -336,15 +337,18 @@ class FriendController extends GetxController {
       String isDoctor = pref.getString("status");
 
       if (isDoctor == "Accepted") {
+        print("Token: " + pref.get("token"));
         //print("FriendL:isy NUmber checker => $number");
         String url = APIHOST + getpatientFriend;
         var json = await http.post(
           Uri.parse(url),
           body: {"num": "${number.value}"},
           headers: {
-            "Authorization": pref.containsKey("token") ? pref.get("token") : ""
+            HttpHeaders.authorizationHeader:
+                pref.containsKey("token") ? pref.get("token") : ""
           },
         );
+        print(json.body);
         if (json.statusCode != 200) {
           print(json.body);
           // Get.snackbar("Error", "${number.value} . . " + isDoctor);
@@ -389,7 +393,7 @@ class FriendController extends GetxController {
         Uri.parse(url),
         body: {"from": "$numberFrom", "tonum": "$toNum", "status": "$status"},
         headers: {
-          "Authorization": pref.containsKey("token") ? pref.get("token") : ""
+          "authorization": pref.containsKey("token") ? pref.get("token") : ""
         },
       );
 
@@ -399,7 +403,7 @@ class FriendController extends GetxController {
         Uri.parse(url),
         body: {"from": "$numberFrom", "tonum": "$toNum", "status": "$status"},
         headers: {
-          "Authorization": pref.containsKey("token") ? pref.get("token") : ""
+          "authorization": pref.containsKey("token") ? pref.get("token") : ""
         },
       );
 

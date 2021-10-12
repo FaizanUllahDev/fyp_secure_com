@@ -53,7 +53,7 @@ class ChatManager extends GetxController {
         "docnum": docNumber,
       },
       headers: {
-        "Authorization": pref.containsKey("token") ? pref.get("token") : ""
+        "authorization": pref.containsKey("token") ? pref.get("token") : ""
       },
     );
     if (res.statusCode == 200) {
@@ -167,7 +167,7 @@ class ChatManager extends GetxController {
           var response = await http.get(
             Uri.parse(url),
             headers: {
-              "Authorization":
+              "authorization":
                   pref.containsKey("token") ? pref.get("token") : ""
             },
           ); // <--2
@@ -234,7 +234,7 @@ class ChatManager extends GetxController {
               "type": type,
             },
             headers: {
-              "Authorization":
+              "authorization":
                   pref.containsKey("token") ? pref.get("token") : ""
             },
           );

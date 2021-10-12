@@ -42,7 +42,7 @@ class AdminController extends GetxController {
       Uri.parse(url),
       body: {"getlist": "true"},
       headers: {
-        "Authorization": pref.containsKey("token") ? pref.get("token") : ""
+        "authorization": pref.containsKey("token") ? pref.get("token") : ""
       },
     );
     //print(json.body);
@@ -109,7 +109,7 @@ class AdminController extends GetxController {
       Uri.parse(url),
       body: {"phone": "$number", "status": "$status"},
       headers: {
-        "Authorization": pref.containsKey("token") ? pref.get("token") : ""
+        "authorization": pref.containsKey("token") ? pref.get("token") : ""
       },
     );
     print(res.body);
