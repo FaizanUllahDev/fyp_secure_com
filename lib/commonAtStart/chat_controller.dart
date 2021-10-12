@@ -38,6 +38,7 @@ class ChatController extends GetxController {
 
   List<Contact> contactList = [];
 
+// not used
   fetchCOntacts() async {
     contactList =
         (await ContactsService.getContacts(withThumbnails: false)).toList();
@@ -60,14 +61,13 @@ class ChatController extends GetxController {
   updateCurrNumber(newNumber) => currNumber(newNumber);
   updateCurrName(newName) => currName(newName);
 
-  ////
+  //// in used
   Future chatSender(
       name, tophone, msg, type, index, dbName, pic, per_role) async {
     await uploading_all_MSG(msg, Get.find<ChatController>().currNumber.value,
         tophone, type, name, DateTime.now(), dbName, pic, per_role);
   }
 
-  var taskbgStart = false.obs;
   /////////chat send
   //
 
@@ -75,14 +75,10 @@ class ChatController extends GetxController {
   uploading_all_MSG(
       file, from, to, type, name, time, dbname, pic, per_role) async {
     Get.find<ChatController>().isSending(false);
-    print(pic +
-        '         ///////////////////////////////////////////////////////////////////////////////');
     Encrypted encrypted;
 
     final iv = IV.fromLength(16);
-    print(" ... " + from);
     String keystr = from;
-    print(" ... " + from.toString().length.toString());
     int value = 1;
     for (int i = from.toString().length; i < 32; ++i) {
       if (value == 9) {
@@ -122,6 +118,7 @@ class ChatController extends GetxController {
     Get.find<ChatController>().isSending(false);
     Get.find<SocketController>().checkConnected.value;
     if (1 > 0) {
+      SharedPreferences pref = await SharedPreferences.getInstance();
       uploading(true);
       //  var msg;
       String url = APIHOST + UPLOADCHAT;
@@ -143,8 +140,6 @@ class ChatController extends GetxController {
         // }
         // File crypted = File(fileAfterSavingLocallay.path);
         Directory crypt = await getDirpPath();
-        print(fileAfterSavingLocallay.path.split('.'));
-        print(fileAfterSavingLocallay.path.split('.').last);
 
         File newFile = File(type == "image"
             ? crypt.path +
@@ -156,13 +151,19 @@ class ChatController extends GetxController {
         await uploadFIlesToServerInUsed(newFile, url, from, to, type);
         newFile.deleteSync(recursive: true);
       } else {
-        var req = await http.post(Uri.parse(url), body: {
-          'from': from,
-          'to': to,
-          'type': type,
-          'time': '${DateTime.now()}',
-          'msg': "${encrypted.base64}",
-        });
+        var req = await http.post(
+          Uri.parse(url),
+          body: {
+            'from': from,
+            'to': to,
+            'type': type,
+            'time': '${DateTime.now()}',
+            'msg': "${encrypted.base64}",
+          },
+          headers: {
+            "Authorization": pref.containsKey("token") ? pref.get("token") : ""
+          },
+        );
         if (req.statusCode != 200) {
           int chatindex = Get.find<ChatController>().savechatindex.value;
           updateStatusOfChat("failed", chatindex, '${from}_$to');
@@ -225,6 +226,11 @@ class ChatController extends GetxController {
     req.fields['to'] = to;
     req.fields['type'] = type;
     req.fields['time'] = '${DateTime.now()}';
+    SharedPreferences pref = await SharedPreferences.getInstance();
+
+    req.headers.addIf(true, "Authorization",
+        pref.containsKey("token") ? pref.get("token") : "");
+    print(pref.get("token"));
     var respose = await req.send();
 
     // respose.then((value) => statusCode = value.statusCode);

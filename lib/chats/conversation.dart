@@ -176,44 +176,12 @@ class _ConversationPageState extends State<ConversationPage> {
           ),
         ),
       ),
-      body: Center(
-        child: Stack(
-          children: [
-            ChatListPage(
-              name: widget.roomList.name,
-              roomList: widget.roomList,
-              chatRoom: ChatRoom(
-                fromPhone: Get.find<ChatController>().currNumber.value,
-                toPhone: widget.roomList.phone,
-              ),
-            ),
-            // role.toLowerCase() == "doctor"
-            //     ? DraggableScrollableSheet(
-            //         maxChildSize: 0.92,
-            //         minChildSize: 0.2,
-            //         expand: false,
-            //         builder: (ctx, controller) {
-            //           return SingleChildScrollView(
-            //             controller: controller,
-            //             child: Container(
-            //               height: MediaQuery.of(context).size.height - 160,
-            //               decoration: BoxDecoration(
-            //                 borderRadius: BorderRadius.only(
-            //                     topLeft: Radius.circular(30),
-            //                     topRight: Radius.circular(30)),
-            //               ),
-            //               child: Container(
-            //                 height: MediaQuery.of(context).size.height - 160,
-            //                 width: size.width,
-            //                 child: XmlFile(),
-            //               ),
-            //             ),
-            //           );
-            //         })
-            //     : Container(
-            //         height: 10,
-            //       ),
-          ],
+      body: ChatListPage(
+        name: widget.roomList.name,
+        roomList: widget.roomList,
+        chatRoom: ChatRoom(
+          fromPhone: Get.find<ChatController>().currNumber.value,
+          toPhone: widget.roomList.phone,
         ),
       ),
     );
