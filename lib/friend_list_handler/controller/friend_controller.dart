@@ -155,8 +155,13 @@ class FriendController extends GetxController {
       SharedPreferences pref = await SharedPreferences.getInstance();
       LoginController.number = pref.get("number");
       String url = APIHOST + getAllDoctors;
-      var json = await http
-          .post(Uri.parse(url), body: {"num": LoginController.number});
+      var json = await http.post(
+        Uri.parse(url),
+        body: {"num": LoginController.number},
+        headers: {
+          "authorization": pref.containsKey("token") ? pref.get("token") : ""
+        },
+      );
       if (json.statusCode == 200 && json.body != "") {
         // print(json.body);
         List dd = jsonDecode(json.body);

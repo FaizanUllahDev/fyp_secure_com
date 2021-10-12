@@ -186,7 +186,6 @@ class _ChatAllRoomPageState extends State<ChatAllRoomPage> {
 
                                     time = timeList.first + ":" + timeList[1];
                                   }
-                                  print(chatHeaders.pic);
                                   String proc = "Procedure: ";
 
                                   //  print(DateTime.parse(chatHeaders.lastMsgTime));
@@ -201,16 +200,12 @@ class _ChatAllRoomPageState extends State<ChatAllRoomPage> {
                                           if (snapshot.data == null) {
                                             proc = '';
                                           } else {
-                                            print(snapshot.data.toString());
                                             try {
                                               proc =
                                                   snapshot.data.body.toString();
                                             } catch (e) {}
                                           }
 
-                                          print(chatHeaders.phone +
-                                              ".... " +
-                                              chatHeaders.pic);
                                           return Column(
                                             children: [
                                               Slidable(
@@ -322,8 +317,6 @@ class _ChatAllRoomPageState extends State<ChatAllRoomPage> {
                                                           /// delete
                                                           String dbNAme =
                                                               '${Get.find<ChatController>().currNumber.value}_${chatHeaders.phone}';
-                                                          print(
-                                                              "click dlete ===> $dbNAme");
                                                           Hive.deleteBoxFromDisk(
                                                               dbNAme);
 
