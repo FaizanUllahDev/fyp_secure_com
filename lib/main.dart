@@ -23,7 +23,6 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
 
 ///flutter packages pub run build_runner build --delete-conflicting-outputs
 
@@ -71,6 +70,7 @@ void main() async {
   // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
   const AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('login');
+
   final IOSInitializationSettings initializationSettingsIOS =
       IOSInitializationSettings(
           onDidReceiveLocalNotification: onDidReceiveLocalNotification);
