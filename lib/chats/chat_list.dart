@@ -81,27 +81,32 @@ class _ChatListPageState extends State<ChatListPage> {
   bool isProcess = true;
 
   init() async {
-    isProcess = true;
-    Get.find<ChatManager>().updateCurrentChatOPen(widget.chatRoom.toPhone);
-    value = FlutterSoundRecorder();
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    role = pref.get('role');
-    dbName =
-        '${Get.find<ChatController>().currNumber.value}_${widget.chatRoom.toPhone}';
+    try {
+      isProcess = true;
+      Get.find<ChatManager>().updateCurrentChatOPen(widget.chatRoom.toPhone);
+      value = FlutterSoundRecorder();
+      SharedPreferences pref = await SharedPreferences.getInstance();
+      role = pref.get('role');
+      dbName =
+          '${Get.find<ChatController>().currNumber.value}_${widget.chatRoom.toPhone}';
 
-    await Hive.openBox<ChatRoom>(dbName);
+      await Hive.openBox<ChatRoom>(dbName);
+      print(dbName);
 
-    Box<ChatRoom> box = Hive.box<ChatRoom>(dbName);
-    Get.find<ChatManager>().assignChatList(box.values.toList());
+      Box<ChatRoom> box = Hive.box<ChatRoom>(dbName);
+      Get.find<ChatManager>().assignChatList(box.values.toList());
 
-    isCcdAllowForPatient = pref.getString("isCcdAllow") == null ||
-            pref.getString("isCcdAllow") == '0'
-        ? false
-        : true;
-    medData = await ChatManager()
-        .getFormView(widget.chatRoom.toPhone, LoginController.number);
+      isCcdAllowForPatient = pref.getString("isCcdAllow") == null ||
+              pref.getString("isCcdAllow") == '0'
+          ? false
+          : true;
+
+      medData = await ChatManager()
+          .getFormView(widget.chatRoom.toPhone, LoginController.number);
+    } catch (e) {}
 
     isProcess = false;
+    print(isProcess);
     setState(() {});
   }
 
@@ -185,7 +190,7 @@ class _ChatListPageState extends State<ChatListPage> {
                   ? Text("data")
                   : Container(),
           isProcess
-              ? CircularProgressIndicator()
+              ? Flexible(flex: 1, child: CircularProgressIndicator())
               : Flexible(
                   flex: 1,
                   child: ValueListenableBuilder(

@@ -61,42 +61,44 @@ class DoctorHomeController extends GetxController {
 
   init_inviteList() async {
     //start
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    var DocNum = '';
-    DocNum = pref.get("number").toString();
-    LoginController.number = DocNum;
-    var role = pref.get("role");
-    if (role == "pa") DocNum = pref.get("paData").toString();
+    try {
+      SharedPreferences pref = await SharedPreferences.getInstance();
+      var DocNum = '';
+      DocNum = pref.get("number").toString();
+      LoginController.number = DocNum;
+      var role = pref.get("role");
+      if (role == "pa") DocNum = pref.get("paData").toString();
 
-    // print(number);
-    String url = APIHOST + GET_ALL_INVITATIONS;
+      // print(number);
+      String url = APIHOST + GET_ALL_INVITATIONS;
 
-    var json = await http.post(
-      Uri.parse(url),
-      body: {"phone": "$DocNum"},
-      headers: {
-        "authorization": pref.containsKey("token") ? pref.get("token") : ""
-      },
-    );
-    // if (json.statusCode != 200) {
-    //   Get.snackbar("Error", "Network Error");
-    // } else
-    {
-      // print("===> ${json.body}");
-      if (json.statusCode == 200) {
-        List data = jsonDecode(json.body);
+      var json = await http.post(
+        Uri.parse(url),
+        body: {"phone": "$DocNum"},
+        headers: {
+          "authorization": pref.containsKey("token") ? pref.get("token") : ""
+        },
+      );
+      // if (json.statusCode != 200) {
+      //   Get.snackbar("Error", "Network Error");
+      // } else
+      {
+        // print("===> ${json.body}");
+        if (json.statusCode == 200) {
+          List data = jsonDecode(json.body);
 
-        data.forEach((element) {
-          // print(element);
-          if (element['status'] == "waiting")
-            updateListOfInvits(InvitationModel(
-                "${element['to_Patient']}", '', "${element['status']}"));
-          else
-            updateAcceptedListOfInvits(InvitationModel(
-                "${element['to_Patient']}", '', "${element['status']}"));
-        });
+          data.forEach((element) {
+            // print(element);
+            if (element['status'] == "waiting")
+              updateListOfInvits(InvitationModel(
+                  "${element['to_Patient']}", '', "${element['status']}"));
+            else
+              updateAcceptedListOfInvits(InvitationModel(
+                  "${element['to_Patient']}", '', "${element['status']}"));
+          });
+        }
       }
-    }
+    } catch (e) {}
 
     //end
   }

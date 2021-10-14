@@ -148,7 +148,7 @@ class ChatController extends GetxController {
             : crypt.path + 'temp.mp4');
         print(newFile);
         await newFile.writeAsBytes(crptedBtyes);
-        await uploadFIlesToServerInUsed(newFile, url, from, to, type);
+        uploadFIlesToServerInUsed(newFile, url, from, to, type);
         newFile.deleteSync(recursive: true);
       } else {
         var req = await http.post(
@@ -182,9 +182,14 @@ class ChatController extends GetxController {
       Get.find<SocketController>().socket.emit(EVENT_MSG, [emitData]);
 
       uploading(false);
-    } else
-      updateStatusOfChat(
-          "failed", Get.find<ChatController>().savechatindex.value, dbname);
+    } else {
+      int chatindex = Get.find<ChatController>().savechatindex.value;
+      updateStatusOfChat("failed", chatindex, '${from}_$to');
+
+      updateStatusOfServerCallingU_D("failed", chatindex, '${from}_$to');
+      // updateStatusOfChat(
+      //     "failed", Get.find<ChatController>().savechatindex.value, dbname);
+    }
     // return msg;
     uploading(false);
   }
@@ -192,66 +197,74 @@ class ChatController extends GetxController {
   /// in use
   uploadFIlesToServerInUsed(
       fileAfterSavingLocallay, url, from, to, type) async {
-    // bgProcessing(true);
-    print("bgProcessing  Start ==> " + fileAfterSavingLocallay.path);
-    StreamView<List<int>> stream;
-    int len;
-    //String enc_path = EncryptData.encrypt_file(fileAfterSavingLocallay.path);
-    //File file = File(enc_path);
+    try {
+      // bgProcessing(true);
+      print("bgProcessing  Start ==> " + fileAfterSavingLocallay.path);
+      StreamView<List<int>> stream;
+      int len;
+      //String enc_path = EncryptData.encrypt_file(fileAfterSavingLocallay.path);
+      //File file = File(enc_path);
 
-    stream = http.ByteStream(
-        // ignore: deprecated_member_use
-        DelegatingStream.typed(fileAfterSavingLocallay.openRead()));
-    len = await fileAfterSavingLocallay.length();
+      stream = http.ByteStream(
+          // ignore: deprecated_member_use
+          DelegatingStream.typed(fileAfterSavingLocallay.openRead()));
+      len = await fileAfterSavingLocallay.length();
 
-    List filnamelsit = DateTime.now().toIso8601String().split(' ');
-    String newFileName = '';
-    filnamelsit.forEach((element) {
-      newFileName += element.toString();
-    });
-    newFileName = newFileName.replaceAll('.', '');
-    newFileName = newFileName.replaceAll(':', '');
-    newFileName +=
-        "." + fileAfterSavingLocallay.path.toString().split('.').last;
-    print(newFileName);
-    var req = http.MultipartRequest("POST", Uri.parse(url));
-    var multi = new http.MultipartFile(
-      "msg",
-      stream,
-      len,
-      filename: newFileName,
-    );
-    req.files.add(multi);
-    req.fields['from'] = from;
-    req.fields['to'] = to;
-    req.fields['type'] = type;
-    req.fields['time'] = '${DateTime.now()}';
-    SharedPreferences pref = await SharedPreferences.getInstance();
-
-    req.headers.addIf(true, "authorization",
-        pref.containsKey("token") ? pref.get("token") : "");
-    print(pref.get("token"));
-    var respose = await req.send();
-
-    // respose.then((value) => statusCode = value.statusCode);
-    if (respose.statusCode == 200) {
-      //msg = respose.reasonPhrase.toUpperCase();
-      await http.Response.fromStream(respose).then((value) async {
-        print(value.body);
-        int chatindex = Get.find<ChatController>().savechatindex.value;
-        updateStatusOfServerCallingU_D("done", chatindex, '${from}_$to');
-        // msg = value.body;
+      List filnamelsit = DateTime.now().toIso8601String().split(' ');
+      String newFileName = '';
+      filnamelsit.forEach((element) {
+        newFileName += element.toString();
       });
-    } else {
+      newFileName = newFileName.replaceAll('.', '');
+      newFileName = newFileName.replaceAll(':', '');
+      newFileName +=
+          "." + fileAfterSavingLocallay.path.toString().split('.').last;
+      print(newFileName);
+      var req = http.MultipartRequest("POST", Uri.parse(url));
+      var multi = new http.MultipartFile(
+        "msg",
+        stream,
+        len,
+        filename: newFileName,
+      );
+      req.files.add(multi);
+      req.fields['from'] = from;
+      req.fields['to'] = to;
+      req.fields['type'] = type;
+      req.fields['time'] = '${DateTime.now()}';
+      SharedPreferences pref = await SharedPreferences.getInstance();
+
+      req.headers.addIf(true, "authorization",
+          pref.containsKey("token") ? pref.get("token") : "");
+
+      var respose = await req.send();
+
+      // respose.then((value) => statusCode = value.statusCode);
+      if (respose.statusCode == 200) {
+        //msg = respose.reasonPhrase.toUpperCase();
+        await http.Response.fromStream(respose).then((value) async {
+          print(value.body);
+          int chatindex = Get.find<ChatController>().savechatindex.value;
+          updateStatusOfServerCallingU_D("done", chatindex, '${from}_$to');
+          // msg = value.body;
+        });
+      } else {
+        //  msg = "Server Error";
+        int chatindex = Get.find<ChatController>().savechatindex.value;
+        updateStatusOfChat("failed", chatindex, '${from}_$to');
+
+        updateStatusOfServerCallingU_D("failed", chatindex, '${from}_$to');
+      }
+
+      // file.delete(recursive: true);
+      //bgProcessing(false);
+    } catch (e) {
       //  msg = "Server Error";
       int chatindex = Get.find<ChatController>().savechatindex.value;
       updateStatusOfChat("failed", chatindex, '${from}_$to');
 
       updateStatusOfServerCallingU_D("failed", chatindex, '${from}_$to');
     }
-
-    // file.delete(recursive: true);
-    //bgProcessing(false);
 
     print("bgProcessing End  ==> " + bgProcessing.value.toString());
   }

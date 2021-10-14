@@ -49,7 +49,8 @@ void main() async {
   String number = pref.containsKey("number") ? pref.get("number") : "";
 
   //ChatController().updateCurrNumber(pref.get("number"));
-  if (role == null)
+  print(role);
+  if (role == "")
     screen = StartExploer();
   else if (role == "Admin")
     screen = AdminHome();
