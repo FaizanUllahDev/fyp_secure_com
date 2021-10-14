@@ -78,7 +78,7 @@ class SocketController extends GetxController {
     socket.on("online", (list) {
       print("Onlines ==> ${Get.find<ChatController>().currNumber.value}");
       print(list);
-      bool findNum = false;
+      //bool findNum = false;
       onlineFriends.clear();
       list.forEach((element) {
         onlineFriends.add(element[2]);

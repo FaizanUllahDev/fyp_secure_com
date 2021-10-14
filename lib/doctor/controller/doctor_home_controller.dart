@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:math';
-import 'package:fyp_secure_com/admin/model/doctor_model.dart';
 import 'package:fyp_secure_com/commonAtStart/APIHelper.dart';
 import 'package:fyp_secure_com/commonAtStart/chat_controller.dart';
 import 'package:fyp_secure_com/commonAtStart/loginController.dart';

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fyp_secure_com/chats/all_accepted_friends.dart';
@@ -11,7 +10,6 @@ import 'package:fyp_secure_com/commonAtStart/socket_controller.dart';
 import 'package:fyp_secure_com/commonAtStart/styles.dart';
 import 'package:fyp_secure_com/hiveBox/room_list.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:shared_preferences/shared_preferences.dart';

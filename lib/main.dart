@@ -45,8 +45,8 @@ void main() async {
 
   SharedPreferences pref = await SharedPreferences.getInstance();
   String role = pref.containsKey("role") ? pref.getString("role") : "";
-  String token = pref.containsKey("token") ? pref.get("token") : "";
-  String number = pref.containsKey("number") ? pref.get("number") : "";
+  // String token = pref.containsKey("token") ? pref.get("token") : "";
+  // String number = pref.containsKey("number") ? pref.get("number") : "";
 
   //ChatController().updateCurrNumber(pref.get("number"));
   print(role);

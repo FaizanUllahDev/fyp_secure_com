@@ -8,7 +8,6 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../CustomsWidget/customTextfield.dart';
 import 'index.dart';
 
 class SignUp extends StatefulWidget {

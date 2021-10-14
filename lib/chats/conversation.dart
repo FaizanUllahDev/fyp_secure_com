@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp_secure_com/CustomsWidget/personal_settings.dart';
 import 'package:fyp_secure_com/chats/chatDbmanger.dart/chat_manger.dart';
@@ -9,7 +8,6 @@ import 'package:fyp_secure_com/commonAtStart/socket_controller.dart';
 import 'package:fyp_secure_com/hiveBox/chat_room.dart';
 import 'package:fyp_secure_com/hiveBox/room_list.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'chat_list.dart';
@@ -17,7 +15,7 @@ import 'chat_list.dart';
 class ConversationPage extends StatefulWidget {
   final RoomList roomList;
 
-  int index;
+  final int index;
 
   ConversationPage({this.roomList, this.index});
 
@@ -44,7 +42,7 @@ class _ConversationPageState extends State<ConversationPage> {
       role = pref.getString("role");
     });
 
-    String mainDBNAme = Get.find<ChatController>().currNumber.value + ROOMLIST;
+    //String mainDBNAme = Get.find<ChatController>().currNumber.value + ROOMLIST;
 
     // Box<RoomList> boxOFparent = Hive.box<RoomList>(mainDBNAme);
     // boxOFparent.values.forEach((element) {

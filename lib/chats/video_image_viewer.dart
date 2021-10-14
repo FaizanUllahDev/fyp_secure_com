@@ -9,8 +9,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class VideoImageViewer extends StatelessWidget {
   final file;
   final name;
-  ChatRoom roomList;
-  RoomList details;
+  final ChatRoom roomList;
+  final RoomList details;
   final textOFImage = TextEditingController();
   final index, dbName, img;
 

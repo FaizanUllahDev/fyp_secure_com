@@ -16,7 +16,6 @@ import 'package:fyp_secure_com/hiveBox/chat_room.dart';
 import 'package:fyp_secure_com/hiveBox/forward_class.dart';
 import 'package:fyp_secure_com/hiveBox/room_list.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
@@ -868,7 +867,7 @@ Obx(
 }
 
 class ChatBubbleView extends StatefulWidget {
-  var message,
+  final message,
       isme,
       time,
       type,
@@ -918,9 +917,10 @@ class _ChatBubbleState extends State<ChatBubbleView> {
         : EdgeInsets.fromLTRB(10, 5, 80, 5);
 
     bool isFailed = false;
+    //var time;
     if (widget.status == 'failed') {
       isFailed = true;
-      widget.time += '  ' + widget.status;
+      // time += '  ' + widget.status;
     }
     return Container(
       color: widget.checkSelected ? Colors.blue : Colors.white,

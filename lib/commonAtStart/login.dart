@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'dart:math';
-
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,7 +11,6 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../CustomsWidget/customTextfield.dart';
 import 'index.dart';
 import 'loginController.dart';
@@ -227,7 +224,7 @@ class _LoginScreenState extends State<LoginScreen> {
         });
         Map<String, dynamic> res = await LoginController().login();
 
-        String name = '';
+        //String name = '';
         if (res['role'].toString().toLowerCase() == "doctor") {
           if (res['status'] == "Accepted")
             isDoctorAccept = true;

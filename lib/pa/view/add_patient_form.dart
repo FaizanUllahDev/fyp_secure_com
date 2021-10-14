@@ -4,7 +4,7 @@ import 'package:fyp_secure_com/CustomsWidget/custome_dialog_widget.dart';
 import 'package:fyp_secure_com/colors/color.dart';
 import 'package:fyp_secure_com/commonAtStart/APIHelper.dart';
 import 'package:fyp_secure_com/commonAtStart/loginController.dart';
-import 'package:get/get.dart';
+
 import 'package:http/http.dart' as http;
 
 class AddPatientForm extends StatefulWidget {

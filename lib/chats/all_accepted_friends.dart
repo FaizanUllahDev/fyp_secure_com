@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp_secure_com/CustomsWidget/search_contacts.dart';
 import 'package:fyp_secure_com/chats/conversation.dart';

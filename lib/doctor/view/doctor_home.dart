@@ -6,7 +6,6 @@ import 'package:fyp_secure_com/chats/chats_all_room.dart';
 import 'package:fyp_secure_com/friend_list_handler/views/tabs/recieve_requests.dart';
 import 'package:fyp_secure_com/friend_list_handler/views/tabs/send_request.dart';
 import 'package:get/get.dart';
-import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 class DoctorHome extends StatefulWidget {
   @override
