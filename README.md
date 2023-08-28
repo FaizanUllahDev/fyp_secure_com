@@ -1,16 +1,3 @@
 # fyp_secure_com
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+The GitHub repository hosts a comprehensive and innovative doctor-patient secure chat application that incorporates advanced features such as group messaging and encrypted communication. Developed using a combination of cutting-edge technologies including Flutter, PHP, and Node.js sockets, this application ensures seamless and secure communication between doctors and patients. One of the standout features is its ability to handle CCD (Continuity of Care Document) files, facilitating the exchange of vital medical information with ease. The use of Flutter guarantees a dynamic and user-friendly interface, while the integration of PHP and Node.js sockets ensures real-time messaging capabilities with robust encryption, safeguarding sensitive medical data. This repository stands as a testament to the fusion of multiple technologies to create a secure, efficient, and user-centric solution for doctor-patient communication and medical file sharing.
